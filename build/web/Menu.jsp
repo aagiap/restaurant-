@@ -1,3 +1,17 @@
+<%-- 
+    Document   : Menu
+    Created on : 8 thg 10, 2024, 21:32:39
+    Author     : ASUS
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+  <%@ page import="Entity.Users"%>
+  <%@ page import="java.util.List" %>
+<%@ page import="Entity.MenuItems" %>
+<%
+    Users user = (Users) session.getAttribute("user");
+    
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,10 +59,10 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#hero">Trang Chủ<br></a></li>
-          <li><a href="#about">Đặt bàn</a></li>
+            <li><a href="index.html">Trang Chủ<br></a></li>
+            <li><a href="index.html#about">About</a></li>
           
-          <li><a href="Menu.html">Menu</a></li>
+            <li><a href="#">Menu</a></li>
 
           
           <!--<li><a href="#events">Sự Kiện</a></li>-->
@@ -63,7 +77,7 @@
           <!--<li><a href="#gallery">Gallery</a></li>-->
           <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="#VietNamMenu">Dropdown 1</a></li>
+              <li><a href="#">Dropdown 1</a></li>
               <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                   <li><a href="#">Deep Dropdown 1</a></li>
@@ -82,76 +96,60 @@
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
-        <a class="btn-getstarted" href="LoginPage.jsp">Đăng Kí/Đăng Nhập</a>
-
+<div class="user-menu">
+        <a class="btn-getstarted"><%=user.getUserName()%></a>
+        <a class="btn-logout" href="index.html">Đăng xuất</a>
+    </div>
     </div>
   </header>
 
-  <main class="main">
-
-    <!-- Page Title -->
-        <!-- Hero Section -->
-    <section id="hero" class="hero section light-background">
-
-      <div class="container">
-        <div class="row gy-4 justify-content-center justify-content-lg-between">
-          <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-            <h1 data-aos="fade-up">Cùng thưởng thức món ăn truyền thống-Lành mạnh của Việt Nam</h1>
-            <!--<p data-aos="fade-up" data-aos-delay="100">We are team of talented designers making websites with Bootstrap</p>-->
-            <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
-              <!--<a href="#book-a-table" class="btn-get-started">Booka a Table</a>-->
-              <!--<a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>-->
-            </div>
+ <main>
+<body>
+<section>
+  <div class="text-center">
+    <div class="row">
+      <%
+        List<MenuItems> l = (List<MenuItems>) request.getAttribute("l");
+        if (l != null) {
+            for (MenuItems menuItem : l) {
+      %>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+            data-mdb-ripple-color="light">
+            <img src="<%= menuItem.getImage() %>" class="w-100" />
+            <a href="#!">
+              <div class="mask">
+                <div class="d-flex justify-content-start align-items-end h-100">
+                  <h5><span class="badge bg-dark ms-2">NEW</span></h5>
+                </div>
+              </div>
+              <div class="hover-overlay">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </div>
+            </a>
           </div>
-          <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
-              <img src="assets/img/events-2.jpg" class="img-fluid animated" alt="" >
+          <div class="card-body">
+            <a href="" class="text-reset">
+              <h5 class="card-title mb-2"><%= menuItem.getName() %></h5>
+            </a>
+            <a href="" class="text-reset">
+              <p><%= menuItem.getCategory() %></p>
+            </a>
+            <h6 class="mb-3 price"><%= menuItem.getPrice() %>$</h6>
           </div>
         </div>
       </div>
-    </section><!-- /Hero Section -->
-    
-    <!-- End Page Title -->
-
-    <!-- Starter Section Section -->
-    <section id="starter-section" class="starter-section section">
-
-<!--Review Món Việt-->
-      <div class="container section-title" data-aos="fade-up">
-        <p><span>Món </span> <span class="description-title">Việt Nam</span> </p>
-      </div>
-      
-      <div class="TopImg">
-          <img src="assets/img/VietNamFoods/goi-cuon-274170.jpg" alt="Spring Rolls(Gỏi Quấn)" title="Spring Rolls(Gỏi Quấn)"/>
-          <img src="assets/img/VietNamFoods/banh-xeo-274177.jpg" alt="Bánh Xèo" title="Bánh Xèo"/>
-          <img src="assets/img/VietNamFoods/banh-khot-507261.jpg" alt="Bánh Khọt" title="Bánh Khọt"/>
-          <img src="assets/img/VietNamFoods/hu-tieu-my-tho-507255.jpg" alt="Hủ Tiếu Mỹ Tho" title="Hủ Tiếu Mỹ Tho"/>
-      </div>
-       
-<!--Review Món Tây-->
-      <div class="container section-title" data-aos="fade-up">
-        <p><span>Món </span> <span class="description-title">Tây</span></p>
-      </div>
-      
-      <div class="TopImg">
-          <img src="assets/img/NormalFoods/ChickWing1.jpg" alt="ChickWing" title="ChickWing"/>
-          <img src="assets/img/NormalFoods/French fries2.jpg" alt="FrenchFries" title="FrenchFries"/>
-          <img src="assets/img/NormalFoods/burrito.jpg" alt="Burrito" title="Burrito"/>
-          <img src="assets/img/NormalFoods/hamburger1.jpg" alt="hamburger" title="hamburger"/>
-      </div>
-      
-      
-      
-<!-- About Title -->
-      <div id="about" class="container section-title" data-aos="fade-up">
-        <h2>About</h2>
-        <p><span>Section Title</span> <span class="description-title">Direda Flowed</span></p>
-      </div>
-<!-- End About Title -->
-        
-    </section><!-- /Starter Section Section -->
-
-  </main>
+      <%
+            }
+        }
+      %>
+    </div>
+  </div>
+</section>
+</body>
+</main>
+ <!--Main layout-->
 
   <footer id="footer" class="footer dark-background">
 

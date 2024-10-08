@@ -1,11 +1,37 @@
+package Dao;
+
 import Dao.MyDAO;
 import Entity.MenuItems;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuItemDao extends MyDAO {
 
+public List<MenuItems> getListMenuItems() throws SQLException {
+        List<MenuItems> menuItemsList = new ArrayList<>();
+        String query = "SELECT * FROM MenuItems";
+        try {
+        ps = con.prepareStatement(query);
+         rs = ps.executeQuery();
+         while (rs.next()) {
+                MenuItems menuItem = new MenuItems();
+                menuItem.setItemId(rs.getInt("item_id"));
+                menuItem.setName(rs.getString("name"));
+                menuItem.setDescription(rs.getString("description"));
+                menuItem.setPrice(rs.getDouble("price"));
+                menuItem.setCategory(rs.getString("category"));
+                menuItem.setImage(rs.getString("image"));
+                menuItemsList.add(menuItem);
+            }
+    } catch (Exception e) {
+    }
+        
+        
+        return menuItemsList;
+    }
 
     // Hàm thêm món ăn (insert)
     public void insertMenuItem(MenuItems menuItem) throws SQLException {
@@ -56,23 +82,14 @@ public void updateImg(String image, String name) throws SQLException {
         }
     }
 
-    public Link<MenuItems>
-public static void main(String[] args) {
-    // Khởi tạo MenuItemDao với kết nối
-    try {
-        MenuItemDao dao = new MenuItemDao();
-        
-        // Gọi phương thức updateImg
-        dao.updateImg(
-                "assets/img/NormalFoods/FastFood/hành tây chiên phô mai.jpg"
-                ,
-                "Hành tây chiên"
-        );
-        System.out.println("Cập nhật ảnh thành công.");
-        
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-}
+//
+//public static void main(String[] args) throws SQLException {
+//    MenuItemDao m = new MenuItemDao();
+//    List<MenuItems> l = m.getListMenuItems();
+//    
+//    for(int i = 0;i<l.size();i++){
+//        System.out.println(l.get(i).getName());
+//    }
+//}
 
 }

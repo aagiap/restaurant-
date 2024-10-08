@@ -58,15 +58,10 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="#hero">Trang Chủ<br></a></li>
-          <li><a href="#about">About</a></li>
+          <li><a href="#about">Đặt bàn</a></li>
           
-          <li class="dropdown"><a href="#"><span>Thực Đơn</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#VietNamMenu">Món Việt</a></li>
-              <li><a href="#TayMenu">Món Tây</a></li>
-              <li><a href="Gallery.html">Tổng Quan</a></li>
-            </ul>
-          </li>
+          <li><a href="/Project/menu">Menu</a></li>
+
           
           <!--<li><a href="#events">Sự Kiện</a></li>-->
           <li class="dropdown"><a href="#"><span>Sự Kiện</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -80,7 +75,7 @@
           <!--<li><a href="#gallery">Gallery</a></li>-->
           <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="#">Dropdown 1</a></li>
+              <li><a href="#VietNamMenu">Dropdown 1</a></li>
               <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                   <li><a href="#">Deep Dropdown 1</a></li>

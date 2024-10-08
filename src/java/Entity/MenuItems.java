@@ -25,6 +25,10 @@ public class MenuItems {
         this.image = image;
     }
 
+    public MenuItems() {
+    }
+    
+
     public int getItemId() {
         return itemId;
     }
