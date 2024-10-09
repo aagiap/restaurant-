@@ -42,6 +42,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/Menu.css" rel="stylesheet">
 
 
 </head>
@@ -96,6 +97,7 @@
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
+        
 <div class="user-menu">
         <a class="btn-getstarted"><%=user.getUserName()%></a>
         <a class="btn-logout" href="index.html">Đăng xuất</a>
@@ -103,52 +105,52 @@
     </div>
   </header>
 
- <main>
-<body>
-<section>
-  <div class="text-center">
-    <div class="row">
-      <%
-        List<MenuItems> l = (List<MenuItems>) request.getAttribute("l");
-        if (l != null) {
-            for (MenuItems menuItem : l) {
-      %>
-      <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card">
-          <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-            data-mdb-ripple-color="light">
-            <img src="<%= menuItem.getImage() %>" class="w-100" />
-            <a href="#!">
-              <div class="mask">
-                <div class="d-flex justify-content-start align-items-end h-100">
-                  <h5><span class="badge bg-dark ms-2">NEW</span></h5>
+        <main id="MainMenu">
+        <body>
+            <section>
+            <div class="text-center" >
+            <div class="row" >
+              <%
+                List<MenuItems> l = (List<MenuItems>) request.getAttribute("l");
+                if (l != null) {
+                    for (MenuItems menuItem : l) {
+              %>
+              <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                  <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light "
+                    data-mdb-ripple-color="light">
+                      <img id="imgMenu" src="<%= menuItem.getImage() %>" class="w-100" />
+                    <a href="#!">
+                      <div class="mask">
+                        <div class="d-flex justify-content-start align-items-end h-100">
+                          <h5><span class="badge bg-dark ms-2">NEW</span></h5>
+                        </div>
+                      </div>
+                      <div class="hover-overlay">
+                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-body">
+                    <a href="" class="text-reset">
+                      <h5 class="card-title mb-2"><%= menuItem.getName() %></h5>
+                    </a>
+                    <a href="" class="text-reset">
+                      <p><%= menuItem.getCategory() %></p>
+                    </a>
+                    <h6 class="mb-3 price"><%= menuItem.getPrice() %>$</h6>
+                  </div>
                 </div>
               </div>
-              <div class="hover-overlay">
-                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-              </div>
-            </a>
+              <%
+                    }
+                }
+              %>
+            </div>
           </div>
-          <div class="card-body">
-            <a href="" class="text-reset">
-              <h5 class="card-title mb-2"><%= menuItem.getName() %></h5>
-            </a>
-            <a href="" class="text-reset">
-              <p><%= menuItem.getCategory() %></p>
-            </a>
-            <h6 class="mb-3 price"><%= menuItem.getPrice() %>$</h6>
-          </div>
-        </div>
-      </div>
-      <%
-            }
-        }
-      %>
-    </div>
-  </div>
-</section>
-</body>
-</main>
+        </section>
+        </body>
+    </main>
  <!--Main layout-->
 
   <footer id="footer" class="footer dark-background">
