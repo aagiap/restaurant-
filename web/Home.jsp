@@ -5,6 +5,7 @@
 --%>
 
   <%@ page import="Entity.Users"%>
+  <%@ page import="Entity.MenuItems" %>
 <%
     Users user = (Users) session.getAttribute("user");
 %>
@@ -58,7 +59,7 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="#hero">Trang Chủ<br></a></li>
-          <li><a href="#about">Đặt bàn</a></li>
+          <li><a href="Reservation.jsp">Đặt bàn</a></li>
           
           <li><a href="/Project/menu">Menu</a></li>
 

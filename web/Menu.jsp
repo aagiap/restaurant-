@@ -60,8 +60,8 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-            <li><a href="index.html">Trang Chủ<br></a></li>
-            <li><a href="index.html#about">About</a></li>
+            <li><a href="Home.jsp">Trang Chủ<br></a></li>
+            <li><a href="Reservation.jsp">Đặt bàn</a></li>
           
             <li><a href="#">Menu</a></li>
 
@@ -111,7 +111,7 @@
             <div class="text-center" >
             <div class="row" >
               <%
-                List<MenuItems> l = (List<MenuItems>) request.getAttribute("l");
+                List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
                 if (l != null) {
                     for (MenuItems menuItem : l) {
               %>
