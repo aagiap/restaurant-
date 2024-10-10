@@ -42,6 +42,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/Menu.css" rel="stylesheet">
 
 
 </head>
@@ -59,23 +60,23 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-            <li><a href="index.html">Trang Chủ<br></a></li>
-            <li><a href="index.html#about">About</a></li>
+            <li><a href="Home.jsp">Trang Chủ<br></a></li>
+            <li><a href="Reservation.jsp">Đặt bàn</a></li>
           
             <li><a href="#">Menu</a></li>
 
           
           <!--<li><a href="#events">Sự Kiện</a></li>-->
-          <li class="dropdown"><a href="#"><span>Sự Kiện</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+<!--          <li class="dropdown"><a href="#"><span>Sự Kiện</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
                 <li><a href="DamHoi.html">Đám Hỏi</a></li>
                 <li><a href="DamGio.html">Đám Giỗ</a></li>
                 <li><a href="Khac.html">Khác</a></li>
             </ul>
-          </li>
+          </li>-->
           <!--<li><a href="#chefs">Chefs</a></li>-->
           <!--<li><a href="#gallery">Gallery</a></li>-->
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+<!--          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="#">Dropdown 1</a></li>
               <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -92,10 +93,11 @@
               <li><a href="#">Dropdown 4</a></li>
             </ul>
           </li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Contact</a></li>-->
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
+        
 <div class="user-menu">
         <a class="btn-getstarted"><%=user.getUserName()%></a>
         <a class="btn-logout" href="index.html">Đăng xuất</a>
@@ -103,52 +105,52 @@
     </div>
   </header>
 
- <main>
-<body>
-<section>
-  <div class="text-center">
-    <div class="row">
-      <%
-        List<MenuItems> l = (List<MenuItems>) request.getAttribute("l");
-        if (l != null) {
-            for (MenuItems menuItem : l) {
-      %>
-      <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card">
-          <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-            data-mdb-ripple-color="light">
-            <img src="<%= menuItem.getImage() %>" class="w-100" />
-            <a href="#!">
-              <div class="mask">
-                <div class="d-flex justify-content-start align-items-end h-100">
-                  <h5><span class="badge bg-dark ms-2">NEW</span></h5>
+        <main id="MainMenu">
+        <body>
+            <section>
+            <div class="text-center" >
+            <div class="row" >
+              <%
+                List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
+                if (l != null) {
+                    for (MenuItems menuItem : l) {
+              %>
+              <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                  <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light "
+                    data-mdb-ripple-color="light">
+                      <img id="imgMenu" src="<%= menuItem.getImage() %>" class="w-100" />
+                    <a href="#!">
+                      <div class="mask">
+                        <div class="d-flex justify-content-start align-items-end h-100">
+                          <h5><span class="badge bg-dark ms-2">NEW</span></h5>
+                        </div>
+                      </div>
+                      <div class="hover-overlay">
+                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-body">
+                    <a href="" class="text-reset">
+                      <h5 class="card-title mb-2"><%= menuItem.getName() %></h5>
+                    </a>
+                    <a href="" class="text-reset">
+                      <p><%= menuItem.getCategory() %></p>
+                    </a>
+                    <h6 class="mb-3 price"><%= menuItem.getPrice() %>$</h6>
+                  </div>
                 </div>
               </div>
-              <div class="hover-overlay">
-                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-              </div>
-            </a>
+              <%
+                    }
+                }
+              %>
+            </div>
           </div>
-          <div class="card-body">
-            <a href="" class="text-reset">
-              <h5 class="card-title mb-2"><%= menuItem.getName() %></h5>
-            </a>
-            <a href="" class="text-reset">
-              <p><%= menuItem.getCategory() %></p>
-            </a>
-            <h6 class="mb-3 price"><%= menuItem.getPrice() %>$</h6>
-          </div>
-        </div>
-      </div>
-      <%
-            }
-        }
-      %>
-    </div>
-  </div>
-</section>
-</body>
-</main>
+        </section>
+        </body>
+    </main>
  <!--Main layout-->
 
   <footer id="footer" class="footer dark-background">
