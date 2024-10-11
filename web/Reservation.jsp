@@ -144,25 +144,88 @@
         <div class="Form">
             <div class="form-container">
                 <h2>Đặt Bàn</h2>
-                <form action="ReservationServlet" method="POST">
-                    <input type="hidden" name="userId" value="<%= user.getUsersId()%>" />
+
+                <!-- Displaying Tomorrow's Date -->
+                <div id="reservation-date-display">
+                    <strong>Ngày Đặt:</strong> 
+                    <span id="reservation-date"></span>
+                </div>
+
+
+                <form action="/Project/reservate" method="POST">
+                    <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
+
+                    <!-- Table Type Selection -->
                     <label for="table-type">Loại Bàn:</label>
-                    <select id="table-type" name="table-type" required>
+                    <select id="table-type" name="table-type" required onchange="filterTables()">
                         <option value="VIP">Bàn VIP</option>
                         <option value="Normal">Bàn Bình Thường</option>
                     </select>
 
-                    <label for="date">Ngày Đặt:</label>
-                    <input type="date" id="date" name="reservation-date" required>
-
+                    <!-- Table Number (Filtered by Type and Availability) -->
+                    <label for="table-number">Bàn Số:</label>
+                    <select id="table-number" name="table-number" required>
+                        <% 
+                            for (Tables table : a) { 
+                                if (table.getCondition().equals("blank")) { // Show only available tables
+                        %>
+                        <option value="<%= table.getTableNumber() %>" data-type="<%= table.getLocation() %>">
+                            Bàn số <%= table.getTableNumber() %> - <%= table.getLocation() %>
+                        </option>
+                        <% 
+                                }
+                            } 
+                        %>
+                    </select>
+                   
+                    <!-- Number of People -->
                     <label for="people">Số Người:</label>
                     <input type="number" id="people" name="number-of-people" min="1" required>
 
-                    
+                    <!-- Submit Button -->
                     <button type="submit">Đặt Bàn</button>
                 </form>
+
+                <script>
+                    function filterTables() {
+                        var selectedType = document.getElementById("table-type").value;
+                        var tableSelect = document.getElementById("table-number");
+
+                        for (var i = 0; i < tableSelect.options.length; i++) {
+                            var option = tableSelect.options[i];
+                            var tableType = option.getAttribute("data-type");
+
+                            if (tableType === selectedType) {
+                                option.style.display = "block";
+                            } else {
+                                option.style.display = "none";
+                            }
+                        }
+
+                        tableSelect.selectedIndex = 0;
+                    }
+
+                    // Set default date to tomorrow and display it below the heading
+                    window.onload = function () {
+                        var dateDisplay = document.getElementById("reservation-date");
+                        var today = new Date();
+                        var tomorrow = new Date();
+                        tomorrow.setDate(today.getDate() + 1);  // Set tomorrow's date
+
+                        // Định dạng ngày theo kiểu YYYY-MM-DD
+                        var year = tomorrow.getFullYear();
+                        var month = ('0' + (tomorrow.getMonth() + 1)).slice(-2);
+                        var day = ('0' + tomorrow.getDate()).slice(-2);
+
+                        // Gán giá trị cho trường ẩn và hiển thị ngày dưới tiêu đề nếu cần
+                        dateDisplay.value = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
+                    };
+
+                </script>
+
             </div>
         </div>
+
 
     </body>
 </html>
