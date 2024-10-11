@@ -14,11 +14,12 @@ public class UsersDAO extends MyDAO {
       String userName,passWord,email,role;
       Users x;
       while(rs.next()) {
+        int userId = rs.getInt("user_id"); 
         userName = rs.getString("username");  
         passWord = rs.getString("password");  
         email = rs.getString("email");
         role = rs.getString("role");
-        x = new Users(userName, passWord, email, role);
+        x = new Users(userId, userName, passWord, email, role);
         t.add(x);
       }
       rs.close();
@@ -39,11 +40,12 @@ public class UsersDAO extends MyDAO {
         ps.setString(2, password);
         rs = ps.executeQuery();
         if (rs.next()) {
+            int userId = rs.getInt("user_id");
             String userName = rs.getString("username");
             String passWord = rs.getString("password");
             String userEmail = rs.getString("email");
             String role = rs.getString("role");
-            user = new Users(userName, passWord, userEmail, role);
+            user = new Users(userId,userName, passWord, userEmail, role);
         }
         rs.close();
         ps.close();
@@ -60,11 +62,12 @@ public Users getUserByEmail(String email) {
         ps.setString(1, email);
         rs = ps.executeQuery();
         if (rs.next()) {
+            int userId = rs.getInt("user_id");
             String userName = rs.getString("username");
             String passWord = rs.getString("password");
             String userEmail = rs.getString("email");
             String role = rs.getString("role");
-            user = new Users(userName, passWord, userEmail, role);
+            user = new Users(userId, userName, passWord, userEmail, role);
         }
         rs.close();
         ps.close();
@@ -88,5 +91,10 @@ public void insertUser(String userName, String passWord, String email) {
         e.printStackTrace();
     }
 }
+    public static void main(String[] args) {
+        UsersDAO u = new UsersDAO();
+        Users user = u.getUser("g", "g");
+        System.out.println(user.toString());
+    }
 
 }
