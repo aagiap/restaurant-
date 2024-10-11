@@ -67,16 +67,16 @@
 
           
           <!--<li><a href="#events">Sự Kiện</a></li>-->
-          <li class="dropdown"><a href="#"><span>Sự Kiện</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+<!--          <li class="dropdown"><a href="#"><span>Sự Kiện</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
                 <li><a href="DamHoi.html">Đám Hỏi</a></li>
                 <li><a href="DamGio.html">Đám Giỗ</a></li>
                 <li><a href="Khac.html">Khác</a></li>
             </ul>
-          </li>
+          </li>-->
           <!--<li><a href="#chefs">Chefs</a></li>-->
           <!--<li><a href="#gallery">Gallery</a></li>-->
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+<!--          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="#">Dropdown 1</a></li>
               <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -93,7 +93,7 @@
               <li><a href="#">Dropdown 4</a></li>
             </ul>
           </li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Contact</a></li>-->
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
