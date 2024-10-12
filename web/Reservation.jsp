@@ -34,14 +34,19 @@
         <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
         <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
         <link href="assets/css/main.css" rel="stylesheet">
-        <link href="assets/css/Menu.css" rel="stylesheet">
 
         <style>
+            #hero{
+                background: transparent;
+            }
+            body{
+                background-color: whitesmoke;
+            }
             .Form {
                 font-family: Arial, sans-serif;
 /*                background: url('assets/img/events-2.jpg') no-repeat center center fixed;*/
                 background-size: cover;
-                color: white;
+                color: lightgrey;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -51,7 +56,7 @@
                 background-color: rgba(0, 0, 0, 0.7);
                 padding: 20px;
                 border-radius: 10px;
-                width: 300px;
+                width: 500px;
             }
             h2 {
                 text-align: center;
@@ -105,11 +110,27 @@
         <section id="hero" class="hero section light-background">
             <div class="container">
                 <div class="row gy-4 justify-content-center justify-content-lg-between">
-                    <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                        <img src="assets/img/gallery/gallery-1.jpg" class="img-fluid animated" alt="">
+                    <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                        <!--<img src="assets/img/gallery/gallery-1.jpg" class="img-fluid animated" alt="Bàn Thường" title="Bàn Thường">-->
+                        <a style="margin: 0% auto" href="assets/img/gallery/gallery-1.jpg" class="glightbox"><img src="assets/img/gallery/gallery-1.jpg" class="menu-img img-fluid" alt="Bàn Thường" title="Bàn Thường"></a>
+                        <h2 style="text-align: center">Bàn Thường</h2>
                     </div>
-                    <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                        <h3>Danh Sách Bàn Ăn</h3>
+                    
+                    
+                    <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                        <!--<img src="assets/img/gallery/gallery-3.jpg" class="img-fluid animated" alt="Bàn VIP" title="Bàn VIP">-->
+                        <a style="margin: 0% auto" href="assets/img/gallery/gallery-3.jpg" class="glightbox"><img src="assets/img/gallery/gallery-3.jpg" class="menu-img img-fluid" alt="Bàn VIP" title="Bàn VIP"></a>
+                        <h2 style="text-align: center">Bàn VIP</h2>
+                    </div>       
+                </div>
+            <!--</div>-->
+        
+    
+            <!--<div class="container">-->
+                <div class="row gy-4 justify-content-center justify-content-lg-between">
+                    <!-- Form to input user reservation details -->
+                    <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                        <h3 style="text-align: center">Danh Sách Bàn Ăn</h3>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -119,112 +140,108 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% 
-                                    for (Tables table : a) { 
-                                %>
-                                <tr>
-                                    <td><%= table.getTableNumber() %></td>
-                                    <td><%= table.getLocation() %></td>
-                                    <td><%= table.getCondition().equals("blank") ? "Trống" : "Đầy" %></td>
-                                </tr>
-                                <% 
-                                    } 
-                                %>
+                            <% 
+                                for (Tables table : a) { 
+                            %>
+                            <tr>
+                                <td><%= table.getTableNumber() %></td>
+                                <td><%= table.getLocation() %></td>
+                                <td><%= table.getCondition().equals("blank") ? "Trống" : "Đầy" %></td>
+                            </tr>
+                            <% 
+                                } 
+                            %>
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                        <img src="assets/img/gallery/gallery-3.jpg" class="img-fluid animated" alt="">
+
+                    <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                        <div class="form-container" >
+                            <h2 style="color: white ">Đặt Bàn</h2>
+
+                             Displaying Tomorrow's Date 
+                            <div id="reservation-date-display">
+                                <strong>Ngày Đặt:</strong> 
+                                <span id="reservation-date"></span>
+                            </div>
+
+
+                            <form action="/Project/reservate" method="POST">
+                                <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
+
+                                 Table Type Selection 
+                                <label for="table-type">Loại Bàn:</label>
+                                <select id="table-type" name="table-type" required onchange="filterTables()">
+                                    <option value="VIP">Bàn VIP</option>
+                                    <option value="Normal">Bàn Bình Thường</option>
+                                </select>
+
+                                 Table Number (Filtered by Type and Availability) <br>
+                                <label for="table-number">Bàn Số:</label>
+                                <select id="table-number" name="table-number" required>
+                                    <% 
+                                        for (Tables table : a) { 
+                                            if (table.getCondition().equals("blank")) { // Show only available tables
+                                    %>
+                                    <option value="<%= table.getTableNumber() %>" data-type="<%= table.getLocation() %>">
+                                        Bàn số <%= table.getTableNumber() %> - <%= table.getLocation() %>
+                                    </option>
+                                    <% 
+                                            }
+                                        } 
+                                    %>
+                                </select>
+
+                                 Number of People 
+                                <label for="people">Số Người:</label>
+                                <input type="number" id="people" name="number-of-people" min="1" required>
+
+                                 Submit Button 
+                                <button type="submit">Đặt Bàn</button>
+                            </form>
+
+                            <script>
+                                function filterTables() {
+                                    var selectedType = document.getElementById("table-type").value;
+                                    var tableSelect = document.getElementById("table-number");
+
+                                    for (var i = 0; i < tableSelect.options.length; i++) {
+                                        var option = tableSelect.options[i];
+                                        var tableType = option.getAttribute("data-type");
+
+                                        if (tableType === selectedType) {
+                                            option.style.display = "block";
+                                        } else {
+                                            option.style.display = "none";
+                                        }
+                                    }
+
+                                    tableSelect.selectedIndex = 0;
+                                }
+
+                                // Set default date to tomorrow and display it below the heading
+                                window.onload = function () {
+                                    var dateDisplay = document.getElementById("reservation-date");
+                                    var today = new Date();
+                                    var tomorrow = new Date();
+                                    tomorrow.setDate(today.getDate() + 1);  // Set tomorrow's date
+
+                                    // Định dạng ngày theo kiểu YYYY-MM-DD
+                                    var year = tomorrow.getFullYear();
+                                    var month = ('0' + (tomorrow.getMonth() + 1)).slice(-2);
+                                    var day = ('0' + tomorrow.getDate()).slice(-2);
+
+                                    // Gán giá trị cho trường ẩn và hiển thị ngày dưới tiêu đề nếu cần
+                                    dateDisplay.value = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
+                                };
+
+                            </script>
+
+                        </div>
                     </div>
-                </div>
+                </div>                  
             </div>
         </section>
-
-        <!-- Form to input user reservation details -->
-        <div class="Form">
-            <div class="form-container">
-                <h2>Đặt Bàn</h2>
-
-                <!-- Displaying Tomorrow's Date -->
-                <div id="reservation-date-display">
-                    <strong>Ngày Đặt:</strong> 
-                    <span id="reservation-date"></span>
-                </div>
-
-
-                <form action="/Project/reservate" method="POST">
-                    <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
-
-                    <!-- Table Type Selection -->
-                    <label for="table-type">Loại Bàn:</label>
-                    <select id="table-type" name="table-type" required onchange="filterTables()">
-                        <option value="VIP">Bàn VIP</option>
-                        <option value="Normal">Bàn Bình Thường</option>
-                    </select>
-
-                    <!-- Table Number (Filtered by Type and Availability) -->
-                    <label for="table-number">Bàn Số:</label>
-                    <select id="table-number" name="table-number" required>
-                        <% 
-                            for (Tables table : a) { 
-                                if (table.getCondition().equals("blank")) { // Show only available tables
-                        %>
-                        <option value="<%= table.getTableNumber() %>" data-type="<%= table.getLocation() %>">
-                            Bàn số <%= table.getTableNumber() %> - <%= table.getLocation() %>
-                        </option>
-                        <% 
-                                }
-                            } 
-                        %>
-                    </select>
-                   
-                    <!-- Number of People -->
-                    <label for="people">Số Người:</label>
-                    <input type="number" id="people" name="number-of-people" min="1" required>
-
-                    <!-- Submit Button -->
-                    <button type="submit">Đặt Bàn</button>
-                </form>
-
-                <script>
-                    function filterTables() {
-                        var selectedType = document.getElementById("table-type").value;
-                        var tableSelect = document.getElementById("table-number");
-
-                        for (var i = 0; i < tableSelect.options.length; i++) {
-                            var option = tableSelect.options[i];
-                            var tableType = option.getAttribute("data-type");
-
-                            if (tableType === selectedType) {
-                                option.style.display = "block";
-                            } else {
-                                option.style.display = "none";
-                            }
-                        }
-
-                        tableSelect.selectedIndex = 0;
-                    }
-
-                    // Set default date to tomorrow and display it below the heading
-                    window.onload = function () {
-                        var dateDisplay = document.getElementById("reservation-date");
-                        var today = new Date();
-                        var tomorrow = new Date();
-                        tomorrow.setDate(today.getDate() + 1);  // Set tomorrow's date
-
-                        // Định dạng ngày theo kiểu YYYY-MM-DD
-                        var year = tomorrow.getFullYear();
-                        var month = ('0' + (tomorrow.getMonth() + 1)).slice(-2);
-                        var day = ('0' + tomorrow.getDate()).slice(-2);
-
-                        // Gán giá trị cho trường ẩn và hiển thị ngày dưới tiêu đề nếu cần
-                        dateDisplay.value = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
-                    };
-
-                </script>
-
-            </div>
-        </div>
 
 <footer id="footer" class="footer dark-background">
 
@@ -288,5 +305,21 @@
     </div>
 
   </footer>
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
     </body>
 </html>
