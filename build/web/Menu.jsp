@@ -25,11 +25,6 @@
 
     <!-- Favicons -->
     <link href="assets/img/favicon-GT.png" rel="icon">
-    <style>
-      #imgMenu{
-          height: 200px;
-      }
-    </style>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
@@ -44,8 +39,17 @@
 
     <!-- Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
-    <link href="assets/css/Menu.css" rel="stylesheet">
-
+    <style>
+      #imgMenu{
+          height: 200px;
+      }
+      #MainMenuenu > a > p{
+          text-decoration: underline;
+      }
+      #MenuNameCate> a > h2{
+            font-weight: bold;
+      }
+    </style>
 
 </head>
 
@@ -91,7 +95,9 @@
                 <div class="card">
                   <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light "
                     data-mdb-ripple-color="light">
-                      <img id="imgMenu" src="<%= menuItem.getImage() %>" class="w-100" />
+                        <!--<img id="imgMenu" src="<%= menuItem.getImage() %>" class="w-100" />-->
+                        <a href="<%= menuItem.getImage() %>" class="glightbox"><img src="<%= menuItem.getImage() %>" class="menu-img img-fluid" alt=""></a>
+
                     <a href="#!">
                       <div class="mask">
                         <div class="d-flex justify-content-start align-items-end h-100">
@@ -103,14 +109,14 @@
                       </div>
                     </a>
                   </div>
-                  <div class="card-body">
+                    <div class="card-body" id="MenuNameCate">
                     <a href="" class="text-reset">
-                      <h5 class="card-title mb-2"><%= menuItem.getName() %></h5>
+                        <p><%= menuItem.getCategory() %></p>
                     </a>
                     <a href="" class="text-reset">
-                      <p><%= menuItem.getCategory() %></p>
+                      <h2 class="card-title mb-2"><%= menuItem.getName() %></h2>
                     </a>
-                    <h6 class="mb-3 price"><%= menuItem.getPrice() %>$</h6>
+                    <h1 class="mb-3 price"><%= menuItem.getPrice() %>$</h1>
                   </div>
                 </div>
               </div>

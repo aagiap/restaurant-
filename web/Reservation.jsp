@@ -39,7 +39,7 @@
         <style>
             .Form {
                 font-family: Arial, sans-serif;
-                background: url('assets/img/events-2.jpg') no-repeat center center fixed;
+/*                background: url('assets/img/events-2.jpg') no-repeat center center fixed;*/
                 background-size: cover;
                 color: white;
                 display: flex;
