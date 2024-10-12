@@ -5,45 +5,51 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-  <%@ page import="Entity.Users"%>
-  <%@ page import="java.util.List" %>
+    <%@ page import="Entity.Users"%>
+    <%@ page import="java.util.List" %>
 <%@ page import="Entity.MenuItems" %>
 <%
-    Users user = (Users) session.getAttribute("user");
-    
+    Users user = (Users) session.getAttribute("user"); 
 %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>GT - Giao Thoa</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>GT - Giao Thoa</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon-GT.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <!-- Favicons -->
+    <link href="assets/img/favicon-GT.png" rel="icon">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
-  <link href="assets/css/Menu.css" rel="stylesheet">
-
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <style>
+      #imgMenu{
+          height: 200px;
+      }
+      #MainMenuenu > a > p{
+          text-decoration: underline;
+      }
+      #MenuNameCate> a > h2{
+            font-weight: bold;
+      }
+    </style>
 
 </head>
 
@@ -52,11 +58,11 @@
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-        <img src="assets/img/icon1.png" alt=""> 
-        <h1 class="sitename">GT</h1>
-        <span>.</span>
-      </a>
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+            <img src="assets/img/icon1.png" alt=""> 
+            <h1 class="sitename">GT</h1>
+            <span>.</span>
+        </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
@@ -64,36 +70,6 @@
             <li><a href="Reservation.jsp">Đặt bàn</a></li>
           
             <li><a href="#">Menu</a></li>
-
-          
-          <!--<li><a href="#events">Sự Kiện</a></li>-->
-<!--          <li class="dropdown"><a href="#"><span>Sự Kiện</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-                <li><a href="DamHoi.html">Đám Hỏi</a></li>
-                <li><a href="DamGio.html">Đám Giỗ</a></li>
-                <li><a href="Khac.html">Khác</a></li>
-            </ul>
-          </li>-->
-          <!--<li><a href="#chefs">Chefs</a></li>-->
-          <!--<li><a href="#gallery">Gallery</a></li>-->
-<!--          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
-          <li><a href="#contact">Contact</a></li>-->
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -119,7 +95,9 @@
                 <div class="card">
                   <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light "
                     data-mdb-ripple-color="light">
-                      <img id="imgMenu" src="<%= menuItem.getImage() %>" class="w-100" />
+                        <!--<img id="imgMenu" src="<%= menuItem.getImage() %>" class="w-100" />-->
+                        <a href="<%= menuItem.getImage() %>" class="glightbox"><img src="<%= menuItem.getImage() %>" class="menu-img img-fluid" alt=""></a>
+
                     <a href="#!">
                       <div class="mask">
                         <div class="d-flex justify-content-start align-items-end h-100">
@@ -131,14 +109,14 @@
                       </div>
                     </a>
                   </div>
-                  <div class="card-body">
+                    <div class="card-body" id="MenuNameCate">
                     <a href="" class="text-reset">
-                      <h5 class="card-title mb-2"><%= menuItem.getName() %></h5>
+                        <p><%= menuItem.getCategory() %></p>
                     </a>
                     <a href="" class="text-reset">
-                      <p><%= menuItem.getCategory() %></p>
+                      <h2 class="card-title mb-2"><%= menuItem.getName() %></h2>
                     </a>
-                    <h6 class="mb-3 price"><%= menuItem.getPrice() %>$</h6>
+                    <h1 class="mb-3 price"><%= menuItem.getPrice() %>$</h1>
                   </div>
                 </div>
               </div>
@@ -215,22 +193,22 @@
     </div>
   </footer>
 
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Preloader -->
-  <div id="preloader"></div>
+    <!-- Preloader -->
+    <div id="preloader"></div>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
 
 </body>
 
