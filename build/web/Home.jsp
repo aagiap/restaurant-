@@ -1,8 +1,3 @@
-<%-- 
-    Document   : Home
-    Created on : Oct 7, 2024, 1:15:28 PM
-    Author     : admin
---%>
 
   <%@ page import="Entity.Users"%>
   <%@ page import="Entity.MenuItems" %>
@@ -61,13 +56,13 @@
           <li><a href="#hero">Trang Chủ<br></a></li>
           <li><a href="Reservation.jsp">Đặt bàn</a></li>
           
-          <li><a href="/Project/menu">Menu</a></li>
+          <li><a href="menu">Menu</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
       <div class="user-menu">
-        <a class="btn-getstarted"><%=user.getUserName()%></a>
+          <a href="tabled.jsp" class="btn-getstarted"><%=user.getUserName()%></a>
         <a class="btn-logout" href="index.html">Đăng xuất</a>
     </div>
         

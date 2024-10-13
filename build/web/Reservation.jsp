@@ -1,3 +1,8 @@
+<%-- 
+    Document   : Reservation
+    Created on : 9 thg 10, 2024, 13:14:03
+    Author     : ASUS
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Entity.Users"%>
@@ -96,7 +101,7 @@
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
                 <div class="user-menu">
-                    <a href="tabled.jsp" class="btn-getstarted"><%= user.getUserName() %></a>
+                    <a class="btn-getstarted"><%= user.getUserName() %></a>
                     <a class="btn-logout" href="index.html">Đăng xuất</a>
                 </div>
             </div>
@@ -129,9 +134,9 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="col-4" scope="col">Bàn Số</th>
-                                    <th class="col-4" scope="col">Loại</th>
-                                    <th class="col-4" scope="col">Tình Trạng</th>
+                                    <th scope="col">Bàn Số</th>
+                                    <th scope="col">Loại</th>
+                                    <th scope="col">Tình Trạng</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -157,7 +162,7 @@
                              Displaying Tomorrow's Date 
                             <div id="reservation-date-display">
                                 <strong>Ngày Đặt:</strong> 
-                                <span id="reservation-date"> </span>
+                                <span id="reservation-date"></span>
                             </div>
 
 

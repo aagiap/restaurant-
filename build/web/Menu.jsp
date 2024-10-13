@@ -1,8 +1,4 @@
-<%-- 
-    Document   : Menu
-    Created on : 8 thg 10, 2024, 21:32:39
-    Author     : ASUS
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
     <%@ page import="Entity.Users"%>
@@ -75,7 +71,7 @@
       </nav>
         
 <div class="user-menu">
-        <a class="btn-getstarted"><%=user.getUserName()%></a>
+    <a href="tabled.jsp" class="btn-getstarted"><%=user.getUserName()%></a>
         <a class="btn-logout" href="index.html">Đăng xuất</a>
     </div>
     </div>
