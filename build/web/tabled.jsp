@@ -1,14 +1,25 @@
-
-  <%@ page import="Entity.Users"%>
-  <%@ page import="Entity.MenuItems" %>
-<%
-    Users user = (Users) session.getAttribute("user");
-%>
+<%-- 
+    Document   : tabled
+    Created on : Oct 12, 2024, 10:32:21 AM
+    Author     : admin
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
+<%@ page import="Entity.Users"%>
+<%@ page import="java.util.List" %>
+<%@ page import="Entity.MenuItems" %>
+<%@ page import="Entity.Tables" %>
+<%@ page import="Dao.TablesDAO" %>
 
+<%
+    Users user = (Users) session.getAttribute("user");
+    List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
+    
+       TablesDAO tablesDAO = new TablesDAO();
+       List<Tables> a = tablesDAO.getListTables();
+%>
+<!DOCTYPE html>
+<html>
 <head>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     
@@ -39,9 +50,7 @@
 
 
 </head>
-
-<body class="starter-page-page">
-
+    <body>
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container position-relative d-flex align-items-center justify-content-between">
 
@@ -54,59 +63,17 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="#hero">Trang Chủ<br></a></li>
-          <li><a href="Reservation.jsp">Đặt bàn</a></li>
+          <li><a href="LoginPage.jsp">Đặt Bàn</a></li>
           
-          <li><a href="menu">Menu</a></li>
+          <li><a href="LoginPage.jsp">Menu</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <div class="user-menu">
-          <a href="tabled.jsp" class="btn-getstarted"><%=user.getUserName()%></a>
-        <a class="btn-logout" href="index.html">Đăng xuất</a>
-    </div>
-        
+        <a class="btn-getstarted" href="LoginPage.jsp">Đăng Kí/Đăng Nhập</a>
+
     </div>
   </header>
-
-  <main class="main">
-
-    <!-- Page Title -->
-        <!-- Hero Section -->
-    <section id="hero" class="hero section light-background">
-
-      <div class="container">
-        <div class="row gy-4 justify-content-center justify-content-lg-between">
-          <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-            <h1 data-aos="fade-up">Cùng thưởng thức món ăn truyền thống-Lành mạnh của Việt Nam</h1>
-          
-          </div>
-          <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
-              <img src="assets/img/events-2.jpg" class="img-fluid animated" alt="" >
-          </div>
-        </div>
-      </div>
-    </section><!-- /Hero Section -->
-    
-    <!-- End Page Title -->
-
-    <!-- Starter Section Section -->
-    <section id="starter-section" class="starter-section section">
-    
-<!-- About Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>About</h2>
-        <p><span>Section Title</span> <span class="description-title">Direda Flowed</span></p>
-      </div><!-- End About Title -->
-      
-      
-
-
-
-    </section><!-- /Starter Section Section -->
-
-  </main>
-
   <footer id="footer" class="footer dark-background">
 
     <div class="container">
@@ -168,7 +135,7 @@
       </div>
     </div>
 
-  </footer>
+  </footer>   
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -186,7 +153,5 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-
-</body>
-
+    </body>
 </html>
