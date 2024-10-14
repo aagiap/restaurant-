@@ -49,12 +49,10 @@ public class Reservate extends HttpServlet {
         int tableId = tablesDao.searchTableId(tableNumber, tableType);
         int numberOfPeople = Integer.parseInt(request.getParameter("number-of-people"));
         int userId = Integer.parseInt(request.getParameter("userId"));
-        // Lấy ngày mai
-        // Lấy ngày mai
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2024, Calendar.OCTOBER, 12); // Ngày 12 tháng 10 năm 2024
-        Date reservationDate = calendar.getTime();
-
+        
+        Calendar calendar = Calendar.getInstance(); 
+calendar.add(Calendar.DAY_OF_YEAR, 1); // Cộng 1 ngày để lấy ngày mai
+Date reservationDate = calendar.getTime(); // Lấy ra ngày mai, chỉ có ngày tháng năm
         Reservations reservation = new Reservations(userId, reservationDate, numberOfPeople, "Pending", tableId);
         ReservationDAO re = new ReservationDAO();
         re.insertReservation(reservation);

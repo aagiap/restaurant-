@@ -91,10 +91,10 @@ public void insertUser(String userName, String passWord, String email) {
         e.printStackTrace();
     }
 }
-    public static void main(String[] args) {
-        UsersDAO u = new UsersDAO();
-        Users user = u.getUser("g", "g");
-        System.out.println(user.toString());
-    }
+//    public static void main(String[] args) {
+//        UsersDAO u = new UsersDAO();
+//        Users user = u.getUser("g", "g");
+//        System.out.println(user.toString());
+//    }
 
 }

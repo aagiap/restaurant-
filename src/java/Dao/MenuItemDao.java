@@ -27,9 +27,7 @@ public List<MenuItems> getListMenuItems() throws SQLException {
                 menuItemsList.add(menuItem);
             }
     } catch (Exception e) {
-    }
-        
-        
+    }  
         return menuItemsList;
     }
 
