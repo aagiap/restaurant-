@@ -29,7 +29,8 @@
         <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
         <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
         <link href="assets/css/main.css" rel="stylesheet">
-
+        
+        
         <style>
             #hero{
                 background: transparent;
@@ -154,7 +155,7 @@
                         <div class="form-container" >
                             <h2 style="color: white ">Đặt Bàn</h2>
 
-                             Displaying Tomorrow's Date 
+                            <!--Displaying Tomorrow's Date -->
                             <div id="reservation-date-display">
                                 <strong>Ngày Đặt:</strong> 
                                 <span id="reservation-date"> </span>
@@ -164,14 +165,14 @@
                             <form action="reservate" method="POST">
                                 <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
 
-                                 Table Type Selection 
+                                <!--Table Type Selection -->
                                 <label for="table-type">Loại Bàn:</label>
                                 <select id="table-type" name="table-type" required onchange="filterTables()">
                                     <option value="VIP">Bàn VIP</option>
                                     <option value="Normal">Bàn Bình Thường</option>
                                 </select>
 
-                                 Table Number (Filtered by Type and Availability) <br>
+                                <!--Table Number (Filtered by Type and Availability)-->
                                 <label for="table-number">Bàn Số:</label>
                                 <select id="table-number" name="table-number" required>
                                     <% 
@@ -187,7 +188,7 @@
                                     %>
                                 </select>
 
-                                 Number of People 
+                                <!--Number of People -->
                                 <label for="people">Số Người:</label>
                                 <input type="number" id="people" name="number-of-people" min="1" required>
 
@@ -227,7 +228,7 @@
                                     var day = ('0' + tomorrow.getDate()).slice(-2);
 
                                     // Gán giá trị cho trường ẩn và hiển thị ngày dưới tiêu đề nếu cần
-                                    dateDisplay.value = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
+                                    dateDisplay.innerHTML  = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
                                 };
 
                             </script>
@@ -298,6 +299,30 @@
         Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
       </div>
     </div>
+
+    
+    
+<%
+    // Lấy giá trị boolean từ request
+    Boolean check = (Boolean) request.getAttribute("check");
+%>
+    
+
+<script>
+    // Hàm fun() để hiển thị confirm và chuyển hướng
+    function fun() {
+        window.location.href = "Reservation.jsp";
+        if (confirm("Bạn đã đặt bàn thành công! Bạn có muốn đặt món không?")) {
+            // Nếu người dùng bấm OK, chuyển đến table.jsp
+            window.location.href = "Order.jsp";
+        }
+    }
+
+    // Kiểm tra giá trị của check và gọi hàm fun nếu check là true
+    <% if (check != null && check) { %>
+        fun(); // Gọi hàm fun() nếu check là true
+    <% } %>
+</script>
 
   </footer>
   <!-- Scroll Top -->

@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/PRJ_Project/restaurant-/src/java/Entity/MenuItemJoinOrder.java</file>
-            <file>file:/D:/PRJ_Project/restaurant-/src/java/Dao/OrderDAO.java</file>
-            <file>file:/D:/PRJ_Project/restaurant-/src/java/Entity/Orders.java</file>
-            <file>file:/D:/PRJ_Project/restaurant-/src/java/Dao/MenuItemDao.java</file>
-            <file>file:/D:/PRJ_Project/restaurant-/src/java/Dao/MyDAO.java</file>
-            <file>file:/D:/PRJ_Project/restaurant-/web/Order.jsp</file>
-            <file>file:/D:/PRJ_Project/restaurant-/src/java/Entity/MenuItems.java</file>
+            <file>file:/D:/chuyên%20ngành/kì%204/restaurant-/src/java/Contact/DBContext.java</file>
+            <file>file:/D:/chuyên%20ngành/kì%204/restaurant-/src/java/Control/Reservate.java</file>
+            <file>file:/D:/chuyên%20ngành/kì%204/restaurant-/src/java/Dao/ReservationDAO.java</file>
+            <file>file:/D:/chuyên%20ngành/kì%204/restaurant-/web/Reservation.jsp</file>
         </group>
     </open-files>
 </project-private>

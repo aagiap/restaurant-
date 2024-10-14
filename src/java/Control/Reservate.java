@@ -61,7 +61,14 @@ Date reservationDate = calendar.getTime(); // Lấy ra ngày mai, chỉ có ngà
 //request.setAttribute("numberOfPeople", numberOfPeople);
 //request.setAttribute("tableId", tableId);
         tablesDao.updateLocation(tableId, "full");
-        response.sendRedirect("ReservationSuccess.jsp");
+//        response.sendRedirect("ReservationSuccess.jsp");
+        
+        
+        
+        
+        boolean check =true;
+        request.setAttribute("check", check);
+        request.getRequestDispatcher("Reservation.jsp").forward(request, response);
         // request.getRequestDispatcher("ReservationSuccess.jsp").include(request, response);
 //request.getRequestDispatcher("test.jsp").forward(request, response);
     }
