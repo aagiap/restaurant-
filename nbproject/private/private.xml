@@ -5,7 +5,10 @@
         <group>
             <file>file:/D:/PRJ_Project/restaurant-/src/java/Dao/OrderDAO.java</file>
             <file>file:/D:/PRJ_Project/restaurant-/web/Order.jsp</file>
+<<<<<<< HEAD
             <file>file:/D:/PRJ_Project/restaurant-/src/java/Control/OrderItemServlet.java</file>
+=======
+>>>>>>> 7df18428a05c40c3e12aecef9e4d5c1d4ce4beb0
         </group>
     </open-files>
 </project-private>
