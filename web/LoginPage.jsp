@@ -29,7 +29,7 @@
                 <form action="login" method="post">
                     <h1>Đăng nhập</h1>
                     <input type="text" placeholder="Email" name="email" value="d"/>
-                    <input type="password" placeholder="Mật khẩu" name="password" value="d"/>
+                    <input type="password" placeholder="Mật khẩu" name="password" value="duy"/>
 
                     <% if (errorMessage != null) { %>
                     <p style="color: red;"><%= errorMessage %></p>

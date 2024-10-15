@@ -188,11 +188,12 @@ boolean tableType = (boolean) session.getAttribute("tableTypes");
                             <h1 class="mb-3 price"><%= menuItem.getPrice() %> VND</h1>
 
                             <!-- Input số lượng món ăn -->
-                            <label for="quantity<%= menuItem.getItemId() %>">Số lượng:</label>
-                            <input type="number" id="quantity<%= menuItem.getItemId() %>" name="quantity" min="1" value="1" class="form-control mb-3" />
+                            
 
                             <!-- Nút đặt món -->
                             <form action="OrderItemServlet" method="post">
+                                <label for="quantity">Số lượng:</label>
+                            <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control mb-3" />
                                 <input type="hidden" name="user_id" value="<%= user.getUsersId() %>">
                                 <input type="hidden" name="item_id" value="<%= menuItem.getItemId() %>">
                                 <input type="hidden" name="item_name" value="<%= menuItem.getName() %>">
