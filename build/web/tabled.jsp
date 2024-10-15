@@ -18,6 +18,11 @@
        TablesDAO tablesDAO = new TablesDAO();
        List<Tables> a = tablesDAO.getListTables();
 %>
+<style>
+    body{
+        background-color: whitesmoke;
+    }
+</style>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,15 +67,18 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#hero">Trang Chủ<br></a></li>
-          <li><a href="LoginPage.jsp">Đặt Bàn</a></li>
+            <li><a href="Home.jsp">Trang Chủ<br></a></li>
+            <li><a href="Reservation.jsp">Đặt Bàn</a></li>
           
-          <li><a href="LoginPage.jsp">Menu</a></li>
+            <li><a href="Menu.jsp">Menu</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-        <a class="btn-getstarted" href="LoginPage.jsp">Đăng Kí/Đăng Nhập</a>
+              <div class="user-menu">
+          <a href="tabled.jsp" class="btn-getstarted"><%=user.getUserName()%></a>
+        <a class="btn-logout" href="index.html">Đăng xuất</a>
+    </div>
 
     </div>
   </header>

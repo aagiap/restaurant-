@@ -17,6 +17,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import static java.lang.System.out;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,7 +68,11 @@ Date reservationDate = calendar.getTime(); // Lấy ra ngày mai, chỉ có ngà
         
         
         boolean check =true;
-        request.setAttribute("check", check);
+        boolean tableTypes = re.checkTableYpype(userId, tableId);        
+        
+        HttpSession sL = request.getSession();
+            sL.setAttribute("tableTypes", tableTypes);
+         request.setAttribute("check", check);
         request.getRequestDispatcher("Reservation.jsp").forward(request, response);
         // request.getRequestDispatcher("ReservationSuccess.jsp").include(request, response);
 //request.getRequestDispatcher("test.jsp").forward(request, response);

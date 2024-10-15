@@ -11,11 +11,34 @@ import java.sql.SQLException;
 import Contact.DBContext;
 import java.util.Calendar;
 import java.util.Date;
+
 /**
  *
  * @author ASUS
  */
 public class ReservationDAO extends MyDAO {
+
+    public boolean checkTableYpype(int userId, int tableId) {
+        String sql = "SELECT DISTINCT * "
+                + "FROM Reservations "
+                + "WHERE reservation_date = CAST(GETDATE() + 1 AS DATE) "
+                + "AND user_id = ?;";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, userId); // Đặt giá trị cho userId trong câu lệnh SQL
+            rs = ps.executeQuery(); // Thực hiện truy vấn
+
+            // Kiểm tra xem có kết quả nào không
+            if (rs.next()) {
+                // Kiểm tra tableId
+                return tableId >= 1 && tableId <= 7; // Trả về true nếu tableId trong khoảng 1-7
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý lỗi
+        }
+        return false; // Nếu không có kết quả hoặc không nằm trong khoảng, trả về false
+    }
 
     public void insertReservation(Reservations reservation) {
         String sql = "INSERT INTO Reservations (user_id, reservation_date, number_of_people, status, table_id) "
@@ -37,9 +60,10 @@ public class ReservationDAO extends MyDAO {
 
         }
     }
-//    public static void main(String[] args) {
-//        ReservationDAO r = new ReservationDAO();
-//        
+
+    public static void main(String[] args) {
+        ReservationDAO r = new ReservationDAO();
+
 //        // Tạo đối tượng Date cho ngày đặt chỗ
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.set(2024, Calendar.OCTOBER, 12); // Ngày 12 tháng 10 năm 2024
@@ -51,6 +75,11 @@ public class ReservationDAO extends MyDAO {
 //        // Gọi phương thức insertReservation
 //        r.insertReservation(re);
 //        System.out.println("Đặt bàn thành công!");
-//    }
-            
+//        if (r.checkTableYpype(9, 8)) {
+//            System.out.println("true");
+//        } else {
+//            System.out.println("false");
+//        }
+boolean a = r.checkTableYpype(0, 0);
+    }
 }

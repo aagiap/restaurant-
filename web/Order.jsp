@@ -8,6 +8,7 @@
 <%@ page import="Entity.MenuItemJoinOrder" %>
 <%
     Users user = (Users) session.getAttribute("user"); 
+boolean tableType = (boolean) session.getAttribute("tableTypes"); 
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,6 +39,9 @@
     <!-- Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
     <style>
+        body{
+            background-color: whitesmoke;
+        }
         #imgMenu {
             height: 200px;
         }
@@ -78,88 +82,158 @@
             </div>
         </div>
     </header>
+            <div class="row" style="margin: 0% auto">
 
-    <main id="MainMenu">
-        <section>
-            <div class="text-center">
-                <div class="row">
+                <div class="col-md-6 col-12" style="width: 25%">
                     <%
-                        MenuItemDao m = new MenuItemDao();
-                        List<MenuItems> l = m.getListMenuItems();
-                        if (l != null) {
-                            for (MenuItems menuItem : l) {
+                        if(tableType==true){
                     %>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="card">
-                            <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-                                 data-mdb-ripple-color="light">
-                                <a href="<%= menuItem.getImage() %>" class="glightbox">
-                                    <img src="<%= menuItem.getImage() %>" class="menu-img img-fluid" alt="">
-                                </a>
-                            </div>
-                            <div class="card-body" id="MenuNameCate">
-                                <a href="" class="text-reset">
-                                    <p><%= menuItem.getCategory() %></p>
-                                </a>
-                                <a href="" class="text-reset">
-                                    <h2 class="card-title mb-2"><%= menuItem.getName() %></h2>
-                                </a>
-                                <h1 class="mb-3 price"><%= menuItem.getPrice() %>$</h1>
-
-                                <!-- Input số lượng món ăn -->
-                                <label for="quantity<%= menuItem.getItemId() %>">Số lượng:</label>
-                                <input type="number" id="quantity<%= menuItem.getItemId() %>" name="quantity" min="1" value="1" class="form-control mb-3" />
-
-                                <!-- Nút đặt món -->
-                                <form action="OrderItemServlet" method="post">
-                                    <input type="hidden" name="user_id" value="<%= user.getUsersId() %>">
-                                    <input type="hidden" name="item_id" value="<%= menuItem.getItemId() %>">
-                                    <input type="hidden" name="item_name" value="<%= menuItem.getName() %>">
-                                    <input type="hidden" name="item_price" value="<%= menuItem.getPrice() %>">
-                                    <input type="submit" class="btn btn-success" value="Đặt món">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    <img  src="assets/img/gallery/gallery-1.jpg" alt="alt" class="img-fluid"/>
+                    <% }else{ %>
+                    <img  src="assets/img/gallery/gallery-3.jpg" alt="alt" class="img-fluid"/>
                     <%
-                            }
                         }
                     %>
                 </div>
-
-                <!-- Hiển thị danh sách món đã đặt ở bên phải -->
-                <div class="row">
-                    <div class="col-md-8">
-                        <!-- Menu items section (left side) -->
-                    </div>
-                    <div class="col-md-4">
-                        <h3>Danh sách món đã đặt</h3>
-                        <ul>
+                <div class="col-md-6 col-12" style="margin-left: 2%; text-align: center; width: 25%">
+                    <h3>Danh sách món đã đặt</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tên món</th>
+                                <th>Số lượng</th>
+                                <th>Giá tiền (VND)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             <%
                                 OrderDAO o = new OrderDAO();                                     
                                 List<MenuItemJoinOrder> orderedItems = o.getOrderListByUserId(user.getUsersId());
                                 if (orderedItems != null && !orderedItems.isEmpty()) {
                                     for (MenuItemJoinOrder orderDetail : orderedItems) {
                             %>
-                            <li>
-                                <%= orderDetail.getName() %> - <%= orderDetail.getQuantity() %> x <%= orderDetail.getPrice() %>$
-                            </li>
+                            <tr>
+                                <td><%= orderDetail.getName() %></td>
+                                <td><%= orderDetail.getQuantity() %></td>
+                                <td><%= orderDetail.getPrice() %> VND</td>
+                            </tr>
                             <%
                                     }
                                 } else {
                             %>
-                            <li>Không có món nào được đặt</li>
+                            <tr>
+                                <td colspan="3" class="text-center">Không có món nào được đặt</td>
+                            </tr>
                             <%
                                 }
                             %>
-                        </ul>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </section>
-    </main>
+<!--MenuTab-->
+        <select id="categoryFilter" class="form-select" onchange="filterByCategory()" style="text-align: center;width: 10%; margin: 0% auto; margin-top: 5%  ">
+            <option value="all">Tất cả</option>
+            <option value="Món chính">Món chính</option>
+            <option value="Hoa quả">Hoa quả</option>
+            <option value="Đồ uống">Đồ uống</option>
+            <option value="Đồ ngọt">Đồ ngọt</option>
+            <option value="Ăn nhanh">Đồ ăn nhanh</option>
+        </select>
 
-    <!-- Main layout -->
+        <script>
+            function filterByCategory() {
+                var selectedCategory = document.getElementById("categoryFilter").value;
+                var menuItems = document.getElementsByClassName("menu-item");
+
+                for (var i = 0; i < menuItems.length; i++) {
+                    var category = menuItems[i].getAttribute("data-category");
+
+                    if (selectedCategory === "all" || category === selectedCategory) {
+                        menuItems[i].style.display = "block";
+                    } else {
+                        menuItems[i].style.display = "none";
+                    }
+                }
+            }
+        </script>
+<!--/MenuTab-->
+<!--MainMenu-->
+<main id="MainMenu" style="background: transparent">
+    <section style="background: transparent">
+        <div class="text-center" style="background: transparent">
+
+
+            <div class="row">
+                <%
+                    MenuItemDao m = new MenuItemDao();
+                    List<MenuItems> l = m.getListMenuItems();
+                    if (l != null) {
+                        for (MenuItems menuItem : l) {
+                %>
+                <div class="col-lg-3 col-md-6 mb-4 menu-item" data-category="<%= menuItem.getCategory() %>">
+                    <div class="card">
+                        <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
+                            <a href="<%= menuItem.getImage() %>" class="glightbox">
+                                <img src="<%= menuItem.getImage() %>" class="menu-img img-fluid" alt="">
+                            </a>
+                        </div>
+                        <div class="card-body" id="MenuNameCate">
+                            <a href="" class="text-reset">
+                                <p><%= menuItem.getCategory() %></p>
+                            </a>
+                            <a href="" class="text-reset">
+                                <h2 class="card-title mb-2"><%= menuItem.getName() %></h2>
+                            </a>
+                            <h1 class="mb-3 price"><%= menuItem.getPrice() %> VND</h1>
+
+                            <!-- Input số lượng món ăn -->
+                            <label for="quantity<%= menuItem.getItemId() %>">Số lượng:</label>
+                            <input type="number" id="quantity<%= menuItem.getItemId() %>" name="quantity" min="1" value="1" class="form-control mb-3" />
+
+                            <!-- Nút đặt món -->
+                            <form action="OrderItemServlet" method="post">
+                                <input type="hidden" name="user_id" value="<%= user.getUsersId() %>">
+                                <input type="hidden" name="item_id" value="<%= menuItem.getItemId() %>">
+                                <input type="hidden" name="item_name" value="<%= menuItem.getName() %>">
+                                <input type="hidden" name="item_price" value="<%= menuItem.getPrice() %>">
+                                <input type="submit" class="btn btn-success" value="Đặt món">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <%
+                        }
+                    }
+                %>
+            </div>
+
+
+                    
+        </div>
+    </section>
+</main>
+
+<script>
+    function filterByCategory() {
+        var selectedCategory = document.getElementById("categoryFilter").value;
+        var menuItems = document.getElementsByClassName("menu-item");
+
+        for (var i = 0; i < menuItems.length; i++) {
+            var category = menuItems[i].getAttribute("data-category");
+
+            // Hiển thị hoặc ẩn món ăn dựa trên danh mục đã chọn
+            if (selectedCategory === "all" || category === selectedCategory) {
+                menuItems[i].style.display = "block";
+            } else {
+                menuItems[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+
+<!--/MainMenu-->
 
     <footer id="footer" class="footer dark-background">
         <div class="container">

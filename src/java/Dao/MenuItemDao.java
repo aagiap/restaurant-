@@ -80,14 +80,21 @@ public void updateImg(String image, String name) throws SQLException {
         }
     }
 
-//
+
 //public static void main(String[] args) throws SQLException {
 //    MenuItemDao m = new MenuItemDao();
 //    List<MenuItems> l = m.getListMenuItems();
 //    
 //    for(int i = 0;i<l.size();i++){
-//        System.out.println(l.get(i).getName());
+//        System.out.println(l.get(i).getImage());
 //    }
+//    
+//        String name = "Tôm Scampi";
+//            String newImage = "assets/img/NormalFoods/Món Chính/Tôm nấu với sốt bơ tỏi'.jpg";
+//
+//            // Thực hiện cập nhật ảnh
+//            m.updateImg(newImage, name);
+//
 //}
 
 }
