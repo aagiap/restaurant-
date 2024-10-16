@@ -68,7 +68,7 @@
                         <li><a href="Home.jsp">Trang Chủ<br></a></li>
                         <li><a href="Reservation.jsp">Đặt bàn</a></li>
 
-                        <li><a href="#">Menu</a></li>
+                        <li><a href="#MenuHead">Menu</a></li>
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
@@ -80,7 +80,10 @@
             </div>
         </header>
 <!--MenuTab-->
-        <select id="categoryFilter" class="form-select" onchange="filterByCategory()" style="text-align: center;width: 10%; margin: 0% auto; margin-top: 5%  ">
+        <div id="MenuHead" class="container section-title" data-aos="fade-up" style="scroll-margin-top: 25vh; padding-bottom: unset">  
+        <p><span class="description-title">Menu</span></p>
+        </div>
+        <select id="categoryFilter" class="form-select" onchange="filterByCategory()" style="text-align: center;width: 10%; margin: 0% auto">
             <option value="all">Tất cả</option>
             <option value="Món chính">Món chính</option>
             <option value="Hoa quả">Hoa quả</option>
@@ -108,7 +111,7 @@
 <!--/MenuTab-->
 <!--MainMenu-->
 <main id="MainMenu" style="background: transparent">
-        <section style="background: transparent">
+        <section style="background: transparent; padding: 2%">
             <div class="text-center" style="background: transparent">
 
                 <div class="row">
@@ -233,18 +236,6 @@
                             <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
                         </div>
                     </div>
-
-                </div>
-            </div>
-
-            <div class="container copyright text-center mt-4">
-                <p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy</strong> <span>All Rights Reserved</span></p>
-                <div class="credits">
-                    <!-- All the links in the footer should remain intact. -->
-                    <!-- You can delete the links only if you've purchased the pro version. -->
-                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                    <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-                    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
                 </div>
             </div>
         </footer>

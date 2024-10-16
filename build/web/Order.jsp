@@ -71,38 +71,45 @@ boolean tableType = (boolean) session.getAttribute("tableTypes");
                 <ul>
                     <li><a href="Home.jsp">Trang Chủ<br></a></li>
                     <li><a href="Reservation.jsp">Đặt bàn</a></li>
-                    <li><a href="#">Menu</a></li>
+                    <li><a href="#MenuHead">Menu</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
 
             <div class="user-menu">
-                <a href="tabled.jsp" class="btn-getstarted"><%= user.getUserName() %></a>
+                <a href="#" class="btn-getstarted"><%= user.getUserName() %></a>
                 <a class="btn-logout" href="index.html">Đăng xuất</a>
             </div>
         </div>
     </header>
-            <div class="row" style="margin: 0% auto">
+            <div class="row" style="margin: 0% auto; padding: 2%">
 
-                <div class="col-md-6 col-12" style="width: 25%">
+                <div class="col-6" style="text-align: center; width: 50%">
                     <%
                         if(tableType==true){
                     %>
-                    <img  src="assets/img/gallery/gallery-1.jpg" alt="alt" class="img-fluid"/>
+                    <h1>Bàn Thường</h1>
+                    <a href="assets/img/gallery/gallery-1.jpg" class="glightbox">
+                        <img src="assets/img/gallery/gallery-1.jpg" class="img-fluid" alt="Bàn Thường" title="Bàn Thường">
+                    </a>
                     <% }else{ %>
-                    <img  src="assets/img/gallery/gallery-3.jpg" alt="alt" class="img-fluid"/>
+                    <h1>Bàn VIP</h1>
+                    <a href="assets/img/gallery/gallery-3.jpg" class="glightbox">
+                        <img src="assets/img/gallery/gallery-3.jpg" class="img-fluid" alt="Bàn VIP" title="Bàn VIP">
+                    </a>
                     <%
                         }
                     %>
                 </div>
-                <div class="col-md-6 col-12" style="margin-left: 2%; text-align: center; width: 25%">
-                    <h3>Danh sách món đã đặt</h3>
+                <div class="col-6" style="text-align: center; width: 50%">
+                    <h1>Danh sách món đã đặt</h1>
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Tên món</th>
                                 <th>Số lượng</th>
                                 <th>Giá tiền (VND)</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -116,6 +123,11 @@ boolean tableType = (boolean) session.getAttribute("tableTypes");
                                 <td><%= orderDetail.getName() %></td>
                                 <td><%= orderDetail.getQuantity() %></td>
                                 <td><%= orderDetail.getPrice() %> VND</td>
+                                <td>
+                                    <form action="action">
+                                            <input type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: none; font-size: 10px; cursor: pointer;">
+                                    </form>
+                                </td>
                             </tr>
                             <%
                                     }
@@ -129,10 +141,15 @@ boolean tableType = (boolean) session.getAttribute("tableTypes");
                             %>
                         </tbody>
                     </table>
+                    <a href="tabled.jsp" class="btn-complete" style="padding: 10px 20px; color: white; background-color: crimson; border-radius: 5px">Thanh Toán</a>
+                        
                 </div>
             </div>
 <!--MenuTab-->
-        <select id="categoryFilter" class="form-select" onchange="filterByCategory()" style="text-align: center;width: 10%; margin: 0% auto; margin-top: 5%  ">
+        <div id="MenuHead" class="container section-title" data-aos="fade-up" style="scroll-margin-top: 25vh; padding-bottom: unset">  
+        <p><span class="description-title">Menu</span></p>
+        </div>
+        <select id="categoryFilter" class="form-select" onchange="filterByCategory()" style="text-align: center;width: 10%; margin: 0% auto">
             <option value="all">Tất cả</option>
             <option value="Món chính">Món chính</option>
             <option value="Hoa quả">Hoa quả</option>
@@ -159,8 +176,8 @@ boolean tableType = (boolean) session.getAttribute("tableTypes");
         </script>
 <!--/MenuTab-->
 <!--MainMenu-->
-<main id="MainMenu" style="background: transparent">
-    <section style="background: transparent">
+<main id="MainMenu" style="background: transparent; text-align: center">
+    <section style="background: transparent; padding: 2%">
         <div class="text-center" style="background: transparent">
 
 
@@ -279,13 +296,6 @@ boolean tableType = (boolean) session.getAttribute("tableTypes");
                         <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="container copyright text-center mt-4">
-            <p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy</strong> <span>All Rights Reserved</span></p>
-            <div class="credits">
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
             </div>
         </div>
     </footer>
