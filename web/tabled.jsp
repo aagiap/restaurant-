@@ -11,12 +11,20 @@
 <%@ page import="Entity.Tables" %>
 <%@ page import="Dao.TablesDAO" %>
 
+
+<%@ page import="Dao.OrderDAO" %>
+<%@ page import="Entity.Orders" %>
+<%@ page import="Dao.MenuItemDao" %>
+<%@ page import="Entity.MenuItemJoinOrder" %>
+
 <%
     Users user = (Users) session.getAttribute("user");
     List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
     
        TablesDAO tablesDAO = new TablesDAO();
        List<Tables> a = tablesDAO.getListTables();
+       
+       Boolean tableType = (Boolean) session.getAttribute("tableTypes");
 %>
 <style>
     body{
@@ -82,7 +90,115 @@
 
     </div>
   </header>
-  <footer id="footer" class="footer dark-background">
+        
+        
+        
+<div class="row" style="margin: 0% auto; padding: 2%">
+
+                <div class="col-6" style="text-align: center; width: 50%">
+                    <%
+                        if(tableType == null){
+                    %>
+                    <h1>Không có bàn nào được đặt</h1>
+                    <%
+                        }else if(tableType==true){
+                    %>
+                    <h1>Bàn Thường</h1>
+                    <a href="assets/img/gallery/gallery-1.jpg" class="glightbox">
+                        <img src="assets/img/gallery/gallery-1.jpg" class="img-fluid" alt="Bàn Thường" title="Bàn Thường">
+                    </a>
+                    <% }else{ %>
+                    <h1>Bàn VIP</h1>
+                    <a href="assets/img/gallery/gallery-3.jpg" class="glightbox">
+                        <img src="assets/img/gallery/gallery-3.jpg" class="img-fluid" alt="Bàn VIP" title="Bàn VIP">
+                    </a>
+                    <%
+                        }
+                    %>
+                    
+                    <%
+                        if(tableType == null){
+                    %>
+                    <table>
+                            <tr>
+                                <td> <h1>Người Đặt</h1> </td>
+                                <td> <h1>: </h1> </td>
+                            </tr>
+                            <tr>
+                                <td>Ngày Đặt</td>
+                                <td> <h1>:  </h1> </td>
+                            </tr>
+                            <tr>
+                                <td>Số Người</td>
+                                <td> <h1>:  </h1> </td>
+                            </tr>
+                    </table>
+                    <% }else{ %>
+                    <table>
+                            <tr>
+                                <td> <h1>Người Đặt</h1> </td>
+                                <td> <h1>: <%=user.getUserName()%> </h1> </td>
+                            </tr>
+                            <tr>
+                                <td>Ngày Đặt</td>
+                                <td> <h1>:  </h1> </td>
+                            </tr>
+                            <tr>
+                                <td>Số Người</td>
+                                <td> <h1>:  </h1> </td>
+                            </tr>
+                    </table>
+                    <%
+                        }
+                    %>
+                </div>
+                <div class="col-6" style="text-align: center; width: 50%">
+                    <h1>Danh sách món đã đặt</h1>
+                    <table class="table" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th>Tên món</th>
+                                <th>Số lượng</th>
+                                <th>Giá tiền (VND)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                OrderDAO o = new OrderDAO();                                     
+                                List<MenuItemJoinOrder> orderedItems = o.getOrderListByUserId(user.getUsersId());
+                                if (tableType != null && orderedItems != null && !orderedItems.isEmpty()) {
+                                    for (MenuItemJoinOrder orderDetail : orderedItems) {
+                            %>
+                            <tr>
+                                <td><%= orderDetail.getName() %></td>
+                                <td><%= orderDetail.getQuantity() %></td>
+                                <td><%= orderDetail.getPrice() %> VND</td>
+                            </tr>
+                            <%
+                                    }
+                                } else {
+                            %>
+                            <tr>
+                                <td colspan="3" class="text-center">Không có món nào được đặt</td>
+                            </tr>
+                            <%
+                                }
+                            %>    
+                        </tbody>
+                    </table>
+                            <%
+                                if (tableType == null) { 
+                            %>
+                                <a href="Reservation.jsp" class="btn-complete" style="padding: 10px 20px; color: white; background-color: crimson; border-radius: 5px">Đặt Bàn</a>
+                            <%
+                                }
+                            %>
+                </div>
+            </div>
+                        
+                        
+                        
+<footer id="footer" class="footer dark-background">
 
     <div class="container">
       <div class="row gy-3">
@@ -131,18 +247,6 @@
 
       </div>
     </div>
-
-    <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-
   </footer>   
 
   <!-- Scroll Top -->
