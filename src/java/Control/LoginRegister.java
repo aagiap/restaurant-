@@ -34,22 +34,30 @@ public class LoginRegister extends HttpServlet {
     }
 
     protected void doLogin(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        UsersDAO u = new UsersDAO();
-        Users user = u.getUser(email, password);
-        if (user != null) {
-           // Đăng nhập thành công
-            HttpSession sL = request.getSession();
-            sL.setAttribute("user", user);
-            response.sendRedirect("Home.jsp"); // Chuyển hướng đến trang chào mừng
+        throws ServletException, IOException {
+    String email = request.getParameter("email");
+    String password = request.getParameter("password");
+    UsersDAO u = new UsersDAO();
+    Users user = u.getUser(email, password);
+
+    if (user != null) {
+        // Successful login
+        HttpSession sL = request.getSession();
+        sL.setAttribute("user", user);
+
+        // Check the user's role
+        if (user.getRole().equalsIgnoreCase("admin")) {
+            response.sendRedirect("AdminHome.jsp"); // Redirect to admin page
         } else {
-            // Đăng nhập thất bại
-            request.setAttribute("errorMessage", "Email hoặc mật khẩu không đúng.");
-            request.getRequestDispatcher("LoginPage.jsp").forward(request, response);
+            response.sendRedirect("Home.jsp"); // Redirect to normal user page
         }
+    } else {
+        // Failed login
+        request.setAttribute("errorMessage", "Email hoặc mật khẩu không đúng.");
+        request.getRequestDispatcher("LoginPage.jsp").forward(request, response);
     }
+}
+
 
     protected void doRegister(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

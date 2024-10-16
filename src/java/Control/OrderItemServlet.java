@@ -57,7 +57,14 @@ public class OrderItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        OrderDAO od = new OrderDAO();
+            // Lấy thông tin từ form
+            
+            String itemName = request.getParameter("item_name");
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            double itemPrice = Double.parseDouble(request.getParameter("price"));
+            od.deleteOrderItem(itemName, quantity, itemPrice);
+            response.sendRedirect("Order.jsp"); // Chuyển hướng đến trang chào mừng
     }
 
     /**

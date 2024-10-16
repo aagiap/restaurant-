@@ -19,20 +19,21 @@ public class TablesDAO extends MyDAO{
         ps = con.prepareStatement(xSql);  // Prepare SQL statement
         rs = ps.executeQuery();  // Execute query and retrieve results
 
-        int tableNumber;
+        int tableNumber,tableId;
         String location, condition;
        // Tables table;  // Object to store each table's data
 
         // Iterate through the result set and populate the table list
         while (rs.next()) {
             //tableId = rs.getInt("table_id");  // Retrieve table_id
+            tableId = rs.getInt("table_id");
             tableNumber = rs.getInt("table_number");  // Retrieve table_number
             location = rs.getString("location");  // Retrieve location (VIP or Normal)
             condition = rs.getString("condition");  // Retrieve condition (blank or full)
 
             // Create new Table object and add it to the list
             //table = new Tables(tableNumber, location, condition);
-            tablesList.add(new Tables(tableNumber, location, condition));
+            tablesList.add(new Tables(tableId,tableNumber, location, condition));
         }
 
         // Close result set and prepared statement

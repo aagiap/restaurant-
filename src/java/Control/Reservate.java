@@ -43,17 +43,19 @@ public class Reservate extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         // Retrieve form data
-        String tableType = request.getParameter("table-type");
-        String tableNumberS = request.getParameter("table-number");
-        int tableNumber = Integer.parseInt(tableNumberS);
+//        String tableType = request.getParameter("table-type");
+//        String tableNumberS = request.getParameter("table-number");
+//        int tableNumber = Integer.parseInt(tableNumberS);
         TablesDAO tablesDao = new TablesDAO();
-        int tableId = tablesDao.searchTableId(tableNumber, tableType);
+
+        int tableId = Integer.parseInt(request.getParameter("tableId"));
+
         int numberOfPeople = Integer.parseInt(request.getParameter("number-of-people"));
         int userId = Integer.parseInt(request.getParameter("userId"));
-        
-        Calendar calendar = Calendar.getInstance(); 
-calendar.add(Calendar.DAY_OF_YEAR, 1); // Cộng 1 ngày để lấy ngày mai
-Date reservationDate = calendar.getTime(); // Lấy ra ngày mai, chỉ có ngày tháng năm
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, 1); // Cộng 1 ngày để lấy ngày mai
+        Date reservationDate = calendar.getTime(); // Lấy ra ngày mai, chỉ có ngày tháng năm
         Reservations reservation = new Reservations(userId, reservationDate, numberOfPeople, "Pending", tableId);
         ReservationDAO re = new ReservationDAO();
         re.insertReservation(reservation);
@@ -63,19 +65,18 @@ Date reservationDate = calendar.getTime(); // Lấy ra ngày mai, chỉ có ngà
 //request.setAttribute("tableId", tableId);
         tablesDao.updateLocation(tableId, "full");
 //        response.sendRedirect("ReservationSuccess.jsp");
-        
-        
-        
-        
-        boolean check =true;
-        boolean tableTypes = re.checkTableYpype(userId, tableId);        
-        
+
+        boolean check = true;
+        boolean tableTypes = re.checkTableYpype(userId, tableId);
+
         HttpSession sL = request.getSession();
-            sL.setAttribute("tableTypes", tableTypes);
-         request.setAttribute("check", check);
+        sL.setAttribute("tableId", tableId);
+        sL.setAttribute("tableTypes", tableTypes);
+        sL.setAttribute("reservation", reservation);
+        request.setAttribute("check", check);
         request.getRequestDispatcher("Reservation.jsp").forward(request, response);
         // request.getRequestDispatcher("ReservationSuccess.jsp").include(request, response);
-//request.getRequestDispatcher("test.jsp").forward(request, response);
+        //request.getRequestDispatcher("test.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

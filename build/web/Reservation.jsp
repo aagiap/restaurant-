@@ -29,8 +29,8 @@
         <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
         <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
         <link href="assets/css/main.css" rel="stylesheet">
-        
-        
+
+
         <style>
             #hero{
                 background: transparent;
@@ -40,7 +40,7 @@
             }
             .Form {
                 font-family: Arial, sans-serif;
-/*                background: url('assets/img/events-2.jpg') no-repeat center center fixed;*/
+                /*                background: url('assets/img/events-2.jpg') no-repeat center center fixed;*/
                 background-size: cover;
                 color: lightgrey;
                 display: flex;
@@ -111,18 +111,18 @@
                         <a style="margin: 0% auto" href="assets/img/gallery/gallery-1.jpg" class="glightbox"><img src="assets/img/gallery/gallery-1.jpg" class="menu-img img-fluid" alt="Bàn Thường" title="Bàn Thường"></a>
                         <h2 style="text-align: center">Bàn Thường</h2>
                     </div>
-                    
-                    
+
+
                     <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
                         <!--<img src="assets/img/gallery/gallery-3.jpg" class="img-fluid animated" alt="Bàn VIP" title="Bàn VIP">-->
                         <a style="margin: 0% auto" href="assets/img/gallery/gallery-3.jpg" class="glightbox"><img src="assets/img/gallery/gallery-3.jpg" class="menu-img img-fluid" alt="Bàn VIP" title="Bàn VIP"></a>
                         <h2 style="text-align: center">Bàn VIP</h2>
                     </div>       
                 </div>
-            <!--</div>-->
-        
-    
-            <!--<div class="container">-->
+                <!--</div>-->
+
+
+                <!--<div class="container">-->
                 <div class="row gy-4 justify-content-center justify-content-lg-between">
                     <!-- Form to input user reservation details -->
                     <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
@@ -136,17 +136,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <% 
-                                for (Tables table : a) { 
-                            %>
-                            <tr>
-                                <td><%= table.getTableNumber() %></td>
-                                <td><%= table.getLocation() %></td>
-                                <td><%= table.getCondition().equals("blank") ? "Trống" : "Đầy" %></td>
-                            </tr>
-                            <% 
-                                } 
-                            %>
+                                <% 
+                                    for (Tables table : a) { 
+                                %>
+                                <tr>
+                                    <td><%= table.getTableNumber() %></td>
+                                    <td><%= table.getLocation() %></td>
+                                    <td><%= table.getCondition().equals("blank") ? "Trống" : "Đầy" %></td>
+                                </tr>
+                                <% 
+                                    } 
+                                %>
                             </tbody>
                         </table>
                     </div>
@@ -161,25 +161,18 @@
                                 <span id="reservation-date"> </span>
                             </div>
 
-
                             <form action="reservate" method="POST">
                                 <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
 
-                                <!--Table Type Selection -->
-                                <label for="table-type">Loại Bàn:</label>
-                                <select id="table-type" name="table-type" required onchange="filterTables()">
-                                    <option value="VIP">Bàn VIP</option>
-                                    <option value="Normal">Bàn Bình Thường</option>
-                                </select>
 
-                                <!--Table Number (Filtered by Type and Availability)-->
-                                <label for="table-number">Bàn Số:</label>
-                                <select id="table-number" name="table-number" required>
+                                <!-- Table selection dropdown -->
+                                <label for="tableId">Chọn bàn:</label>
+                                <select name="tableId" id="tableId">
                                     <% 
                                         for (Tables table : a) { 
                                             if (table.getCondition().equals("blank")) { // Show only available tables
                                     %>
-                                    <option value="<%= table.getTableNumber() %>" data-type="<%= table.getLocation() %>">
+                                    <option value="<%= table.getTableId() %>">
                                         Bàn số <%= table.getTableNumber() %> - <%= table.getLocation() %>
                                     </option>
                                     <% 
@@ -192,28 +185,11 @@
                                 <label for="people">Số Người:</label>
                                 <input type="number" id="people" name="number-of-people" min="1" required>
 
-                                 Submit Button 
+                                <!--                                 Submit Button -->
                                 <button type="submit">Đặt Bàn</button>
                             </form>
 
                             <script>
-                                function filterTables() {
-                                    var selectedType = document.getElementById("table-type").value;
-                                    var tableSelect = document.getElementById("table-number");
-
-                                    for (var i = 0; i < tableSelect.options.length; i++) {
-                                        var option = tableSelect.options[i];
-                                        var tableType = option.getAttribute("data-type");
-
-                                        if (tableType === selectedType) {
-                                            option.style.display = "block";
-                                        } else {
-                                            option.style.display = "none";
-                                        }
-                                    }
-
-                                    tableSelect.selectedIndex = 0;
-                                }
 
                                 // Set default date to tomorrow and display it below the heading
                                 window.onload = function () {
@@ -228,7 +204,7 @@
                                     var day = ('0' + tomorrow.getDate()).slice(-2);
 
                                     // Gán giá trị cho trường ẩn và hiển thị ngày dưới tiêu đề nếu cần
-                                    dateDisplay.innerHTML  = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
+                                    dateDisplay.innerHTML = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
                                 };
 
                             </script>
@@ -239,98 +215,98 @@
             </div>
         </section>
 
-<footer id="footer" class="footer dark-background">
+        <footer id="footer" class="footer dark-background">
 
-    <div class="container">
-      <div class="row gy-3">
-        <div class="col-lg-3 col-md-6 d-flex">
-          <i class="bi bi-geo-alt icon"></i>
-          <div class="address">
-            <h4>Address</h4>
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
-            <p></p>
-          </div>
+            <div class="container">
+                <div class="row gy-3">
+                    <div class="col-lg-3 col-md-6 d-flex">
+                        <i class="bi bi-geo-alt icon"></i>
+                        <div class="address">
+                            <h4>Address</h4>
+                            <p>A108 Adam Street</p>
+                            <p>New York, NY 535022</p>
+                            <p></p>
+                        </div>
 
-        </div>
+                    </div>
 
-        <div class="col-lg-3 col-md-6 d-flex">
-          <i class="bi bi-telephone icon"></i>
-          <div>
-            <h4>Contact</h4>
-            <p>
-              <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
-              <strong>Email:</strong> <span>info@example.com</span><br>
-            </p>
-          </div>
-        </div>
+                    <div class="col-lg-3 col-md-6 d-flex">
+                        <i class="bi bi-telephone icon"></i>
+                        <div>
+                            <h4>Contact</h4>
+                            <p>
+                                <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
+                                <strong>Email:</strong> <span>info@example.com</span><br>
+                            </p>
+                        </div>
+                    </div>
 
-        <div class="col-lg-3 col-md-6 d-flex">
-          <i class="bi bi-clock icon"></i>
-          <div>
-            <h4>Opening Hours</h4>
-            <p>
-              <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
-              <strong>Sunday</strong>: <span>Closed</span>
-            </p>
-          </div>
-        </div>
+                    <div class="col-lg-3 col-md-6 d-flex">
+                        <i class="bi bi-clock icon"></i>
+                        <div>
+                            <h4>Opening Hours</h4>
+                            <p>
+                                <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
+                                <strong>Sunday</strong>: <span>Closed</span>
+                            </p>
+                        </div>
+                    </div>
 
-        <div class="col-lg-3 col-md-6">
-          <h4>Follow Us</h4>
-          <div class="social-links d-flex">
-            <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-          </div>
-        </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h4>Follow Us</h4>
+                        <div class="social-links d-flex">
+                            <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
 
-      </div>
-    </div>
+                </div>
+            </div>
 
 
 
-    
-    
-<%
-    // Lấy giá trị boolean từ request
-    Boolean check = (Boolean) request.getAttribute("check");
-%>
-    
 
-<script>
-    // Hàm fun() để hiển thị confirm và chuyển hướng
-    function fun() {
-        window.location.href = "Reservation.jsp";
-        if (confirm("Bạn đã đặt bàn thành công! Bạn có muốn đặt món không?")) {
-            // Nếu người dùng bấm OK, chuyển đến table.jsp
-            window.location.href = "Order.jsp";
-        }
-    }
 
-    // Kiểm tra giá trị của check và gọi hàm fun nếu check là true
-    <% if (check != null && check) { %>
-        fun(); // Gọi hàm fun() nếu check là true
-    <% } %>
-</script>
+            <%
+                // Lấy giá trị boolean từ request
+                Boolean check = (Boolean) request.getAttribute("check");
+            %>
 
-  </footer>
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Preloader -->
-  <div id="preloader"></div>
+            <script>
+                // Hàm fun() để hiển thị confirm và chuyển hướng
+                function fun() {
+                    window.location.href = "Reservation.jsp";
+                    if (confirm("Bạn đã đặt bàn thành công! Bạn có muốn đặt món không?")) {
+                        // Nếu người dùng bấm OK, chuyển đến table.jsp
+                        window.location.href = "Order.jsp";
+                    }
+                }
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+                // Kiểm tra giá trị của check và gọi hàm fun nếu check là true
+                <% if (check != null && check) { %>
+                fun(); // Gọi hàm fun() nếu check là true
+                <% } %>
+            </script>
 
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
+        </footer>
+        <!-- Scroll Top -->
+        <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+        <!-- Preloader -->
+        <div id="preloader"></div>
+
+        <!-- Vendor JS Files -->
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/vendor/php-email-form/validate.js"></script>
+        <script src="assets/vendor/aos/aos.js"></script>
+        <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+        <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+        <!-- Main JS File -->
+        <script src="assets/js/main.js"></script>
     </body>
 </html>

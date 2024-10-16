@@ -65,6 +65,32 @@ public class OrderDAO extends MyDAO{
 
     return orderList; // Trả về danh sách đơn hàng
 }
+    public void deleteOrderItem(String name, int quantity, double price) {
+    String xSql = "DELETE FROM Orders WHERE order_id IN (" +
+                  "SELECT o.order_id FROM Orders o " +
+                  "JOIN MenuItems m ON o.item_id = m.item_id " +
+                  "WHERE m.name = ? AND o.quantity = ? AND o.price = ?)";
+    
+    try {
+        ps = con.prepareStatement(xSql);
+        ps.setString(1, name);       // Truyền giá trị 'name'
+        ps.setInt(2, quantity);      // Truyền giá trị 'quantity'
+        ps.setDouble(3, price);      // Truyền giá trị 'price'
+
+        int rowsDeleted = ps.executeUpdate();  // Thực thi câu truy vấn
+        
+        // Kiểm tra xem có hàng nào bị xóa không
+        if (rowsDeleted > 0) {
+            System.out.println("Successfully deleted " + rowsDeleted + " rows.");
+        } else {
+            System.out.println("No matching records found to delete.");
+        }
+
+        ps.close();  // Đóng PreparedStatement
+    } catch (Exception e) {
+        e.printStackTrace();  // In lỗi nếu có
+    }
+}
     
     public List<MenuItemJoinOrder> getOrderListByUserId(int userIdS) {
     List<MenuItemJoinOrder> orderList = new ArrayList<>();

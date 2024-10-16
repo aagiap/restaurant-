@@ -23,7 +23,12 @@ public class Tables {
         this.location = location;
         this.condition = condition;
     }
-
+public Tables(int tableId,int tableNumber, String location, String condition) {
+    this.tableId = tableId;
+        this.tableNumber = tableNumber;
+        this.location = location;
+        this.condition = condition;
+    }
     // Getters and Setters
     public int getTableId() {
         return tableId;

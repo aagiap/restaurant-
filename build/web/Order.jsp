@@ -124,7 +124,10 @@ boolean tableType = (boolean) session.getAttribute("tableTypes");
                                 <td><%= orderDetail.getQuantity() %></td>
                                 <td><%= orderDetail.getPrice() %> VND</td>
                                 <td>
-                                    <form action="action">
+                                    <form action="OrderItemServlet" method="GET">
+                                            <input type="hidden" name="item_name" value="<%= orderDetail.getName() %>">
+                                            <input type="hidden" name="quantity" value="<%= orderDetail.getQuantity() %>">
+                                            <input type="hidden" name="price" value="<%= orderDetail.getPrice() %>">                                  
                                             <input type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: none; font-size: 10px; cursor: pointer;">
                                     </form>
                                 </td>
