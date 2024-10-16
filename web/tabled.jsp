@@ -1,8 +1,3 @@
-<%-- 
-    Document   : tabled
-    Created on : Oct 12, 2024, 10:32:21 AM
-    Author     : admin
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Entity.Users"%>

@@ -10,21 +10,21 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-    <title>Reservation Details</title>
-</head>
-<body>
-<h2>Reservation Details</h2>
+    <head>
+        <title>Reservation Details</title>
+    </head>
+    <body>
+        <h2>Reservation Details</h2>
 
-<% 
-  boolean checkTableType = (boolean) session.getAttribute("tableTypes");
-  int tableId = (int) session.getAttribute("tableId");
+        <% 
+          boolean checkTableType = (boolean) session.getAttribute("tableTypes");
+          int tableId = (int) session.getAttribute("tableId");
   
-%>
+        %>
 
-<p>check tabke type: <%= checkTableType %></p>
-<p> table id <%= tableId %></p>
+        <p>check tabke type: <%= checkTableType %></p>
+        <p> table id <%= tableId %></p>
 
 
-</body>
+    </body>
 </html>

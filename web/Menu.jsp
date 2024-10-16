@@ -16,7 +16,7 @@
 
     // Kiểm tra nếu vai trò là admin thì gọi hàm fun()
     <% if (user.getRole().equals("admin")) { %>
-        fun(); // Gọi hàm fun() nếu user là admin
+    fun(); // Gọi hàm fun() nếu user là admin
     <% } %>
 </script>
 
@@ -92,9 +92,9 @@
                 </div>
             </div>
         </header>
-<!--MenuTab-->
+        <!--MenuTab-->
         <div id="MenuHead" class="container section-title" data-aos="fade-up" style="scroll-margin-top: 25vh; padding-bottom: unset">  
-        <p><span class="description-title">Menu</span></p>
+            <p><span class="description-title">Menu</span></p>
         </div>
         <select id="categoryFilter" class="form-select" onchange="filterByCategory()" style="text-align: center;width: 10%; margin: 0% auto">
             <option value="all">Tất cả</option>
@@ -121,87 +121,87 @@
                 }
             }
         </script>
-<!--/MenuTab-->
-<!--MainMenu-->
-<main id="MainMenu" style="background: transparent">
-        <section style="background: transparent; padding: 2%">
-            <div class="text-center" style="background: transparent">
+        <!--/MenuTab-->
+        <!--MainMenu-->
+        <main id="MainMenu" style="background: transparent">
+            <section style="background: transparent; padding: 2%">
+                <div class="text-center" style="background: transparent">
 
-                <div class="row">
-                    <%
-                      List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
-                      if (l != null) {
-                          for (MenuItems menuItem : l) {
-                    %>
-                    <!-- Thêm data-category để lưu danh mục món ăn -->
-                    <div class="col-lg-3 col-md-6 mb-4 menu-item" data-category="<%= menuItem.getCategory() %>">
-                        <div class="card">
-                            <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
-                                <a href="<%= menuItem.getImage() %>" class="glightbox"><img src="<%= menuItem.getImage() %>" class="menu-img img-fluid" alt=""></a>
-                                <a href="#!">
-                                    <div class="mask">
-                                        <div class="d-flex justify-content-start align-items-end h-100">
-                                            <h5><span class="badge bg-dark ms-2">NEW</span></h5>
+                    <div class="row">
+                        <%
+                          List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
+                          if (l != null) {
+                              for (MenuItems menuItem : l) {
+                        %>
+                        <!-- Thêm data-category để lưu danh mục món ăn -->
+                        <div class="col-lg-3 col-md-6 mb-4 menu-item" data-category="<%= menuItem.getCategory() %>">
+                            <div class="card">
+                                <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
+                                    <a href="<%= menuItem.getImage() %>" class="glightbox"><img src="<%= menuItem.getImage() %>" class="menu-img img-fluid" alt=""></a>
+                                    <a href="#!">
+                                        <div class="mask">
+                                            <div class="d-flex justify-content-start align-items-end h-100">
+                                                <h5><span class="badge bg-dark ms-2">NEW</span></h5>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="hover-overlay">
-                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="card-body" id="MenuNameCate">
-                                <a href="" class="text-reset">
-                                    <p><%= menuItem.getCategory() %></p>
-                                </a>
-                                <a href="" class="text-reset">
-                                    <h2 class="card-title mb-2"><%= menuItem.getName() %></h2>
-                                </a>
-                                <h1 class="mb-3 price"><%= menuItem.getPrice() %> VND</h1>
+                                        <div class="hover-overlay">
+                                            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card-body" id="MenuNameCate">
+                                    <a href="" class="text-reset">
+                                        <p><%= menuItem.getCategory() %></p>
+                                    </a>
+                                    <a href="" class="text-reset">
+                                        <h2 class="card-title mb-2"><%= menuItem.getName() %></h2>
+                                    </a>
+                                    <h1 class="mb-3 price"><%= menuItem.getPrice() %> VND</h1>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <%
+                        <%
+                              }
                           }
-                      }
-                    %>
+                        %>
+                    </div>
                 </div>
-            </div>
-        </section>
-</main>
+            </section>
+        </main>
 
-<script>
-    function filterByCategory() {
-        var selectedCategory = document.getElementById("categoryFilter").value;
-        var menuItems = document.getElementsByClassName("menu-item");
+        <script>
+            function filterByCategory() {
+                var selectedCategory = document.getElementById("categoryFilter").value;
+                var menuItems = document.getElementsByClassName("menu-item");
 
-        for (var i = 0; i < menuItems.length; i++) {
-            var category = menuItems[i].getAttribute("data-category");
+                for (var i = 0; i < menuItems.length; i++) {
+                    var category = menuItems[i].getAttribute("data-category");
 
-            if (selectedCategory === "all" || category === selectedCategory) {
-                menuItems[i].style.display = "block";
-            } else {
-                menuItems[i].style.display = "none";
+                    if (selectedCategory === "all" || category === selectedCategory) {
+                        menuItems[i].style.display = "block";
+                    } else {
+                        menuItems[i].style.display = "none";
+                    }
+                }
             }
-        }
-    }
-</script>
-<script>
-    function filterByCategory() {
-        var selectedCategory = document.getElementById("categoryFilter").value;
-        var menuItems = document.getElementsByClassName("menu-item");
+        </script>
+        <script>
+            function filterByCategory() {
+                var selectedCategory = document.getElementById("categoryFilter").value;
+                var menuItems = document.getElementsByClassName("menu-item");
 
-        for (var i = 0; i < menuItems.length; i++) {
-            var category = menuItems[i].getAttribute("data-category");
+                for (var i = 0; i < menuItems.length; i++) {
+                    var category = menuItems[i].getAttribute("data-category");
 
-            if (selectedCategory === "all" || category === selectedCategory) {
-                menuItems[i].style.display = "block";
-            } else {
-                menuItems[i].style.display = "none";
+                    if (selectedCategory === "all" || category === selectedCategory) {
+                        menuItems[i].style.display = "block";
+                    } else {
+                        menuItems[i].style.display = "none";
+                    }
+                }
             }
-        }
-    }
-</script>
-<!--/MainMenu -->
+        </script>
+        <!--/MainMenu -->
 
         <footer id="footer" class="footer dark-background">
 

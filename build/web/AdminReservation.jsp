@@ -146,7 +146,7 @@
                                     <td><%= table.getCondition().equals("blank") ? "Trống" : "Đầy" %></td>
                                     <td>
                                         <form action="action">                                 
-                                            <input type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: none; font-size: 10px; cursor: pointer;">
+                                            <input type="submit" class="btn btn-success" value="Reset" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2;">
                                         </form>
                                     </td>
                                 </tr>
