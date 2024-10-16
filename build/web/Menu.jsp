@@ -7,6 +7,19 @@
 <%
     Users user = (Users) session.getAttribute("user"); 
 %>
+
+<script>
+    // Hàm fun() để chuyển hướng
+    function fun() {
+        window.location.href = "AdminMenu.jsp";
+    }
+
+    // Kiểm tra nếu vai trò là admin thì gọi hàm fun()
+    <% if (user.getRole().equals("admin")) { %>
+        fun(); // Gọi hàm fun() nếu user là admin
+    <% } %>
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 

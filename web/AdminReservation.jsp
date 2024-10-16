@@ -90,14 +90,14 @@
                 </a>
                 <nav id="navmenu" class="navmenu">
                     <ul>
-                        <li><a href="Home.jsp">Trang Chủ</a></li>
-                        <li><a href="Reservation.jsp">Đặt bàn</a></li>          
+                        <li><a href="AdminHome.jsp">Trang Chủ</a></li>
+                        <li><a href="#">Thông tin đặt bàn</a></li>          
                         <li><a href="menu">Menu</a></li>
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
                 <div class="user-menu">
-                    <a href="tabled.jsp" class="btn-getstarted"><%= user.getUserName() %></a>
+                    <a href="#" class="btn-getstarted"><%= user.getUserName() %></a>
                     <a class="btn-logout" href="index.html">Đăng xuất</a>
                 </div>
             </div>
@@ -133,6 +133,7 @@
                                     <th class="col-4" scope="col">Bàn Số</th>
                                     <th class="col-4" scope="col">Loại</th>
                                     <th class="col-4" scope="col">Tình Trạng</th>
+                                    <th class="col-4" scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -143,6 +144,11 @@
                                     <td><%= table.getTableNumber() %></td>
                                     <td><%= table.getLocation() %></td>
                                     <td><%= table.getCondition().equals("blank") ? "Trống" : "Đầy" %></td>
+                                    <td>
+                                        <form action="action">                                 
+                                            <input type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: none; font-size: 10px; cursor: pointer;">
+                                        </form>
+                                    </td>
                                 </tr>
                                 <% 
                                     } 

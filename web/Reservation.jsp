@@ -12,6 +12,8 @@
     
        TablesDAO tablesDAO = new TablesDAO();
        List<Tables> a = tablesDAO.getListTables();
+       
+        Boolean check = (Boolean) request.getAttribute("check");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -269,10 +271,7 @@
 
 
 
-            <%
-                // Lấy giá trị boolean từ request
-                Boolean check = (Boolean) request.getAttribute("check");
-            %>
+           
 
 
             <script>

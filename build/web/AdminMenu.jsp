@@ -10,34 +10,34 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
 
-        <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <title>GT - Giao Thoa</title>
-        <meta name="description" content="">
-        <meta name="keywords" content="">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>GT - Giao Thoa</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
 
-        <!-- Favicons -->
-        <link href="assets/img/favicon-GT.png" rel="icon">
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com" rel="preconnect">
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Favicons -->
+    <link href="assets/img/favicon-GT.png" rel="icon">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
 
-        <!-- Vendor CSS Files -->
-        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-        <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-        <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-        <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-        <!-- Main CSS File -->
-        <link href="assets/css/main.css" rel="stylesheet">
-        <style>
-            body{
-                background-color: whitesmoke;
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <style>
+    body{
+            background-color: whitesmoke;
             }
             #imgMenu{
                 height: 200px;
@@ -48,11 +48,21 @@
             #MenuNameCate> a > h2{
                 font-weight: bold;
             }
+            button {
+                width: 100%;
+                padding: 10px;
+                background-color: #e74c3c;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+            }
         </style>
 
     </head>
 
-    <body class="starter-page-page">
+<body class="starter-page-page">
 
         <header id="header" class="header d-flex align-items-center sticky-top">
             <div class="container position-relative d-flex align-items-center justify-content-between">
@@ -65,8 +75,8 @@
 
                 <nav id="navmenu" class="navmenu">
                     <ul>
-                        <li><a href="Home.jsp">Trang Chủ<br></a></li>
-                        <li><a href="Reservation.jsp">Đặt bàn</a></li>
+                        <li><a href="AdminHome.jsp">Trang Chủ<br></a></li>
+                        <li><a href="AdminReservation.jsp">Thông tin đặt bàn</a></li>
 
                         <li><a href="#MenuHead">Menu</a></li>
                     </ul>
@@ -74,11 +84,92 @@
                 </nav>
 
                 <div class="user-menu">
-                    <a href="tabled.jsp" class="btn-getstarted"><%=user.getUserName()%></a>
+                    <a href="#" class="btn-getstarted"><%=user.getUserName()%></a>
                     <a class="btn-logout" href="index.html">Đăng xuất</a>
                 </div>
             </div>
         </header>
+                    
+<div class="row" style="padding: 2%; margin: 2%; background-color: rgba(0, 0, 0, 0.7); border-radius: 20px;">
+    <div class="col-6" style="text-align: center; width: 50%">
+        
+        
+<!--themmon-->
+        
+        <form action="action" style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px">
+            <table style="text-align: left">
+                <tr class="form-group">    
+                    <td>
+                        <label for="categoryFilter"><h2 style="color: white" >Chọn Phân Loại</h2></label>
+                    </td>
+                    <td>
+                        <select id="categoryFilter" class="form-select" onchange="filterByCategory()" style="width: 200px;">
+                            <option value=""></option>
+                            <option value="Món chính">Món chính</option>
+                            <option value="Hoa quả">Hoa quả</option>
+                            <option value="Đồ uống">Đồ uống</option>
+                            <option value="Đồ ngọt">Đồ ngọt</option>
+                            <option value="Ăn nhanh">Đồ ăn nhanh</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr class="form-group">
+                    <td>
+                        <label for="name"><h2 style="color: white">Nhập Tên</h2></label>
+                    </td>
+                    <td>
+                        <input type="text" id="name" name="name" style="width: 200px;">
+                    </td>
+                </tr>
+
+                <tr class="form-group">
+                    <td>
+                        <label for="price"><h2 style="color: white">Nhập Giá</h2></label>
+                    </td>
+                    <td>
+                        <input type="text" id="price" name="Price" style="width: 200px;">
+                    </td>
+                </tr>
+
+                <tr class="form-group">
+                    <td>
+                        <label for="image"><h2 style="color: white">Nhập URL Ảnh</h2></label>
+                    </td>
+                    <td>
+                        <input type="text" id="image" name="Image" style="width: 200px;" oninput="updateImagePreview()">
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" style="width: auto">Thêm Món</button>
+        </form>
+
+<!--EndThemMon-->
+    </div>
+
+    <div class="col-6" style="text-align: center; width: 50%; align-items: center; justify-content: center;">
+        <a href="" class="glightbox">
+            <img id="imagePreview" src="" class="img-fluid" alt="">
+        </a>
+    </div>
+</div>
+
+<script>
+    // Hàm cập nhật URL ảnh khi người dùng nhập
+    function updateImagePreview() {
+        const imageUrl = document.getElementById("image").value;
+        const imagePreview = document.getElementById("imagePreview");
+
+        if (imageUrl) {
+            imagePreview.src = imageUrl;  // Cập nhật đường dẫn ảnh
+        } else {
+            imagePreview.src = "";  // Xóa ảnh nếu không có URL
+        }
+    }
+</script>
+
+                    
+                    
 <!--MenuTab-->
         <div id="MenuHead" class="container section-title" data-aos="fade-up" style="scroll-margin-top: 25vh; padding-bottom: unset">  
         <p><span class="description-title">Menu</span></p>
@@ -91,7 +182,6 @@
             <option value="Đồ ngọt">Đồ ngọt</option>
             <option value="Ăn nhanh">Đồ ăn nhanh</option>
         </select>
-
         <script>
             function filterByCategory() {
                 var selectedCategory = document.getElementById("categoryFilter").value;
