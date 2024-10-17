@@ -103,7 +103,7 @@
                                 <label for="categoryFilter"><h2 style="color: white" >Chọn Phân Loại</h2></label>
                             </td>
                             <td>
-                                <select id="categoryFilter" class="form-select" onchange="filterByCategory()" style="width: 200px;">
+                                <select id="categoryFilter" class="form-select" style="width: 200px;">
                                     <option value=""></option>
                                     <option value="Món chính">Món chính</option>
                                     <option value="Hoa quả">Hoa quả</option>
@@ -226,14 +226,34 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="card-body" id="MenuNameCate">
-                                    <a href="" class="text-reset">
-                                        <p><%= menuItem.getCategory() %></p>
-                                    </a>
-                                    <a href="" class="text-reset">
-                                        <h2 class="card-title mb-2"><%= menuItem.getName() %></h2>
-                                    </a>
-                                    <h1 class="mb-3 price"><%= menuItem.getPrice() %> VND</h1>
+
+
+                                <div style="padding: 3.5%">
+                                    <!--Update-->
+                                    <form action="action card-body" id="MenuNameCate" style="text-align: -webkit-center">
+
+                                        <select id="categoryFilter" class="form-select" style="; width: 100%;text-align: center">
+                                            <option value=""><%= menuItem.getCategory() %></option>
+                                            <option value="Món chính">Món chính</option>
+                                            <option value="Hoa quả">Hoa quả</option>
+                                            <option value="Đồ uống">Đồ uống</option>
+                                            <option value="Đồ ngọt">Đồ ngọt</option>
+                                            <option value="Ăn nhanh">Đồ ăn nhanh</option>
+                                        </select>
+
+                                        <h2><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getName() %>" name="name"/></h2>
+
+                                        <h1><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getPrice() %>" name="name"/></h1>
+                                        <input type="submit" class="btn btn-success" value="Lưu Thông Tin" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
+
+                                    </form>
+                                    <!--EndUpdate-->
+
+                                    <!--DeleteMenuItem-->
+                                    <form action="action">
+                                        <input type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
+                                    </form>
+                                    <!--DeleteMenuItem-->
                                 </div>
                             </div>
                         </div>

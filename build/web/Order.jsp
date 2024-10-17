@@ -7,8 +7,8 @@
 <%@ page import="Dao.MenuItemDao" %>
 <%@ page import="Entity.MenuItemJoinOrder" %>
 <%
-    Users user = (Users) session.getAttribute("user"); 
-boolean tableType = (boolean) session.getAttribute("tableTypes"); 
+    Users user = (Users) session.getAttribute("user");
+    boolean tableType = (boolean) session.getAttribute("tableTypes"); 
 %>
 <!DOCTYPE html>
 <html lang="en">
