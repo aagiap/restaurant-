@@ -11,6 +11,7 @@
 <html lang="en">
 
     <head>
+
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
 
         <meta charset="utf-8">
@@ -214,19 +215,18 @@
                                     <form action="UpdateItem" method="POST" id="MenuNameCate" style="text-align: -webkit-center">
 
                                         <select id="categoryFilter" name="category" class="form-select" style="; width: 100%;text-align: center">
-                                            <option value=""><%= menuItem.getCategory() %></option>
+                                            <option value="<%= menuItem.getCategory() %>"><%= menuItem.getCategory() %></option>
                                             <option value="Món chính">Món chính</option>
                                             <option value="Hoa quả">Hoa quả</option>
                                             <option value="Đồ uống">Đồ uống</option>
                                             <option value="Đồ ngọt">Đồ ngọt</option>
                                             <option value="Ăn nhanh">Đồ ăn nhanh</option>
                                         </select>
-
-                                        <h2><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getName() %>" name="name"/></h2>
+                                        <h2><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getName() %>" name="name" value="<%= menuItem.getName() %>"/></h2>
                                         <input type="hidden" name="itemId" value="<%= menuItem.getItemId() %>" />
 
-                                        <h1><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getPrice() %>" name="price"/></h1>
-                                        <input type="submit" class="btn btn-success" value="Lưu Thông Tin" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
+                                        <h1><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getPrice() %>" name="price" value="<%= menuItem.getPrice() %>"/></h1>
+                                        <input  type="submit" class="btn btn-success" value="Lưu Thông Tin" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
 
                                     </form>
                                     <!--EndUpdate-->
@@ -234,9 +234,11 @@
                                     <!--DeleteMenuItem-->
                                     <form action="DeleteItem" method="POST">
                                         <input type="hidden" name="itemId" value="<%= menuItem.getItemId() %>" />
-                                        <input type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
+                                        <input  type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
                                     </form>
                                     <!--DeleteMenuItem-->
+
+
                                 </div>
                             </div>
                         </div>
