@@ -145,7 +145,8 @@
                                     <td><%= table.getLocation() %></td>
                                     <td><%= table.getCondition().equals("blank") ? "Trống" : "Đầy" %></td>
                                     <td>
-                                        <form action="action">                                 
+                                        <form action="AdminUpdateTable" method="POST">    
+                                            <input type="hidden" name="tableId" value="<%= table.getTableId() %>" />
                                             <input type="submit" class="btn btn-success" value="Reset" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2;">
                                         </form>
                                     </td>

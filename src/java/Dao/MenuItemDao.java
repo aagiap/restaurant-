@@ -59,16 +59,19 @@ public List<MenuItems> getListMenuItems() throws SQLException {
 //        }
 //    }
 
-public void updateImg(String image, String name) throws SQLException {
-    String query = "UPDATE MenuItems SET image = ? WHERE name = ?";
+public void updateMenuItem(String category, double price, int itemId, String name) throws SQLException {
+    String query = "UPDATE MenuItems SET category = ?, price = ?, name = ? WHERE item_id = ?";
     try (PreparedStatement stmt = connection.prepareStatement(query)) {
-        stmt.setString(1, image); // Đặt image ở vị trí 1
-        stmt.setString(2, name);  // Đặt name ở vị trí 2
-        stmt.executeUpdate();
+        stmt.setString(1, category);  // Đặt category ở vị trí 1
+        stmt.setDouble(2, price);     // Đặt price ở vị trí 2
+        stmt.setString(3, name);      // Đặt name ở vị trí 3
+        stmt.setInt(4, itemId);       // Đặt item_id ở vị trí 4
+        stmt.executeUpdate();         // Thực thi câu lệnh cập nhật
     } catch (SQLException e) {
         e.printStackTrace(); // Ghi log hoặc in ra lỗi để biết có vấn đề
     }
 }
+
 
 
     // Hàm xóa món ăn (delete)
@@ -80,21 +83,17 @@ public void updateImg(String image, String name) throws SQLException {
         }
     }
 
-//
+
 //public static void main(String[] args) throws SQLException {
-//    MenuItemDao m = new MenuItemDao();
-//    List<MenuItems> l = m.getListMenuItems();
-//    
-//    for(int i = 0;i<l.size();i++){
-//        System.out.println(l.get(i).getImage());
+//    MenuItemDao mD = new MenuItemDao();
+//    MenuItems m = new MenuItems("test", "", 100000, "Món chính", "cc");
+//    mD.insertMenuItem(m);
+//            
+//            
 //    }
-//    
-//        String name = "Gà nướng";
-//            String newImage = "assets/img/NormalFoods/Món Chính/Ức GÀ Nướng.jpg";
-//
-//            // Thực hiện cập nhật ảnh
-//            m.updateImg(newImage, name);
-//
-//}
+    
+        
+
+
 
 }

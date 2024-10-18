@@ -17,13 +17,17 @@
         <h2>Reservation Details</h2>
 
         <% 
-          boolean checkTableType = (boolean) session.getAttribute("tableTypes");
-          int tableId = (int) session.getAttribute("tableId");
+        String category = request.getParameter("categoryFilter");
+        String name = request.getParameter("name");
+        String price = request.getParameter("price");
+        String imageUrl = request.getParameter("image");
   
         %>
 
-        <p>check tabke type: <%= checkTableType %></p>
-        <p> table id <%= tableId %></p>
+        <p>category: <%= category %></p>
+        <p> name <%= name %></p>
+        <p> price <%= price %></p>
+        <p> imageUrl <%= imageUrl %></p>
 
 
     </body>

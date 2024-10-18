@@ -93,17 +93,16 @@
         <div class="row" style="padding: 2%; margin: 2%; background-color: rgba(0, 0, 0, 0.7); border-radius: 20px;">
             <div class="col-6" style="text-align: center; width: 50%">
 
-
                 <!--themmon-->
 
-                <form action="action" style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px">
+                <form action="AddItems" method="POST" style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px">
                     <table style="text-align: left">
-                        <tr class="form-group">    
+                        <tr class="form-group">
                             <td>
-                                <label for="categoryFilter"><h2 style="color: white" >Chọn Phân Loại</h2></label>
+                                <label for="categoryFilter"><h2 style="color: white">Chọn Phân Loại</h2></label>
                             </td>
                             <td>
-                                <select id="categoryFilter" class="form-select" style="width: 200px;">
+                                <select id="categoryFilter" name="categoryFilter" class="form-select" style="width: 200px;">
                                     <option value=""></option>
                                     <option value="Món chính">Món chính</option>
                                     <option value="Hoa quả">Hoa quả</option>
@@ -113,36 +112,34 @@
                                 </select>
                             </td>
                         </tr>
-
                         <tr class="form-group">
                             <td>
                                 <label for="name"><h2 style="color: white">Nhập Tên</h2></label>
                             </td>
                             <td>
-                                <input type="text" id="name" name="name" style="width: 200px;">
+                                <input type="text" id="name" name="name" style="width: 200px;" required>
                             </td>
                         </tr>
-
                         <tr class="form-group">
                             <td>
                                 <label for="price"><h2 style="color: white">Nhập Giá</h2></label>
                             </td>
                             <td>
-                                <input type="text" id="price" name="Price" style="width: 200px;">
+                                <input type="text" id="price" name="price" style="width: 200px;" required>
                             </td>
                         </tr>
-
                         <tr class="form-group">
                             <td>
                                 <label for="image"><h2 style="color: white">Nhập URL Ảnh</h2></label>
                             </td>
                             <td>
-                                <input type="text" id="image" name="Image" style="width: 200px;" oninput="updateImagePreview()">
+                                <input type="text" id="image" name="image" style="width: 200px;" oninput="updateImagePreview()" required>
                             </td>
                         </tr>
                     </table>
                     <button type="submit" style="width: auto">Thêm Món</button>
                 </form>
+
 
                 <!--EndThemMon-->
             </div>
@@ -230,9 +227,9 @@
 
                                 <div style="padding: 3.5%">
                                     <!--Update-->
-                                    <form action="action card-body" id="MenuNameCate" style="text-align: -webkit-center">
+                                    <form action="UpdateItem" method="POST" id="MenuNameCate" style="text-align: -webkit-center">
 
-                                        <select id="categoryFilter" class="form-select" style="; width: 100%;text-align: center">
+                                        <select id="categoryFilter" name="category" class="form-select" style="; width: 100%;text-align: center">
                                             <option value=""><%= menuItem.getCategory() %></option>
                                             <option value="Món chính">Món chính</option>
                                             <option value="Hoa quả">Hoa quả</option>
@@ -242,15 +239,17 @@
                                         </select>
 
                                         <h2><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getName() %>" name="name"/></h2>
+                                        <input type="hidden" name="itemId" value="<%= menuItem.getItemId() %>" />
 
-                                        <h1><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getPrice() %>" name="name"/></h1>
+                                        <h1><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getPrice() %>" name="price"/></h1>
                                         <input type="submit" class="btn btn-success" value="Lưu Thông Tin" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
 
                                     </form>
                                     <!--EndUpdate-->
 
                                     <!--DeleteMenuItem-->
-                                    <form action="action">
+                                    <form action="DeleteItem" method="POST">
+                                        <input type="hidden" name="itemId" value="<%= menuItem.getItemId() %>" />
                                         <input type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
                                     </form>
                                     <!--DeleteMenuItem-->

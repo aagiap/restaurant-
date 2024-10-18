@@ -24,6 +24,13 @@ public class MenuItems {
         this.category = category;
         this.image = image;
     }
+    public MenuItems(String name, String description, double price, String category, String image) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.image = image;
+    }
 
     public MenuItems() {
     }
