@@ -104,23 +104,6 @@
             <option value="Đồ ngọt">Đồ ngọt</option>
             <option value="Ăn nhanh">Đồ ăn nhanh</option>
         </select>
-
-        <script>
-            function filterByCategory() {
-                var selectedCategory = document.getElementById("categoryFilter").value;
-                var menuItems = document.getElementsByClassName("menu-item");
-
-                for (var i = 0; i < menuItems.length; i++) {
-                    var category = menuItems[i].getAttribute("data-category");
-
-                    if (selectedCategory === "all" || category === selectedCategory) {
-                        menuItems[i].style.display = "block";
-                    } else {
-                        menuItems[i].style.display = "none";
-                    }
-                }
-            }
-        </script>
         <!--/MenuTab-->
         <!--MainMenu-->
         <main id="MainMenu" style="background: transparent">
@@ -168,23 +151,6 @@
                 </div>
             </section>
         </main>
-
-        <script>
-            function filterByCategory() {
-                var selectedCategory = document.getElementById("categoryFilter").value;
-                var menuItems = document.getElementsByClassName("menu-item");
-
-                for (var i = 0; i < menuItems.length; i++) {
-                    var category = menuItems[i].getAttribute("data-category");
-
-                    if (selectedCategory === "all" || category === selectedCategory) {
-                        menuItems[i].style.display = "block";
-                    } else {
-                        menuItems[i].style.display = "none";
-                    }
-                }
-            }
-        </script>
         <script>
             function filterByCategory() {
                 var selectedCategory = document.getElementById("categoryFilter").value;

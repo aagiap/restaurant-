@@ -99,10 +99,10 @@
                     <table style="text-align: left">
                         <tr class="form-group">
                             <td>
-                                <label for="categoryFilter"><h2 style="color: white">Chọn Phân Loại</h2></label>
+                                <label for="category"><h2 style="color: white">Chọn Phân Loại</h2></label>
                             </td>
                             <td>
-                                <select id="categoryFilter" name="categoryFilter" class="form-select" style="width: 200px;">
+                                <select id="category" name="categoryFilter" class="form-select" style="width: 200px;">
                                     <option value=""></option>
                                     <option value="Món chính">Món chính</option>
                                     <option value="Hoa quả">Hoa quả</option>
@@ -179,22 +179,6 @@
             <option value="Đồ ngọt">Đồ ngọt</option>
             <option value="Ăn nhanh">Đồ ăn nhanh</option>
         </select>
-        <script>
-            function filterByCategory() {
-                var selectedCategory = document.getElementById("categoryFilter").value;
-                var menuItems = document.getElementsByClassName("menu-item");
-
-                for (var i = 0; i < menuItems.length; i++) {
-                    var category = menuItems[i].getAttribute("data-category");
-
-                    if (selectedCategory === "all" || category === selectedCategory) {
-                        menuItems[i].style.display = "block";
-                    } else {
-                        menuItems[i].style.display = "none";
-                    }
-                }
-            }
-        </script>
         <!--/MenuTab-->
         <!--MainMenu-->
         <main id="MainMenu" style="background: transparent">
@@ -264,23 +248,6 @@
                 </div>
             </section>
         </main>
-
-        <script>
-            function filterByCategory() {
-                var selectedCategory = document.getElementById("categoryFilter").value;
-                var menuItems = document.getElementsByClassName("menu-item");
-
-                for (var i = 0; i < menuItems.length; i++) {
-                    var category = menuItems[i].getAttribute("data-category");
-
-                    if (selectedCategory === "all" || category === selectedCategory) {
-                        menuItems[i].style.display = "block";
-                    } else {
-                        menuItems[i].style.display = "none";
-                    }
-                }
-            }
-        </script>
         <script>
             function filterByCategory() {
                 var selectedCategory = document.getElementById("categoryFilter").value;
