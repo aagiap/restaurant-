@@ -96,7 +96,7 @@ public class OrderDAO extends MyDAO{
     List<MenuItemJoinOrder> orderList = new ArrayList<>();
     String xSql = "SELECT o.order_id, o.user_id, o.status, o.quantity, o.price, " +
                   "m.item_id, m.name, m.category, m.image " +
-                  "FROM Orders o JOIN MenuItems m ON o.item_id = m.item_id WHERE o.user_id = ?"; 
+                  "FROM Orders o JOIN MenuItems m ON o.item_id = m.item_id WHERE o.user_id = ? and CAST(order_date AS DATE) = CAST(DATEADD(DAY, 1, GETDATE()) AS DATE)"; 
 
     try {
         ps = con.prepareStatement(xSql); 
@@ -133,11 +133,14 @@ public class OrderDAO extends MyDAO{
 
     public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
-        List<MenuItemJoinOrder> l = o.getOrderListByUserId(1);
+        
+        List<MenuItemJoinOrder> l = o.getOrderListByUserId(12);
         if(l.isEmpty()){
             System.out.println("null");
         }else{
-              System.out.println(l.get(0).toString());
+              for(MenuItemJoinOrder m : l){
+                  System.out.println(m.toString());
+              }
         }
       
     }

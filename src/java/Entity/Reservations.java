@@ -73,5 +73,10 @@ public class Reservations {
     public void setTableId(int tableId) {
         this.tableId = tableId;
     }
+
+    @Override
+    public String toString() {
+        return "Reservations{" + "reservationId=" + reservationId + ", userId=" + userId + ", reservationDate=" + reservationDate + ", numberOfPeople=" + numberOfPeople + ", status=" + status + ", tableId=" + tableId + '}';
+    }
     
 }

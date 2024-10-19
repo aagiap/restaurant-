@@ -5,9 +5,8 @@
 <%@ page import="Entity.MenuItems" %>
 <%@ page import="Entity.Tables" %>
 <%@ page import="Dao.TablesDAO" %>
-<%@ page import="Dao.ReviewDAO" %>
-<%@ page import="Dao.ReservationDAO" %>
-
+<%@ page import="Entity.OrderInfo" %>
+<%@ page import="Dao.OrderInforDAO" %>
 <%
     Users user = (Users) session.getAttribute("user");
     List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
@@ -15,11 +14,7 @@
        TablesDAO tablesDAO = new TablesDAO();
        List<Tables> a = tablesDAO.getListTables();
        
-        Boolean check = (Boolean) request.getAttribute("check");
-        
-ReservationDAO r = new ReservationDAO();
-boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
-
+List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,142 +93,142 @@ boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
                 </a>
                 <nav id="navmenu" class="navmenu">
                     <ul>
-                        <li><a href="Home.jsp">Trang Chủ</a></li>
-                        <li><a href="Reservation.jsp">Đặt bàn</a></li>          
+                        <li><a href="AdminHome.jsp">Trang Chủ</a></li>
+                        <li><a href="#">Thông tin đặt bàn</a></li>          
                         <li><a href="menu">Menu</a></li>
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
                 <div class="user-menu">
-                    <a href="tabled.jsp" class="btn-getstarted"><%= user.getUserName() %></a>
+                    <a href="#" class="btn-getstarted"><%= user.getUserName() %></a>
                     <a class="btn-logout" href="index.html">Đăng xuất</a>
                 </div>
             </div>
         </header>
 
-        <section id="hero" class="hero section light-background">
-            <div class="container">
-                <div class="row gy-4 justify-content-center justify-content-lg-between">
-                    <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                        <!--<img src="assets/img/gallery/gallery-1.jpg" class="img-fluid animated" alt="Bàn Thường" title="Bàn Thường">-->
-                        <a style="margin: 0% auto" href="assets/img/gallery/gallery-1.jpg" class="glightbox"><img src="assets/img/gallery/gallery-1.jpg" class="menu-img img-fluid" alt="Bàn Thường" title="Bàn Thường"></a>
-                        <h2 style="text-align: center">Bàn Thường</h2>
-                    </div>
+                    <div class="row">
+                        
+        <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+            <div class="form-container" >
+                <h2 style="color: white ">Đặt Bàn</h2>
 
-
-                    <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                        <!--<img src="assets/img/gallery/gallery-3.jpg" class="img-fluid animated" alt="Bàn VIP" title="Bàn VIP">-->
-                        <a style="margin: 0% auto" href="assets/img/gallery/gallery-3.jpg" class="glightbox"><img src="assets/img/gallery/gallery-3.jpg" class="menu-img img-fluid" alt="Bàn VIP" title="Bàn VIP"></a>
-                        <h2 style="text-align: center">Bàn VIP</h2>
-                    </div>       
+                <!--Displaying Tomorrow's Date -->
+                <div id="reservation-date-display">
+                    <strong>Ngày Đặt:</strong> 
+                    <span id="reservation-date"> </span>
                 </div>
-                <!--</div>-->
+
+                <form action="tableInfo" method="POST">
+                    <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
 
 
-                <!--<div class="container">-->
-                <div class="row gy-4 justify-content-center justify-content-lg-between">
-                    <!-- Form to input user reservation details -->
-                    <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                        <h3 style="text-align: center">Danh Sách Bàn Ăn</h3>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="col-4" scope="col">Bàn Số</th>
-                                    <th class="col-4" scope="col">Loại</th>
-                                    <th class="col-4" scope="col">Tình Trạng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% 
-                                    for (Tables table : a) { 
-                                %>
-                                <tr>
-                                    <td><%= table.getTableNumber() %></td>
-                                    <td><%= table.getLocation() %></td>
-                                    <td><%= table.getCondition().equals("blank") ? "Trống" : "Đầy" %></td>
-                                </tr>
-                                <% 
-                                    } 
-                                %>
-                            </tbody>
-                        </table>
-                    </div>
+                    <!-- Table selection dropdown -->
+                    <label for="tableId">Chọn bàn:</label>
+                    <select name="tableId" id="tableId">
+                        <% 
+                            for (Tables table : a) { 
+                                if (table.getCondition().equals("full")) { // Show only available tables
+                        %>
+                        <option value="<%= table.getTableNumber() + ',' + table.getLocation() %>">
+                            <%= table.getTableNumber() %> - <%= table.getLocation() %>
+                        </option>
+                        <% 
+                                }
+                            } 
+                        %>
+                    </select>
 
-                    <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                        <div class="form-container">
-                            <h2 style="color: white">Đặt Bàn</h2>
+                    <!--                                 Submit Button -->
+                    <button type="submit">Tra cứu thông tin bàn ăn</button>
+                </form>
 
-                            <!-- Displaying Tomorrow's Date -->
-                            <div id="reservation-date-display">
-                                <strong>Ngày Đặt:</strong>
-                                <span id="reservation-date"> </span>
-                            </div>
+            </div> 
+        </div>            
+                    
+                    
+            <div class="form-container">
+                <h2 style="color: white ">Đặt Bàn</h2>
 
-                            <% 
-                                // Check if the user has already made a reservation for today
-            
-                                if (checkReservationToday) {
-                            %>
-                            <div class="alert alert-info">
-                                Bạn đã đặt bàn rồi, hãy xem thông tin ở dưới đây:
-                                <a href="tabled.jsp">Xem Thông Tin Đặt Bàn</a> <!-- Link to reservation details -->
-                            </div>
-                            <% 
-                                } else { 
-                            %>
-                            <form action="reservate" method="POST">
-                                <input type="hidden" name="userId" value="<%= user.getUsersId() %>" />
+                <!--Displaying Tomorrow's Date -->
+                <div id="reservation-date-display">
+                    <strong>Ngày Đặt:</strong> 
+                    <span id="reservation-date"></span>
+                </div>
 
-                                <!-- Table selection dropdown -->
-                                <label for="tableId">Chọn bàn:</label>
-                                <select name="tableId" id="tableId">
-                                    <% 
-                                        for (Tables table : a) { 
-                                            if (table.getCondition().equals("blank")) { // Show only available tables
-                                    %>
-                                    <option value="<%= table.getTableId() %>">
-                                        Bàn số <%= table.getTableNumber() %> - <%= table.getLocation() %>
-                                    </option>
-                                    <% 
-                                            }
-                                        } 
-                                    %>
-                                </select>
+                <%
+// Kiểm tra danh sách lO xem có dữ liệu cho ngày mai không
+if (lO != null && lO.isEmpty()) {
+                %>
+                <!-- Trường hợp không có đơn hàng nào cho ngày mai -->
+                <input type="text" name="noOrder" value="No order tomorrow" readonly/>
+                <%
+                    } else if (lO != null && !lO.isEmpty()) {
+                        OrderInfo firstOrder = lO.get(0); // Lấy thông tin đơn hàng đầu tiên
+                %>
+                <!-- Trường hợp có đơn hàng, hiển thị thông tin đơn hàng đầu tiên -->
+                <p>Tên người đặt:</p>
+                <input type="text" name="userName" value="<%= firstOrder.getUsername() %>" readonly/>
+                <p>Số người:</p>
+                <input type="text" name="numberPeople" value="<%= firstOrder.getNumberOfPeople() %>" readonly/>
+                <p>Bàn:</p>
+                <input type="text" name="table" value="<%= firstOrder.getTableNumber() %> - <%= firstOrder.getLocation() %>" readonly/>
 
-                                <!-- Number of People -->
-                                <label for="people">Số Người:</label>
-                                <input type="number" id="people" name="number-of-people" min="1" required>
+                <!-- Bảng hiển thị các món ăn và số lượng -->
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-4" scope="col">Món ăn</th>
+                            <th class="col-4" scope="col">Số lượng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                            // Hiển thị danh sách các món ăn và số lượng trong đơn hàng
+                            for (OrderInfo order : lO) {
+                        %>
+                        <tr>
+                            <td><%= order.getItemName() %></td>
+                            <td><%= order.getQuantity() %></td>
+                        </tr>
+                        <%
+                            } // Kết thúc vòng lặp
+                        %>
+                    </tbody>
+                </table>
+                <%
+                    } // Kết thúc khối else if
+                %>
 
-                                <!-- Submit Button -->
-                                <button type="submit">Đặt Bàn</button>
-                            </form>
-                            <% 
-                                } 
-                            %>
 
-                            <script>
-                                // Set default date to tomorrow and display it below the heading
-                                window.onload = function () {
-                                    var dateDisplay = document.getElementById("reservation-date");
-                                    var today = new Date();
-                                    var tomorrow = new Date();
-                                    tomorrow.setDate(today.getDate() + 1);  // Set tomorrow's date
 
-                                    // Format date as YYYY-MM-DD
-                                    var year = tomorrow.getFullYear();
-                                    var month = ('0' + (tomorrow.getMonth() + 1)).slice(-2);
-                                    var day = ('0' + tomorrow.getDate()).slice(-2);
 
-                                    // Assign value to the hidden field and display the date under the heading if needed
-                                    dateDisplay.innerHTML = year + '-' + month + '-' + day; // Set value for the hidden field
-                                };
-                            </script>
-                        </div>
-                    </div>
 
-                </div>                  
+                <script>
+
+                    // Set default date to tomorrow and display it below the heading
+                    window.onload = function () {
+                        var dateDisplay = document.getElementById("reservation-date");
+                        var today = new Date();
+                        var tomorrow = new Date();
+                        tomorrow.setDate(today.getDate() + 1);  // Set tomorrow's date
+
+                        // Định dạng ngày theo kiểu YYYY-MM-DD
+                        var year = tomorrow.getFullYear();
+                        var month = ('0' + (tomorrow.getMonth() + 1)).slice(-2);
+                        var day = ('0' + tomorrow.getDate()).slice(-2);
+
+                        // Gán giá trị cho trường ẩn và hiển thị ngày dưới tiêu đề nếu cần
+                        dateDisplay.innerHTML = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
+                    };
+
+                </script>
+
             </div>
-        </section>
+
+                    </div>
+                          
+
+
 
         <footer id="footer" class="footer dark-background">
 
@@ -289,7 +284,10 @@ boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
 
 
 
-
+            <%
+                // Lấy giá trị boolean từ request
+                Boolean check = (Boolean) request.getAttribute("check");
+            %>
 
 
             <script>

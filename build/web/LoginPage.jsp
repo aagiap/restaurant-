@@ -28,8 +28,8 @@
             <div class="form-container sign-in-container">
                 <form action="login" method="post">
                     <h1>Đăng nhập</h1>
-                    <input type="text" placeholder="Email" name="email" value="admin"/>
-                    <input type="password" placeholder="Mật khẩu" name="password" value="admin"/>
+                    <input type="text" placeholder="Email" name="email" value=""/>
+                    <input type="password" placeholder="Mật khẩu" name="password" value=""/>
 
                     <% if (errorMessage != null) { %>
                     <p style="color: red;"><%= errorMessage %></p>

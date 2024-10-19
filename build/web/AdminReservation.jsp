@@ -168,32 +168,28 @@
                                 <span id="reservation-date"> </span>
                             </div>
 
-                            <form action="reservate" method="POST">
+                            <form action="tableInfo" method="POST">
                                 <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
 
 
                                 <!-- Table selection dropdown -->
                                 <label for="tableId">Chọn bàn:</label>
-                                <select name="tableId" id="tableId">
+                                <select name="tableInfo" id="tableId">
                                     <% 
                                         for (Tables table : a) { 
-                                            if (table.getCondition().equals("blank")) { // Show only available tables
+                                            if (table.getCondition().equals("full")) { // Show only available tables
                                     %>
-                                    <option value="<%= table.getTableId() %>">
-                                        Bàn số <%= table.getTableNumber() %> - <%= table.getLocation() %>
+                                    <option value="<%= table.getTableNumber() +","+ table.getLocation() %>">
+                                        <%= table.getTableNumber() %> - <%= table.getLocation() %>
                                     </option>
                                     <% 
                                             }
                                         } 
                                     %>
                                 </select>
-
-                                <!--Number of People -->
-                                <label for="people">Số Người:</label>
-                                <input type="number" id="people" name="number-of-people" min="1" required>
-
+  
                                 <!--                                 Submit Button -->
-                                <button type="submit">Đặt Bàn</button>
+                                <button type="submit">Tra cứu thông tin bàn ăn</button>
                             </form>
 
                             <script>

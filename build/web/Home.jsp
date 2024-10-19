@@ -1,8 +1,26 @@
 
 <%@ page import="Entity.Users"%>
 <%@ page import="Entity.MenuItems" %>
+<%@ page import="Entity.Review" %>
+<%@ page import="Dao.ReviewDAO" %>
+<%@ page import="java.util.List" %>
 <%
     Users user = (Users) session.getAttribute("user");
+    
+    ReviewDAO re = new ReviewDAO();
+    List<Review> reviews = re.getReview();
+    boolean checkReview = re.checkReview(user.getUsersId());
+    boolean checkReviewExist = re.checkReviewExist(user.getUsersId());
+
+// Tính trung bình rating
+    double avgRating = 0;
+    if (!reviews.isEmpty()) {
+        int totalRating = 0;
+        for (Review review : reviews) {
+            totalRating += review.getRating();
+        }
+        avgRating = (double) totalRating / reviews.size();
+    }
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -104,6 +122,70 @@
 
 
             </section><!-- /Starter Section Section -->
+
+            <!-- Reviews Section -->
+            <section id="reviews" class="section light-background">
+                <div class="container">
+                    <h2>Đánh giá</h2>
+
+                    <!-- 1. Danh sách đánh giá và tính trung bình rating -->
+                    <%
+                        if (reviews.isEmpty()) {
+                    %>
+                    <p>Không có đánh giá nào.</p>
+                    <%
+                        } else {
+                    %>
+                    <h4>Trung bình đánh giá: <%= String.format("%.2f", avgRating) %></h4>
+                    <ul class="list-group">
+                        <%
+                            for (Review review : reviews) {
+                        %>
+                        <li class="list-group-item">
+                            <strong>Người dùng:</strong> <%= review.getUserId() %><br>
+                            <strong>Đánh giá:</strong> <%= review.getRating() %><br>
+                            <strong>Bình luận:</strong> <%= review.getComment() %><br>
+                            <strong>Ngày đánh giá:</strong> <%= review.getReviewDate() %>
+                        </li>
+                        <%
+                            }
+                        %>
+                    </ul>
+                    <%
+                        }
+                    %>
+
+                    <!-- 2. Form review -->
+                    <%
+                        if (checkReview && !checkReviewExist) {
+                    %>
+                    <h3>Đánh giá của bạn</h3>
+                    <form action="ReviewServlet" method="POST">
+                        <div class="form-group">
+                            <label for="rating">Đánh giá (1-5):</label>
+                            <input type="number" id="rating" name="rating" min="1" max="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Bình luận:</label>
+                            <textarea id="comment" name="comment" rows="4" cols="50" required></textarea>
+                        </div>
+                        <input type="hidden" name="userId" value="<%= user.getUsersId() %>">
+                        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                    </form>
+                    <%
+                        } else if (!checkReview) {
+                    %>
+                    <p>Chưa đủ điều kiện để đánh giá.</p>
+                    <%
+                        } else if (checkReviewExist) {
+                    %>
+                    <p>Bạn đã đánh giá rồi.</p>
+                    <%
+                        }
+                    %>
+                </div>
+            </section>
+
 
         </main>
 

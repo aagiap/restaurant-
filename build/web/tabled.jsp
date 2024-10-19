@@ -16,13 +16,18 @@
 
 <%
     Users user = (Users) session.getAttribute("user");
-    Reservations reservation = (Reservations) session.getAttribute("reservation");
-    List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
+    
+    ReservationDAO r = new ReservationDAO();
+
+    Reservations reservation = r.getReservationByUserId(user.getUsersId());;
+    
+    //List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
     
        TablesDAO tablesDAO = new TablesDAO();
        List<Tables> a = tablesDAO.getListTables();
        
-       Boolean tableType = (Boolean) session.getAttribute("tableTypes");
+//true là bàn thường, false là ban vip
+       Boolean tableType = r.checkTableYpype(user.getUsersId(),reservation.getTableId() );
 %>
 <style>
     body{
@@ -170,7 +175,8 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
                             OrderDAO o = new OrderDAO();   
                             double totalAmount = 0;
                             List<MenuItemJoinOrder> orderedItems = o.getOrderListByUserId(user.getUsersId());
-                            if (tableType != null && orderedItems != null && !orderedItems.isEmpty()) {
+//                            if (tableType != null && orderedItems != null && !orderedItems.isEmpty()) {
+                              if (orderedItems != null && !orderedItems.isEmpty()) {
                                 for (MenuItemJoinOrder orderDetail : orderedItems) {
                                 totalAmount += orderDetail.getPrice() * orderDetail.getQuantity(); 
                         %>
@@ -186,6 +192,8 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
                             <td colspan="2" class="text-right"><strong>Tổng số tiền:</strong></td>
                             <td><%= totalAmount %> VND</td>
                         </tr>
+                        
+                        
                         <%
                             } else {
                         %>

@@ -5,6 +5,8 @@
 <%@ page import="Entity.MenuItems" %>
 <%@ page import="Entity.Tables" %>
 <%@ page import="Dao.TablesDAO" %>
+<%@ page import="Dao.ReviewDAO" %>
+<%@ page import="Dao.ReservationDAO" %>
 
 <%
     Users user = (Users) session.getAttribute("user");
@@ -14,6 +16,10 @@
        List<Tables> a = tablesDAO.getListTables();
        
         Boolean check = (Boolean) request.getAttribute("check");
+        
+ReservationDAO r = new ReservationDAO();
+boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -154,18 +160,29 @@
                     </div>
 
                     <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                        <div class="form-container" >
-                            <h2 style="color: white ">Đặt Bàn</h2>
+                        <div class="form-container">
+                            <h2 style="color: white">Đặt Bàn</h2>
 
-                            <!--Displaying Tomorrow's Date -->
+                            <!-- Displaying Tomorrow's Date -->
                             <div id="reservation-date-display">
-                                <strong>Ngày Đặt:</strong> 
+                                <strong>Ngày Đặt:</strong>
                                 <span id="reservation-date"> </span>
                             </div>
 
+                            <% 
+                                // Check if the user has already made a reservation for today
+            
+                                if (checkReservationToday) {
+                            %>
+                            <div class="alert alert-info">
+                                Bạn đã đặt bàn rồi, hãy xem thông tin ở dưới đây:
+                                <a href="tabled.jsp">Xem Thông Tin Đặt Bàn</a> <!-- Link to reservation details -->
+                            </div>
+                            <% 
+                                } else { 
+                            %>
                             <form action="reservate" method="POST">
-                                <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
-
+                                <input type="hidden" name="userId" value="<%= user.getUsersId() %>" />
 
                                 <!-- Table selection dropdown -->
                                 <label for="tableId">Chọn bàn:</label>
@@ -183,16 +200,18 @@
                                     %>
                                 </select>
 
-                                <!--Number of People -->
+                                <!-- Number of People -->
                                 <label for="people">Số Người:</label>
                                 <input type="number" id="people" name="number-of-people" min="1" required>
 
-                                <!--                                 Submit Button -->
+                                <!-- Submit Button -->
                                 <button type="submit">Đặt Bàn</button>
                             </form>
+                            <% 
+                                } 
+                            %>
 
                             <script>
-
                                 // Set default date to tomorrow and display it below the heading
                                 window.onload = function () {
                                     var dateDisplay = document.getElementById("reservation-date");
@@ -200,19 +219,18 @@
                                     var tomorrow = new Date();
                                     tomorrow.setDate(today.getDate() + 1);  // Set tomorrow's date
 
-                                    // Định dạng ngày theo kiểu YYYY-MM-DD
+                                    // Format date as YYYY-MM-DD
                                     var year = tomorrow.getFullYear();
                                     var month = ('0' + (tomorrow.getMonth() + 1)).slice(-2);
                                     var day = ('0' + tomorrow.getDate()).slice(-2);
 
-                                    // Gán giá trị cho trường ẩn và hiển thị ngày dưới tiêu đề nếu cần
-                                    dateDisplay.innerHTML = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
+                                    // Assign value to the hidden field and display the date under the heading if needed
+                                    dateDisplay.innerHTML = year + '-' + month + '-' + day; // Set value for the hidden field
                                 };
-
                             </script>
-
                         </div>
                     </div>
+
                 </div>                  
             </div>
         </section>
