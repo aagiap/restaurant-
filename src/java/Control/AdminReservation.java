@@ -17,6 +17,7 @@ import Entity.MenuItems;
 import Dao.TablesDAO;
 import Entity.OrderInfo;
 import Entity.Tables;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -68,6 +69,10 @@ public class AdminReservation extends HttpServlet {
         String location = info[1];
         OrderInforDAO oD = new OrderInforDAO();
         List<OrderInfo> lO = oD.getListOrderInfoForTomorrow(tableNumber, location);
+//        HttpSession session = request.getSession();
+//session.setAttribute("lO", lO);
+//response.sendRedirect("AdminReservation_1.jsp");
+
         request.setAttribute("lO", lO);
         request.getRequestDispatcher("AdminReservation_1.jsp").forward(request, response);
 

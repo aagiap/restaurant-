@@ -1,8 +1,23 @@
 
 <%@ page import="Entity.Users"%>
 <%@ page import="Entity.MenuItems" %>
+<%@ page import="java.util.List" %>
+<%@ page import="Entity.DiscountItem" %>
+<%@ page import="Dao.DiscountItemDAO" %>
 <%
     Users user = (Users) session.getAttribute("user");
+    
+    DiscountItemDAO dD = new DiscountItemDAO();
+    
+    String msg = (String) request.getAttribute("msg");
+    if (msg == null) {
+    msg="";
+    }
+    
+List<DiscountItem> lD = dD.getDiscountItems();//danh sách mã giảm
+boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có mã nào apply chưa
+
+
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -109,78 +124,53 @@
 
         <!--Discount-->
 
-<div class="row" style="padding: 2%; margin: 2%; background-color: rgba(0, 0, 0, 0.7); border-radius: 20px">
-    <div class="col-6">
-        <form action="action">
-            <table>
-                <tr>
-                    <td>
-                        <label for="Code"><h2 style="color: white">Mã</h2></label>
-                    </td>
-                    <td>
-                        <input type="text" id="Code" style="width: 100%;" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="value"><h2 style="color: white">giá trị</h2></label>
-                    </td>
-                    <td>
-                        <input type="text" id="value" style="width: 100%;" required oninput="updateVoucher()">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="Description"><h2 style="color: white">Mô Tả</h2></label>
-                    </td>
-                    <td>
-                        <input type="text" id="Description" style="width: 100%;" required oninput="updateVoucher()">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="Date"><h2 style="color: white">Thời Gian</h2></label>
-                    </td>
-                    <td style="display: flex;">
-                        <input class="col-6" type="text" id="Date" style="width: 50%; margin-right: 0; border-right: none;" required oninput="updateVoucher()">
-                        <input class="col-6" type="text" id="Date1" style="width: 50%; margin-left: 0;" required oninput="updateVoucher()">  
-                    </td>
-                </tr>
-            </table>
-            <button type="submit" style="width: auto">Tạo</button>
-        </form>
-    </div>
-    
-    <div class="col-6">
-        <div style="position: relative;  width: 100%; height: auto;">
-            <div>
-                <img src="assets/img/voucher.png" alt="alt" style="width: 100%; height: auto;"/>
+        <div class="row" style="padding: 2%; margin: 2%; background-color: rgba(0, 0, 0, 0.7); border-radius: 20px">
+            <div class="col-6">
+                <form action="CreateDiscount" method="POST">
+                    <table>           
+                        <tr>
+                            <td>
+                                <label for="value"><h2 style="color: white">giá trị</h2></label>
+                            </td>
+                            <td>
+                                <input type="text" name="discountPercent" value="" style="width: 100%;" required oninput="updateVoucher()">
+                            </td>
+                        </tr>       
+                    </table>
+                    <button type="submit" style="width: auto">Tạo</button>
+                </form>
             </div>
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white;">
-                <p>Giao Thoa</p>
-                <h2>VOUCHER</h2>
-                <h1 id="displayCode" style="color: red">%</h1>
-                <p id="displayDescription">Mô tả</p>
-                <h5 id="displayDate">Thời Gian</h5>
+
+            <div class="col-6">
+                <div style="position: relative;  width: 100%; height: auto;">
+                    <div>
+                        <img src="assets/img/voucher.png" alt="alt" style="width: 100%; height: auto;"/>
+                    </div>
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white;">
+                        <p>Giao Thoa</p>
+                        <h2>VOUCHER</h2>
+                        <h1 id="displayCode" style="color: red">%</h1>
+                        <p id="displayDescription">Mô tả</p>
+                        <h5 id="displayDate">Thời Gian</h5>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<script>
-    function updateVoucher() {
-        // Lấy giá trị từ input
-        var code = document.getElementById('value').value;
-        var description = document.getElementById('Description').value;
-        var date = document.getElementById('Date').value;
-        var date1 = document.getElementById('Date1').value;
+        <script>
+            function updateVoucher() {
+                // Lấy giá trị từ input
+                var code = document.getElementById('value').value;
+                var description = document.getElementById('Description').value;
+                var date = document.getElementById('Date').value;
+                var date1 = document.getElementById('Date1').value;
 
-        // Cập nhật các giá trị tương ứng trên voucher
-        document.getElementById('displayCode').textContent = code ? code : '%';
-        document.getElementById('displayDescription').textContent = description ? description : 'Mô tả';
-        document.getElementById('displayDate').textContent = (date && date1) ? date + ' - ' + date1 : 'Thời Gian';
-    }
-</script>
+                // Cập nhật các giá trị tương ứng trên voucher
+                document.getElementById('displayCode').textContent = code ? code : '%';
+                document.getElementById('displayDescription').textContent = description ? description : 'Mô tả';
+                document.getElementById('displayDate').textContent = (date && date1) ? date + ' - ' + date1 : 'Thời Gian';
+            }
+        </script>
 
 
         <!--EndDiscount-->
@@ -193,20 +183,65 @@
             <!-- End About Title -->
         </section>
 
-        <div class="col-6" style="padding: 10%">
+        <!--        <div class="col-6" style="padding: 10%">
+        
+                    <div style="position: relative;  width: 100%; height: auto;">
+                        <div>
+                            <img src="assets/img/voucher.png" alt="alt" style="width: 100%; height: auto;"/>
+                        </div>
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white;">
+                            <p>Giao Thoa</p>
+                            <h2>VOUCHER</h2>
+                            <h1 style="color: red">%</h1>
+                            <p>text</p>
+                            <h5>Hiệu Lực</h5>
+                        </div>
+                    </div>
+                </div>-->
 
-            <div style="position: relative;  width: 100%; height: auto;">
-                <div>
-                    <img src="assets/img/voucher.png" alt="alt" style="width: 100%; height: auto;"/>
-                </div>
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white;">
-                    <p>Giao Thoa</p>
-                    <h2>VOUCHER</h2>
-                    <h1 style="color: red">%</h1>
-                    <p>text</p>
-                    <h5>Hiệu Lực</h5>
-                </div>
-            </div>
+        <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+            <h3 style="text-align: center">Danh Sách Bàn Ăn</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="col-6" scope="col">Khuyến mãi</th>
+                        <th class="col-6" scope="col">Giá trị(%)</th>
+                        <th class="col-6" scope="col">Trạng thái</th>
+                        <th class="col-6" scope="col"></th>
+                        <th class="col-6" scope="col"></th>
+                        <th class="col-6" scope="col"><%=msg%></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% 
+                        for (DiscountItem d : lD) { 
+                    %>
+                    <tr>
+                        <td><%= d.getDiscountId() %></td>
+                        <td><%= d.getDiscountPercent()  %></td>
+                        <td><%= d.getCondition()  %></td>
+                        <td>
+                            <form action="RemoveDiscount" method="POST">    
+                                <input type="hidden" name="discountId" value="<%= d.getDiscountId() %>" />
+                                <input type="hidden" name="discountPercent" value="<%= d.getDiscountPercent() %>" />
+                                <input type="hidden" name="condition" value="<%= d.getCondition() %>" />
+                                <input type="submit" class="btn btn-success" value="Đặt lại" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2;">
+                            </form>
+                        </td>
+                        <td>
+                            <form action="ApplyDiscount" method="POST">    
+                                <input type="hidden" name="discountId" value="<%= d.getDiscountId() %>" />
+                                <input type="hidden" name="discountPercent" value="<%= d.getDiscountPercent() %>" />
+                                <input type="hidden" name="condition" value="<%= d.getCondition() %>" />
+                                <input type="submit" class="btn btn-success" value="Áp dụng" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2;">
+                            </form>
+                        </td>
+                    </tr>
+                    <% 
+                        } 
+                    %>
+                </tbody>
+            </table>
         </div>
 
         <!--FooterTag-->

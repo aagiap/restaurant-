@@ -15,6 +15,7 @@
        List<Tables> a = tablesDAO.getListTables();
        
 List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
+//List<OrderInfo> lO = (List<OrderInfo>) session.getAttribute("lO");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,46 +107,46 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
             </div>
         </header>
 
-                    <div class="row">
-                        
-        <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-            <div class="form-container" >
-                <h2 style="color: white ">Đặt Bàn</h2>
+        <div class="row">
 
-                <!--Displaying Tomorrow's Date -->
-                <div id="reservation-date-display">
-                    <strong>Ngày Đặt:</strong> 
-                    <span id="reservation-date"> </span>
-                </div>
+            <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <div class="form-container" >
+                    <h2 style="color: white ">Đặt Bàn</h2>
 
-                <form action="tableInfo" method="POST">
-                    <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
+                    <!--Displaying Tomorrow's Date -->
+                    <div id="reservation-date-display">
+                        <strong>Ngày Đặt:</strong> 
+                        <span id="reservation-date"> </span>
+                    </div>
+
+                    <form action="tableInfo" method="POST">
+                        <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
 
 
-                    <!-- Table selection dropdown -->
-                    <label for="tableId">Chọn bàn:</label>
-                    <select name="tableId" id="tableId">
-                        <% 
-                            for (Tables table : a) { 
-                                if (table.getCondition().equals("full")) { // Show only available tables
-                        %>
-                        <option value="<%= table.getTableNumber() + ',' + table.getLocation() %>">
-                            <%= table.getTableNumber() %> - <%= table.getLocation() %>
-                        </option>
-                        <% 
-                                }
-                            } 
-                        %>
-                    </select>
+                        <!-- Table selection dropdown -->
+                        <label for="tableId">Chọn bàn:</label>
+                        <select name="tableInfo" id="tableInfo">
+                            <% 
+                                for (Tables table : a) { 
+                                    if (table.getCondition().equals("full")) { // Show only available tables
+                            %>
+                            <option value="<%= table.getTableNumber() + "," + table.getLocation() %>">
+                                <%= table.getTableNumber() %> - <%= table.getLocation() %>
+                            </option>
+                            <% 
+                                    }
+                                } 
+                            %>
+                        </select>
 
-                    <!--                                 Submit Button -->
-                    <button type="submit">Tra cứu thông tin bàn ăn</button>
-                </form>
+                        <!--                                 Submit Button -->
+                        <button type="submit">Tra cứu thông tin bàn ăn</button>
+                    </form>
 
-            </div> 
-        </div>            
-                    
-                    
+                </div> 
+            </div>            
+
+
             <div class="form-container">
                 <h2 style="color: white ">Đặt Bàn</h2>
 
@@ -225,8 +226,8 @@ if (lO != null && lO.isEmpty()) {
 
             </div>
 
-                    </div>
-                          
+        </div>
+
 
 
 

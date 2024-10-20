@@ -72,6 +72,17 @@ public void updateMenuItem(String category, double price, int itemId, String nam
     }
 }
 
+public void updatePrice(double price, int itemId) throws SQLException {
+    String query = "UPDATE MenuItems SET price = ? WHERE item_id = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setDouble(1, price);     // Đặt price ở vị trí 2
+        stmt.setInt(2, itemId);       // Đặt item_id ở vị trí 4
+        stmt.executeUpdate();         // Thực thi câu lệnh cập nhật
+    } catch (SQLException e) {
+        e.printStackTrace(); // Ghi log hoặc in ra lỗi để biết có vấn đề
+    }
+}
+
 
 
     // Hàm xóa món ăn (delete)
