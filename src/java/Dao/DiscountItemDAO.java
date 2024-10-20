@@ -63,6 +63,17 @@ public class DiscountItemDAO extends MyDAO {
             e.printStackTrace(); // Bắt và in ra lỗi nếu có
         }
     }
+public void deleteDiscount(int discountId) {
+    String xSql = "DELETE FROM DiscountItem WHERE discountId = ?"; // Câu lệnh SQL xóa theo discountId
+    try {
+        ps = con.prepareStatement(xSql);
+        ps.setInt(1, discountId); // Đặt giá trị cho discountId
+        ps.executeUpdate();       // Thực thi câu lệnh xóa
+        ps.close();               // Đóng PreparedStatement
+    } catch (Exception e) {
+        e.printStackTrace(); // Bắt và in ra lỗi nếu có
+    }
+}
 
     public void applyDiscount(DiscountItem d) {
         try {
@@ -138,7 +149,7 @@ public class DiscountItemDAO extends MyDAO {
     public static void main(String[] args) throws SQLException {
         DiscountItemDAO dD = new DiscountItemDAO();
 //        dD.insertDiscountItem(50, "not apply");
-        List<DiscountItem> l = dD.getDiscountItems();
+        //List<DiscountItem> l = dD.getDiscountItems();
 //        if (l.isEmpty()) {
 //            System.out.println("null");
 //        } else {
@@ -149,6 +160,7 @@ public class DiscountItemDAO extends MyDAO {
 //dD.applyDiscount(l.get(0));
 //dD.removeDiscount(l.get(0));
 //System.out.println(dD.checkDiscountCondition());
+//dD.deleteDiscount(4);
     }
 
 }
