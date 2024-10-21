@@ -54,7 +54,7 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
             }
             .form-container {
                 background-color: rgba(0, 0, 0, 0.7);
-                padding: 20px;
+                padding: 5%;
                 border-radius: 10px;
                 width: 500px;
             }
@@ -107,47 +107,48 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
             </div>
         </header>
 
-        <div class="row">
-
-            <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                <div class="form-container" >
-                    <h2 style="color: white ">Đặt Bàn</h2>
-
-                    <!--Displaying Tomorrow's Date -->
-                    <div id="reservation-date-display">
-                        <strong>Ngày Đặt:</strong> 
-                        <span id="reservation-date"> </span>
-                    </div>
-
-                    <form action="tableInfo" method="POST">
-                        <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
 
 
-                        <!-- Table selection dropdown -->
-                        <label for="tableId">Chọn bàn:</label>
-                        <select name="tableInfo" id="tableInfo">
-                            <% 
-                                for (Tables table : a) { 
-                                    if (table.getCondition().equals("full")) { // Show only available tables
-                            %>
-                            <option value="<%= table.getTableNumber() + "," + table.getLocation() %>">
-                                <%= table.getTableNumber() %> - <%= table.getLocation() %>
-                            </option>
-                            <% 
-                                    }
-                                } 
-                            %>
-                        </select>
+        <div class="Form order-2 order-lg-1 d-flex flex-column justify-content-center">
+            <div class="form-container" >
+                <h2 style="color: white ">Đặt Bàn</h2>
 
-                        <!--                                 Submit Button -->
-                        <button type="submit">Tra cứu thông tin bàn ăn</button>
-                    </form>
+                <!--Displaying Tomorrow's Date -->
+                <div id="reservation-date-display">
+                    <strong>Ngày Đặt:</strong> 
+                    <span id="reservation-date"> </span>
+                </div>
 
-                </div> 
-            </div>            
+                <form action="tableInfo" method="POST">
+                    <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
 
 
-            <div class="form-container">
+                    <!-- Table selection dropdown -->
+                    <label for="tableId">Chọn bàn:</label>
+                    <select name="tableInfo" id="tableInfo">
+                        <% 
+                            for (Tables table : a) { 
+                                if (table.getCondition().equals("full")) { // Show only available tables
+                        %>
+                        <option value="<%= table.getTableNumber() + "," + table.getLocation() %>">
+                            <%= table.getTableNumber() %> - <%= table.getLocation() %>
+                        </option>
+                        <% 
+                                }
+                            } 
+                        %>
+                    </select>
+
+                    <!--                                 Submit Button -->
+                    <button type="submit">Tra cứu thông tin bàn ăn</button>
+                </form>
+
+            </div> 
+        </div>            
+
+        <div class="form-container row" style="width: 100%;color: white">   
+
+            <div class=" col-6" style="width: 50% ">
                 <h2 style="color: white ">Đặt Bàn</h2>
 
                 <!--Displaying Tomorrow's Date -->
@@ -157,8 +158,8 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
                 </div>
 
                 <%
-// Kiểm tra danh sách lO xem có dữ liệu cho ngày mai không
-if (lO != null && lO.isEmpty()) {
+                    // Kiểm tra danh sách lO xem có dữ liệu cho ngày mai không
+                    if (lO != null && lO.isEmpty()) {
                 %>
                 <!-- Trường hợp không có đơn hàng nào cho ngày mai -->
                 <input type="text" name="noOrder" value="No order tomorrow" readonly/>
@@ -226,7 +227,17 @@ if (lO != null && lO.isEmpty()) {
 
             </div>
 
+            <div class=" col-6" style="width: 50%">
+                <div style="width: 100%">
+
+                </div>
+                <div style="width: 100%">
+
+                </div>
+            </div>
         </div>
+
+
 
 
 

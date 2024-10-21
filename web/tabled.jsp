@@ -19,15 +19,18 @@
     
     ReservationDAO r = new ReservationDAO();
 
-    Reservations reservation = r.getReservationByUserId(user.getUsersId());;
+    Reservations reservation = r.getReservationByUserId(user.getUsersId());
     
     //List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
     
        TablesDAO tablesDAO = new TablesDAO();
        List<Tables> a = tablesDAO.getListTables();
        
-//true là bàn thường, false là ban vip
-       Boolean tableType = r.checkTableYpype(user.getUsersId(),reservation.getTableId() );
+    //true là bàn thường, false là ban vip
+        Boolean tableType = null;
+        if( user != null && reservation != null ){
+            tableType = r.checkTableYpype( user.getUsersId(),reservation.getTableId() );
+        }
 %>
 <style>
     body{
@@ -186,14 +189,14 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
                             <td><%= orderDetail.getPrice() %> VND</td>
                         </tr>
                         <%
-            }
+                            }
                         %>
                         <tr>
                             <td colspan="2" class="text-right"><strong>Tổng số tiền:</strong></td>
                             <td><%= totalAmount %> VND</td>
                         </tr>
-                        
-                        
+
+
                         <%
                             } else {
                         %>
@@ -206,9 +209,13 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
                     </tbody>
                 </table>
                 <%
-                    if (tableType == null) { 
+                    if (tableType == null ) { 
                 %>
                 <a href="Reservation.jsp" class="btn-complete" style="padding: 10px 20px; color: white; background-color: crimson; border-radius: 5px">Đặt Bàn</a>
+                <%
+                    } else if (orderedItems == null || orderedItems.isEmpty()) {
+                %>
+                <a href="Order.jsp" class="btn-complete" style="padding: 10px 20px; color: white; background-color: crimson; border-radius: 5px">Đặt Món</a>
                 <%
                     }
                 %>

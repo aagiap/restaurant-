@@ -6,9 +6,25 @@
 <%@ page import="Entity.Orders" %>
 <%@ page import="Dao.MenuItemDao" %>
 <%@ page import="Entity.MenuItemJoinOrder" %>
+
+<%@ page import="Entity.Tables" %>
+<%@ page import="Entity.Reservations" %>
+<%@ page import="Dao.TablesDAO" %>
+<%@ page import="Dao.ReservationDAO" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+
 <%
     Users user = (Users) session.getAttribute("user");
-    boolean tableType = (boolean) session.getAttribute("tableTypes"); 
+    
+    ReservationDAO r = new ReservationDAO();
+    
+    Reservations reservation = r.getReservationByUserId(user.getUsersId());
+    //true là bàn thường, false là ban vip
+        Boolean tableType = null;
+        if( user != null && reservation != null ){
+            tableType = r.checkTableYpype( user.getUsersId(),reservation.getTableId() );
+        }
 %>
 <!DOCTYPE html>
 <html lang="en">

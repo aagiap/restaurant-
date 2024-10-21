@@ -130,10 +130,10 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                     <table>           
                         <tr>
                             <td>
-                                <label for="value"><h2 style="color: white">giá trị</h2></label>
+                                <label for="value" ><h2 style="color: white">giá trị</h2></label>
                             </td>
                             <td>
-                                <input type="text" name="discountPercent" value="" style="width: 100%;" required oninput="updateVoucher()">
+                                <input type="text" name="discountPercent" id="discountPercent" style="width: 100%;" required oninput="updateVoucher()">
                             </td>
                         </tr>       
                     </table>
@@ -150,8 +150,8 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                         <p>Giao Thoa</p>
                         <h2>VOUCHER</h2>
                         <h1 id="displayCode" style="color: red">%</h1>
-                        <p id="displayDescription">Mô tả</p>
-                        <h5 id="displayDate">Thời Gian</h5>
+                        <p>Mô tả</p>
+                        <h5>Thời Gian</h5>
                     </div>
                 </div>
             </div>
@@ -160,17 +160,13 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
         <script>
             function updateVoucher() {
                 // Lấy giá trị từ input
-                var code = document.getElementById('value').value;
-                var description = document.getElementById('Description').value;
-                var date = document.getElementById('Date').value;
-                var date1 = document.getElementById('Date1').value;
+                var discountPercent = document.getElementById("discountPercent").value;
 
-                // Cập nhật các giá trị tương ứng trên voucher
-                document.getElementById('displayCode').textContent = code ? code : '%';
-                document.getElementById('displayDescription').textContent = description ? description : 'Mô tả';
-                document.getElementById('displayDate').textContent = (date && date1) ? date + ' - ' + date1 : 'Thời Gian';
+                // Cập nhật giá trị vào phần tử có id="displayCode"
+                document.getElementById("displayCode").innerText = discountPercent + "%";
             }
         </script>
+
 
 
         <!--EndDiscount-->
@@ -199,8 +195,7 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                     </div>
                 </div>-->
 
-        <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-            <h3 style="text-align: center">Danh Sách Bàn Ăn</h3>
+        <div class="order-2 order-lg-1 d-flex flex-column justify-content-center" style="padding: 2.5%">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -218,8 +213,11 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                     %>
                     <tr>
                         <td><%= d.getDiscountId() %></td>
+
                         <td><%= d.getDiscountPercent()  %></td>
+
                         <td><%= d.getCondition()  %></td>
+
                         <td>
                             <form action="RemoveDiscount" method="POST">    
                                 <input type="hidden" name="discountId" value="<%= d.getDiscountId() %>" />
@@ -228,6 +226,7 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                                 <input type="submit" class="btn btn-success" value="Đặt lại" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2;">
                             </form>
                         </td>
+
                         <td>
                             <form action="ApplyDiscount" method="POST">    
                                 <input type="hidden" name="discountId" value="<%= d.getDiscountId() %>" />
@@ -235,6 +234,9 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                                 <input type="hidden" name="condition" value="<%= d.getCondition() %>" />
                                 <input type="submit" class="btn btn-success" value="Áp dụng" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2;">
                             </form>
+                        </td>
+                        <td>
+                            <input  type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
                         </td>
                     </tr>
                     <% 
