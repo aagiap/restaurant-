@@ -21,7 +21,7 @@
 
     Reservations reservation = r.getReservationByUserId(user.getUsersId());
     
-    //List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
+  
     
        TablesDAO tablesDAO = new TablesDAO();
        List<Tables> a = tablesDAO.getListTables();
@@ -84,7 +84,7 @@
                         <li><a href="Home.jsp">Trang Chủ<br></a></li>
                         <li><a href="Reservation.jsp">Đặt Bàn</a></li>
 
-                        <li><a href="Menu.jsp">Menu</a></li>
+                        <li><a href="menu">Menu</a></li>
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
@@ -131,7 +131,7 @@
                         <td> <h1>: </h1> </td>
                     </tr>
                     <tr>
-                        <td>Ngày Đặt</td>
+                        <td>Đặt cho ngày</td>
                         <td> <h1>:  </h1> </td>
                     </tr>
                     <tr>
@@ -150,8 +150,12 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
                         <td><h1>: <%=user.getUserName()%></h1></td>
                     </tr>
                     <tr>
-                        <td>Ngày Đặt</td>
+                        <td>Đặt cho ngày: </td>
                         <td><h1>: <%=formattedDate%></h1></td>
+                    </tr>
+                    <tr>
+                        <td>Thời gian: </td>
+                        <td><h1>: <%=reservation.getTimeSlot()%></h1></td>
                     </tr>
                     <tr>
                         <td>Số Người</td>
@@ -224,28 +228,29 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
 
 
 
+        <!--FooterTag-->
         <footer id="footer" class="footer dark-background">
-
             <div class="container">
                 <div class="row gy-3">
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-geo-alt icon"></i>
                         <div class="address">
-                            <h4>Address</h4>
-                            <p>A108 Adam Street</p>
-                            <p>New York, NY 535022</p>
+                            <h4>Địa chỉ</h4>
+                            <p>12 thị trấn Hữu Lũng</p>
+                            <p>Lạng Sơn</p>
                             <p></p>
                         </div>
-
                     </div>
+
+
 
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-telephone icon"></i>
                         <div>
-                            <h4>Contact</h4>
+                            <h4>Liên hệ</h4>
                             <p>
-                                <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
-                                <strong>Email:</strong> <span>info@example.com</span><br>
+                                <strong>SĐT:</strong> <span>+84344276687</span><br>
+                                <strong>Email:</strong> <span>giaothoa@example.com</span><br>
                             </p>
                         </div>
                     </div>
@@ -253,16 +258,16 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-clock icon"></i>
                         <div>
-                            <h4>Opening Hours</h4>
+                            <h4>Giờ mở cửa</h4>
                             <p>
-                                <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
-                                <strong>Sunday</strong>: <span>Closed</span>
+                                <strong>Thứ hai-Thứ bảy: </strong> <span>11AM - 23PM</span><br>
+                                <strong>Chủ nhật</strong>: <span>Đóng cửa</span>
                             </p>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
-                        <h4>Follow Us</h4>
+                        <h4>Theo dõi</h4>
                         <div class="social-links d-flex">
                             <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
                             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -273,7 +278,8 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
 
                 </div>
             </div>
-        </footer>   
+        </footer>
+        <!--EndFooterTag--> 
 
         <!-- Scroll Top -->
         <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

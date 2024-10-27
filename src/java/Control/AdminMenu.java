@@ -13,7 +13,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author ASUS
  */
-@WebServlet(name = "AdminMenu", urlPatterns = {"/AdminMenu","/AddItems","/DeleteItem","/UpdateItem"})
+@WebServlet(name = "AdminMenu", urlPatterns = {"/AdminMenu", "/AddItems", "/DeleteItem", "/UpdateItem"})
 public class AdminMenu extends HttpServlet {
 
     /**
@@ -34,10 +36,10 @@ public class AdminMenu extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException { 
+            throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
 
-           // request.getRequestDispatcher("Admin.jsp").include(request, response);
+            // request.getRequestDispatcher("Admin.jsp").include(request, response);
         }
     }
 
@@ -67,62 +69,81 @@ public class AdminMenu extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                String path = request.getServletPath();
+        String path = request.getServletPath();
         if (path.equals("/AddItems")) {
             doAddItems(request, response);
-        }else if(path.equals("/DeleteItem")){
+        } else if (path.equals("/DeleteItem")) {
             doDeleteItem(request, response);
-        }else if(path.equals("/UpdateItem")){
+        } else if (path.equals("/UpdateItem")) {
             doUpdateItem(request, response);
         }
     }
+
     protected void doUpdateItem(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int itemId = Integer.parseInt(request.getParameter("itemId"));
-        String category = request.getParameter("category");
-        String name = request.getParameter("name");
-        double price = Double.parseDouble(request.getParameter("price"));
 
-        MenuItemDao mD = new MenuItemDao();
         try {
+            int itemId = Integer.parseInt(request.getParameter("itemId"));
+            String category = request.getParameter("category");
+            String name = request.getParameter("name");
+            double price = Double.parseDouble(request.getParameter("price"));
+
+            MenuItemDao mD = new MenuItemDao();
             mD.updateMenuItem(category, price, itemId, name);
+            
+            HttpSession session = request.getSession();
+            List<MenuItems> updatedList = mD.getListMenuItems();  
+            session.setAttribute("l", updatedList); 
+            
         } catch (SQLException ex) {
             Logger.getLogger(AdminMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
- response.sendRedirect("AdminMenu.jsp");
+        response.sendRedirect("AdminMenu.jsp");
 
     }
+
     protected void doDeleteItem(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int itemId = Integer.parseInt(request.getParameter("itemId"));
-        MenuItemDao mD = new MenuItemDao();
+
         try {
+            int itemId = Integer.parseInt(request.getParameter("itemId"));
+            MenuItemDao mD = new MenuItemDao();
             mD.deleteMenuItem(itemId);
+            
+            HttpSession session = request.getSession();
+            List<MenuItems> updatedList = mD.getListMenuItems();  
+            session.setAttribute("l", updatedList); 
         } catch (SQLException ex) {
             Logger.getLogger(AdminMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
- response.sendRedirect("AdminMenu.jsp");
+        response.sendRedirect("AdminMenu.jsp");
 
     }
+
     protected void doAddItems(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String category = request.getParameter("categoryFilter");
-        String name = request.getParameter("name");
-        double price = Double.parseDouble(request.getParameter("price"));
-        String imageUrl = request.getParameter("image");
+
+        try {
+            String category = request.getParameter("categoryFilter");
+            String name = request.getParameter("name");
+            double price = Double.parseDouble(request.getParameter("price"));
+            String imageUrl = request.getParameter("image");
 
             MenuItems m = new MenuItems(name, "", price, category, imageUrl);
             //MenuItems m = new MenuItems("test", "", 100000, "Món chính", "cc");
             MenuItemDao mD = new MenuItemDao();
-            try {
-                mD.insertMenuItem(m);
-            } catch (SQLException ex) {
-                Logger.getLogger(AdminMenu.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            response.sendRedirect("AdminMenu.jsp");
+            mD.insertMenuItem(m);
+            
+            HttpSession session = request.getSession();
+            List<MenuItems> updatedList = mD.getListMenuItems();  
+            session.setAttribute("l", updatedList); 
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        response.sendRedirect("AdminMenu.jsp");
     }
 
     /**

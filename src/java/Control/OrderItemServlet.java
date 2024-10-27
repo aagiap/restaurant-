@@ -4,11 +4,11 @@
  */
 package Control;
 
-import Entity.Orders;
 import Dao.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author ASUS
  */
+@WebServlet(name = "OrderItemServlet", urlPatterns = {"/OrderItemServlet"})
 public class OrderItemServlet extends HttpServlet {
 
     /**
@@ -39,7 +40,17 @@ public class OrderItemServlet extends HttpServlet {
             String itemName = request.getParameter("item_name");
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             double itemPrice = Double.parseDouble(request.getParameter("item_price"));
-            od.insertOrder(userId, itemId, quantity, itemPrice);
+            String orderDate = request.getParameter("orderDate");
+
+            // In thông tin ra console
+            System.out.println("User ID: " + userId);
+            System.out.println("Item ID: " + itemId);
+            System.out.println("Item Name: " + itemName);
+            System.out.println("Quantity: " + quantity);
+            System.out.println("Item Price: " + itemPrice);
+            System.out.println("Order Date: " + orderDate);
+
+            od.insertOrder(userId, itemId, quantity, itemPrice, orderDate);
             response.sendRedirect("Order.jsp"); // Chuyển hướng đến trang chào mừng
 
         }
@@ -58,13 +69,13 @@ public class OrderItemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         OrderDAO od = new OrderDAO();
-            // Lấy thông tin từ form
-            
-            String itemName = request.getParameter("item_name");
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
-            double itemPrice = Double.parseDouble(request.getParameter("price"));
-            od.deleteOrderItem(itemName, quantity, itemPrice);
-            response.sendRedirect("Order.jsp"); // Chuyển hướng đến trang chào mừng
+        // Lấy thông tin từ form
+
+        String itemName = request.getParameter("item_name");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        double itemPrice = Double.parseDouble(request.getParameter("price"));
+        od.deleteOrderItem(itemName, quantity, itemPrice);
+        response.sendRedirect("Order.jsp"); // Chuyển hướng đến trang chào mừng
     }
 
     /**
@@ -80,15 +91,4 @@ public class OrderItemServlet extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

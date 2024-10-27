@@ -126,7 +126,7 @@
                                 <label for="price"><h2 style="color: white">Nhập Giá</h2></label>
                             </td>
                             <td>
-                                <input type="text" id="price" name="price" style="width: 200px;" required>
+                                <input type="number" id="price" name="price" style="width: 200px;" min="1000"required>
                             </td>
                         </tr>
                         <tr class="form-group">
@@ -225,7 +225,7 @@
                                         <h2><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getName() %>" name="name" value="<%= menuItem.getName() %>"/></h2>
                                         <input type="hidden" name="itemId" value="<%= menuItem.getItemId() %>" />
 
-                                        <h1><input style="text-align: center; width: 100%" type="text" placeholder="<%= menuItem.getPrice() %>" name="price" value="<%= menuItem.getPrice() %>"/></h1>
+                                        <h1><input style="text-align: center; width: 100%" type="number" min="1000" placeholder="<%= menuItem.getPrice() %>" name="price" value="<%= menuItem.getPrice() %>"/></h1>
                                         <input  type="submit" class="btn btn-success" value="Lưu Thông Tin" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
 
                                     </form>
@@ -268,28 +268,29 @@
         </script>
         <!--/MainMenu -->
 
+        <!--FooterTag-->
         <footer id="footer" class="footer dark-background">
-
             <div class="container">
                 <div class="row gy-3">
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-geo-alt icon"></i>
                         <div class="address">
-                            <h4>Address</h4>
-                            <p>A108 Adam Street</p>
-                            <p>New York, NY 535022</p>
+                            <h4>Địa chỉ</h4>
+                            <p>12 thị trấn Hữu Lũng</p>
+                            <p>Lạng Sơn</p>
                             <p></p>
                         </div>
-
                     </div>
+
+
 
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-telephone icon"></i>
                         <div>
-                            <h4>Contact</h4>
+                            <h4>Liên hệ</h4>
                             <p>
-                                <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
-                                <strong>Email:</strong> <span>info@example.com</span><br>
+                                <strong>SĐT:</strong> <span>+84344276687</span><br>
+                                <strong>Email:</strong> <span>giaothoa@example.com</span><br>
                             </p>
                         </div>
                     </div>
@@ -297,16 +298,16 @@
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-clock icon"></i>
                         <div>
-                            <h4>Opening Hours</h4>
+                            <h4>Giờ mở cửa</h4>
                             <p>
-                                <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
-                                <strong>Sunday</strong>: <span>Closed</span>
+                                <strong>Thứ hai-Thứ bảy: </strong> <span>11AM - 23PM</span><br>
+                                <strong>Chủ nhật</strong>: <span>Đóng cửa</span>
                             </p>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
-                        <h4>Follow Us</h4>
+                        <h4>Theo dõi</h4>
                         <div class="social-links d-flex">
                             <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
                             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -314,10 +315,12 @@
                             <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </footer>
-
+        <!--EndFooterTag-->
+        
         <!-- Scroll Top -->
         <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

@@ -63,17 +63,18 @@ public class DiscountItemDAO extends MyDAO {
             e.printStackTrace(); // Bắt và in ra lỗi nếu có
         }
     }
-public void deleteDiscount(int discountId) {
-    String xSql = "DELETE FROM DiscountItem WHERE discountId = ?"; // Câu lệnh SQL xóa theo discountId
-    try {
-        ps = con.prepareStatement(xSql);
-        ps.setInt(1, discountId); // Đặt giá trị cho discountId
-        ps.executeUpdate();       // Thực thi câu lệnh xóa
-        ps.close();               // Đóng PreparedStatement
-    } catch (Exception e) {
-        e.printStackTrace(); // Bắt và in ra lỗi nếu có
+
+    public void deleteDiscount(int discountId) {
+        String xSql = "DELETE FROM DiscountItem WHERE discountId = ?"; // Câu lệnh SQL xóa theo discountId
+        try {
+            ps = con.prepareStatement(xSql);
+            ps.setInt(1, discountId); // Đặt giá trị cho discountId
+            ps.executeUpdate();       // Thực thi câu lệnh xóa
+            ps.close();               // Đóng PreparedStatement
+        } catch (Exception e) {
+            e.printStackTrace(); // Bắt và in ra lỗi nếu có
+        }
     }
-}
 
     public void applyDiscount(DiscountItem d) {
         try {
@@ -82,15 +83,15 @@ public void deleteDiscount(int discountId) {
             List<MenuItems> lM = mD.getListMenuItems();
             for (int i = 0; i < lM.size(); i++) {
                 double discountedPrice = lM.get(i).getPrice() * (1 - d.getDiscountPercent() / 100.0);
-                mD.updatePrice(discountedPrice, i+1);
-                
+                mD.updatePrice(discountedPrice, i + 1);
+
             }
             dD.updateDiscountCondition(d.getDiscountId(), "apply");
         } catch (SQLException ex) {
             Logger.getLogger(DiscountItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void removeDiscount(DiscountItem d) {
         try {
             DiscountItemDAO dD = new DiscountItemDAO();
@@ -98,53 +99,75 @@ public void deleteDiscount(int discountId) {
             List<MenuItems> lM = mD.getListMenuItems();
             for (int i = 0; i < lM.size(); i++) {
 // Lấy giá hiện tại đã áp dụng giảm giá thứ hai
-                            double price = lM.get(i).getPrice() * ( 100/(100 - d.getDiscountPercent()));
+                double price = lM.get(i).getPrice() * (100 / (100 - d.getDiscountPercent()));
 
-                            mD.updatePrice(price, i+1);
+                mD.updatePrice(price, i + 1);
             }
             dD.updateDiscountCondition(d.getDiscountId(), "not apply");
         } catch (SQLException ex) {
             Logger.getLogger(DiscountItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-   public boolean checkDiscountCondition() {
-    boolean hasApplyCondition = false;
-    
-    String sql = "SELECT COUNT(*) FROM DiscountItem WHERE condition = 'apply'";
-    
-    try {
-         ps = con.prepareStatement(sql);
-         rs = ps.executeQuery(); 
-        if (rs.next()) {
-            int count = rs.getInt(1);
-            hasApplyCondition = count > 0; // Nếu có ít nhất 1 hàng, set true
+
+    public boolean checkDiscountCondition() {
+        boolean hasApplyCondition = false;
+
+        String sql = "SELECT COUNT(*) FROM DiscountItem WHERE condition = 'apply'";
+
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                hasApplyCondition = count > 0; // Nếu có ít nhất 1 hàng, set true
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý lỗi nếu có
         }
-    } catch (SQLException e) {
-        e.printStackTrace(); // Xử lý lỗi nếu có
+
+        return hasApplyCondition;
     }
     
-    return hasApplyCondition;
-}
-   public void updateDiscountCondition(int discountId, String condition) {
-    String sql = "UPDATE DiscountItem SET condition = ? WHERE discountId = ?";
-    
-    try 
-          {
-        ps = con.prepareStatement(sql);
-        ps.setString(1, condition); // Gán giá trị cho điều kiện
-        ps.setInt(2, discountId); // Gán giá trị cho discountId
-        
-        int rowsUpdated = ps.executeUpdate(); // Thực thi câu lệnh cập nhật
-        if (rowsUpdated > 0) {
-            System.out.println("Discount condition updated successfully.");
-        } else {
-            System.out.println("No discount found with the provided ID.");
+    public boolean checkDiscountConditionOfDiscount( int discountId) {
+        boolean hasApplyCondition = false;
+
+        String sql = "SELECT * FROM DiscountItem WHERE discountId = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+         
+            ps.setInt(1, discountId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                String  condition = rs.getString(3);
+                if(condition.equals("apply")){
+                hasApplyCondition = true; // Nếu có ít nhất 1 hàng, set true
+            }}
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý lỗi nếu có
         }
-    } catch (SQLException e) {
-        e.printStackTrace(); // Xử lý lỗi nếu có
+
+        return hasApplyCondition;
     }
-}
+
+    public void updateDiscountCondition(int discountId, String condition) {
+        String sql = "UPDATE DiscountItem SET condition = ? WHERE discountId = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, condition); // Gán giá trị cho điều kiện
+            ps.setInt(2, discountId); // Gán giá trị cho discountId
+
+            int rowsUpdated = ps.executeUpdate(); // Thực thi câu lệnh cập nhật
+            if (rowsUpdated > 0) {
+                System.out.println("Discount condition updated successfully.");
+            } else {
+                System.out.println("No discount found with the provided ID.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý lỗi nếu có
+        }
+    }
 
     public static void main(String[] args) throws SQLException {
         DiscountItemDAO dD = new DiscountItemDAO();

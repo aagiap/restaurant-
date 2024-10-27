@@ -12,11 +12,24 @@ public class OrderInfo {
     private String username;
     private String reservationDate;
     private int numberOfPeople;
+    private String timeSlot;
     private int tableNumber;
     private String location;
     private String itemName;
     private int quantity;
 
+    public OrderInfo(String username, String reservationDate, int numberOfPeople, String timeSlot, int tableNumber, String location, String itemName, int quantity) {
+        this.username = username;
+        this.reservationDate = reservationDate;
+        this.numberOfPeople = numberOfPeople;
+        this.timeSlot = timeSlot;
+        this.tableNumber = tableNumber;
+        this.location = location;
+        this.itemName = itemName;
+        this.quantity = quantity;
+    }
+
+    
     public OrderInfo(String username, String reservationDate, int numberOfPeople, int tableNumber, String location, String itemName, int quantity) {
         this.username = username;
         this.reservationDate = reservationDate;
@@ -83,10 +96,21 @@ public class OrderInfo {
         this.quantity = quantity;
     }
 
+    public String getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(String timeSlot) {
+        this.timeSlot = timeSlot;
+    }
+
     @Override
     public String toString() {
-        return "OrderInfo{" + "username=" + username + ", reservationDate=" + reservationDate + ", numberOfPeople=" + numberOfPeople + ", tableNumber=" + tableNumber + ", location=" + location + ", itemName=" + itemName + ", quantity=" + quantity + '}';
+        return "OrderInfo{" + "username=" + username + ", reservationDate=" + reservationDate + ", numberOfPeople=" + numberOfPeople + ", timeSlot=" + timeSlot + ", tableNumber=" + tableNumber + ", location=" + location + ", itemName=" + itemName + ", quantity=" + quantity + '}';
     }
+    
+
+    
     
     
 }

@@ -16,8 +16,8 @@
                 <form action="register" method="post">
                     <h1>Đăng kí tài khoản</h1>
                     <input type="text" placeholder="Tên" name="name"/>
-                    <input type="text" placeholder="Email" name="email"/>
-                    <input type="password" placeholder="Mật khẩu" name="password"/> 
+                    <input type="email" placeholder="Email" name="email"/>
+                    <input type="password" minlength="8" placeholder="Mật khẩu" name="password"/> 
                     <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
                     <% if (errorMessage != null) { %>
                     <p style="color: red;"><%= errorMessage %></p>

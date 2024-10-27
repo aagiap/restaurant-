@@ -10,13 +10,16 @@
 
 <%
     Users user = (Users) session.getAttribute("user");
-    List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
+    //List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
     
        TablesDAO tablesDAO = new TablesDAO();
        List<Tables> a = tablesDAO.getListTables();
        
         Boolean check = (Boolean) request.getAttribute("check");
-        
+        String msg = (String) request.getAttribute("msg");
+        if(msg==null){
+    msg="";
+    }
 ReservationDAO r = new ReservationDAO();
 boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
 
@@ -138,9 +141,8 @@ boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="col-4" scope="col">Bàn Số</th>
-                                    <th class="col-4" scope="col">Loại</th>
-                                    <th class="col-4" scope="col">Tình Trạng</th>
+                                    <th class="col-2" scope="col">Bàn Số</th>
+                                    <th class="col-2" scope="col">Loại</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -150,7 +152,6 @@ boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
                                 <tr>
                                     <td><%= table.getTableNumber() %></td>
                                     <td><%= table.getLocation() %></td>
-                                    <td><%= table.getCondition().equals("blank") ? "Trống" : "Đầy" %></td>
                                 </tr>
                                 <% 
                                     } 
@@ -162,12 +163,6 @@ boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
                     <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
                         <div class="form-container">
                             <h2 style="color: white">Đặt Bàn</h2>
-
-                            <!-- Displaying Tomorrow's Date -->
-                            <div id="reservation-date-display">
-                                <strong>Ngày Đặt:</strong>
-                                <span id="reservation-date"> </span>
-                            </div>
 
                             <% 
                                 // Check if the user has already made a reservation for today
@@ -181,82 +176,117 @@ boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
                             <% 
                                 } else { 
                             %>
+
+                            <div>
+                                <p style="color: white"><%=msg%></p>
+                            </div>
+
                             <form action="reservate" method="POST">
                                 <input type="hidden" name="userId" value="<%= user.getUsersId() %>" />
+
+                                <!-- Displaying Date Selection for the Next 3 Days -->
+                                <div id="reservation-date-display">
+                                    <strong>Đặt cho ngày:</strong>
+                                    <select id="reservation-date" name="reservationDate">
+                                        <!-- The options will be populated dynamically via JavaScript -->
+                                    </select>
+                                </div>
+
 
                                 <!-- Table selection dropdown -->
                                 <label for="tableId">Chọn bàn:</label>
                                 <select name="tableId" id="tableId">
                                     <% 
                                         for (Tables table : a) { 
-                                            if (table.getCondition().equals("blank")) { // Show only available tables
+                                            
                                     %>
                                     <option value="<%= table.getTableId() %>">
                                         Bàn số <%= table.getTableNumber() %> - <%= table.getLocation() %>
                                     </option>
-                                    <% 
-                                            }
+                                    <%                                       
                                         } 
                                     %>
                                 </select>
 
+                                <!-- Time slot selection -->
+                                <label for="time-slot">Chọn khung giờ:</label>
+                                <select id="time-slot" name="time-slot" required>
+                                    <option value="morning">Sáng (8:00)</option>
+                                    <option value="noon">Trưa (11:00)</option>
+                                    <option value="evening">Tối (18:00)</option>
+                                </select>
+
                                 <!-- Number of People -->
                                 <label for="people">Số Người:</label>
-                                <input type="number" id="people" name="number-of-people" min="1" required>
+                                <input type="number" id="people" name="number-of-people" min="1" max="8" required>
 
                                 <!-- Submit Button -->
                                 <button type="submit">Đặt Bàn</button>
                             </form>
+
                             <% 
-                                } 
+                            } 
                             %>
 
                             <script>
-                                // Set default date to tomorrow and display it below the heading
+                                // Generate options for the next 3 days starting from tomorrow
                                 window.onload = function () {
-                                    var dateDisplay = document.getElementById("reservation-date");
+                                    var dateSelect = document.getElementById("reservation-date");
                                     var today = new Date();
                                     var tomorrow = new Date();
                                     tomorrow.setDate(today.getDate() + 1);  // Set tomorrow's date
 
-                                    // Format date as YYYY-MM-DD
-                                    var year = tomorrow.getFullYear();
-                                    var month = ('0' + (tomorrow.getMonth() + 1)).slice(-2);
-                                    var day = ('0' + tomorrow.getDate()).slice(-2);
+                                    // Loop to generate the next 3 days
+                                    for (var i = 0; i < 3; i++) {
+                                        var optionDate = new Date();
+                                        optionDate.setDate(tomorrow.getDate() + i);  // Increment day for each option
 
-                                    // Assign value to the hidden field and display the date under the heading if needed
-                                    dateDisplay.innerHTML = year + '-' + month + '-' + day; // Set value for the hidden field
+                                        // Format date as YYYY-MM-DD
+                                        var year = optionDate.getFullYear();
+                                        var month = ('0' + (optionDate.getMonth() + 1)).slice(-2);
+                                        var day = ('0' + optionDate.getDate()).slice(-2);
+
+                                        // Create option element for the date select dropdown
+                                        var option = document.createElement("option");
+                                        option.value = year + '-' + month + '-' + day;
+                                        option.textContent = year + '-' + month + '-' + day;
+
+                                        // Append the option to the select dropdown
+                                        dateSelect.appendChild(option);
+                                    }
                                 };
                             </script>
                         </div>
                     </div>
 
+
                 </div>                  
             </div>
         </section>
 
+        <!--FooterTag-->
         <footer id="footer" class="footer dark-background">
-
             <div class="container">
                 <div class="row gy-3">
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-geo-alt icon"></i>
                         <div class="address">
-                            <h4>Address</h4>
-                            <p>A108 Adam Street</p>
-                            <p>New York, NY 535022</p>
+                            <h4>Địa chỉ</h4>
+                            <p>12 thị trấn Hữu Lũng</p>
+                            <p>Lạng Sơn</p>
                             <p></p>
                         </div>
-
                     </div>
+
+
 
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-telephone icon"></i>
                         <div>
-                            <h4>Contact</h4>
+                            <h4>Liên hệ</h4>
                             <p>
-                                <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
-                                <strong>Email:</strong> <span>info@example.com</span><br>
+                                <strong>SĐT:</strong> <span>+84344276687</span><br>
+                                <strong>Email:</strong> <span>giaothoa@example.com</span><br>
                             </p>
                         </div>
                     </div>
@@ -264,16 +294,16 @@ boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-clock icon"></i>
                         <div>
-                            <h4>Opening Hours</h4>
+                            <h4>Giờ mở cửa</h4>
                             <p>
-                                <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
-                                <strong>Sunday</strong>: <span>Closed</span>
+                                <strong>Thứ hai-Thứ bảy: </strong> <span>11AM - 23PM</span><br>
+                                <strong>Chủ nhật</strong>: <span>Đóng cửa</span>
                             </p>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
-                        <h4>Follow Us</h4>
+                        <h4>Theo dõi</h4>
                         <div class="social-links d-flex">
                             <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
                             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -284,31 +314,30 @@ boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
 
                 </div>
             </div>
-
-
-
-
-
-
-
-
-            <script>
-                // Hàm fun() để hiển thị confirm và chuyển hướng
-                function fun() {
-                    window.location.href = "Reservation.jsp";
-                    if (confirm("Bạn đã đặt bàn thành công! Bạn có muốn đặt món không?")) {
-                        // Nếu người dùng bấm OK, chuyển đến table.jsp
-                        window.location.href = "Order.jsp";
-                    }
-                }
-
-                // Kiểm tra giá trị của check và gọi hàm fun nếu check là true
-                <% if (check != null && check) { %>
-                fun(); // Gọi hàm fun() nếu check là true
-                <% } %>
-            </script>
-
         </footer>
+        <!--EndFooterTag-->
+
+
+
+
+
+        <script>
+            // Hàm fun() để hiển thị confirm và chuyển hướng
+            function fun() {
+                window.location.href = "Reservation.jsp";
+                if (confirm("Bạn đã đặt bàn thành công! Bạn có muốn đặt món không?")) {
+                    // Nếu người dùng bấm OK, chuyển đến table.jsp
+                    window.location.href = "Order.jsp";
+                }
+            }
+
+            // Kiểm tra giá trị của check và gọi hàm fun nếu check là true
+            <% if (check != null && check) { %>
+            fun(); // Gọi hàm fun() nếu check là true
+            <% } %>
+        </script>
+
+
         <!-- Scroll Top -->
         <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

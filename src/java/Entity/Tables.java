@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package Entity;
 
 /**
@@ -10,25 +11,23 @@ package Entity;
  */
 public class Tables {
 
-
-   
     private int tableId;
     private int tableNumber;
     private String location;
-    private String condition;
 
     // Constructor
-    public Tables(int tableNumber, String location, String condition) {
+    public Tables(int tableNumber, String location) {
         this.tableNumber = tableNumber;
         this.location = location;
-        this.condition = condition;
     }
-public Tables(int tableId,int tableNumber, String location, String condition) {
-    this.tableId = tableId;
+
+    public Tables(int tableId, int tableNumber, String location) {
+        this.tableId = tableId;
         this.tableNumber = tableNumber;
         this.location = location;
-        this.condition = condition;
+
     }
+
     // Getters and Setters
     public int getTableId() {
         return tableId;
@@ -58,24 +57,10 @@ public Tables(int tableId,int tableNumber, String location, String condition) {
         }
     }
 
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        if (condition.equals("blank") || condition.equals("full")) {
-            this.condition = condition;
-        } else {
-            throw new IllegalArgumentException("Invalid condition value.");
-        }
-    }
-
     // Optional: Override toString() for easier debugging
     @Override
     public String toString() {
-        return "Table [tableNumber=" + tableNumber +
-                ", location=" + location + ", condition=" + condition + "]";
+        return "Tables{" + "tableId=" + tableId + ", tableNumber=" + tableNumber + ", location=" + location + '}';
     }
-
 
 }

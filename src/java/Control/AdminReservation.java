@@ -63,18 +63,23 @@ public class AdminReservation extends HttpServlet {
 
     protected void doTableInfo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String tableInfo = request.getParameter("tableInfo");
-        String[] info = tableInfo.split(",");
-        int tableNumber = Integer.parseInt(info[0]);
-        String location = info[1];
-        OrderInforDAO oD = new OrderInforDAO();
-        List<OrderInfo> lO = oD.getListOrderInfoForTomorrow(tableNumber, location);
+        
+             // Nhận các thông tin từ form
+            String username = request.getParameter("userName");
+            String reservationDate = request.getParameter("reservationDate");
+            int numberOfPeople = Integer.parseInt(request.getParameter("numberOfPeople"));
+            String timeSlot = request.getParameter("timeSlot");
+            int tableNumber = Integer.parseInt(request.getParameter("tableNumber"));
+            String location = request.getParameter("location");
+
+            OrderInforDAO oD = new OrderInforDAO();
+            List<OrderInfo> lO = oD.getListOrderInfoForTomorrow(username, reservationDate, numberOfPeople, timeSlot, tableNumber, location);
+            request.setAttribute("lO", lO);
+            request.getRequestDispatcher("AdminReservation_1.jsp").forward(request, response);
+        
 //        HttpSession session = request.getSession();
 //session.setAttribute("lO", lO);
 //response.sendRedirect("AdminReservation_1.jsp");
-
-        request.setAttribute("lO", lO);
-        request.getRequestDispatcher("AdminReservation_1.jsp").forward(request, response);
 
     }
 

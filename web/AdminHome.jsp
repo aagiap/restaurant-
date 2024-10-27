@@ -133,7 +133,7 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                                 <label for="value" ><h2 style="color: white">giá trị</h2></label>
                             </td>
                             <td>
-                                <input type="text" name="discountPercent" id="discountPercent" style="width: 100%;" required oninput="updateVoucher()">
+                                <input type="number" name="discountPercent" min="1" max="99" id="discountPercent" style="width: 100%;" required oninput="updateVoucher()">
                             </td>
                         </tr>       
                     </table>
@@ -236,7 +236,12 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                             </form>
                         </td>
                         <td>
-                            <input  type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
+                            <form action="DeleteDiscount" method="POST">    
+                                <input type="hidden" name="discountId" value="<%= d.getDiscountId() %>" />
+                                <input type="hidden" name="discountPercent" value="<%= d.getDiscountPercent() %>" />
+                                <input type="hidden" name="condition" value="<%= d.getCondition() %>" />
+                                <input  type="submit" class="btn btn-success" value="&#10006;" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2; width: 100%">
+                            </form>
                         </td>
                     </tr>
                     <% 
@@ -253,9 +258,9 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-geo-alt icon"></i>
                         <div class="address">
-                            <h4>Address</h4>
-                            <p>A108 Adam Street</p>
-                            <p>New York, NY 535022</p>
+                            <h4>Địa chỉ</h4>
+                            <p>12 thị trấn Hữu Lũng</p>
+                            <p>Lạng Sơn</p>
                             <p></p>
                         </div>
                     </div>
@@ -265,10 +270,10 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-telephone icon"></i>
                         <div>
-                            <h4>Contact</h4>
+                            <h4>Liên hệ</h4>
                             <p>
-                                <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
-                                <strong>Email:</strong> <span>info@example.com</span><br>
+                                <strong>SĐT:</strong> <span>+84344276687</span><br>
+                                <strong>Email:</strong> <span>giaothoa@example.com</span><br>
                             </p>
                         </div>
                     </div>
@@ -276,16 +281,16 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-clock icon"></i>
                         <div>
-                            <h4>Opening Hours</h4>
+                            <h4>Giờ mở cửa</h4>
                             <p>
-                                <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
-                                <strong>Sunday</strong>: <span>Closed</span>
+                                <strong>Thứ hai-Thứ bảy: </strong> <span>11AM - 23PM</span><br>
+                                <strong>Chủ nhật</strong>: <span>Đóng cửa</span>
                             </p>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
-                        <h4>Follow Us</h4>
+                        <h4>Theo dõi</h4>
                         <div class="social-links d-flex">
                             <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
                             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>

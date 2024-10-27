@@ -9,41 +9,51 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import Contact.DBContext;
+import Entity.ReservationJoinTable;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author ASUS
  */
 public class ReservationDAO extends MyDAO {
-    
+
     public Reservations getReservationByUserId(int userId) {
-    String sql = "SELECT * FROM Reservations WHERE user_id = ? AND reservation_date = CAST(GETDATE() + 1 AS DATE);";
-    Reservations reservation = null;
+        String sql = "SELECT * FROM Reservations WHERE user_id = ? AND reservation_date >= GETDATE();";
+        Reservations reservation = null;
 
-    try (PreparedStatement ps = con.prepareStatement(sql)) {
-        ps.setInt(1, userId); // Set the userId in the SQL statement
-        rs = ps.executeQuery(); // Execute the query
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, userId); // Set the userId in the SQL statement
+            rs = ps.executeQuery(); // Execute the query
 
-        if (rs.next()) {
-            // Extract data from the result set
-            int tableId = rs.getInt("table_id");
-            int numberOfPeople = rs.getInt("number_of_people");
-            Date reservationDate = rs.getDate("reservation_date");
-            reservation = new Reservations(userId, reservationDate, numberOfPeople, "Pending", tableId);
+            if (rs.next()) {
+                // Extract data from the result set
+                int tableId = rs.getInt("table_id");
+                int numberOfPeople = rs.getInt("number_of_people");
+                Date reservationDate = rs.getDate("reservation_date");
+                String timeSlot = rs.getString("time_slot");
+                reservation = new Reservations(userId, reservationDate, numberOfPeople, "Pending", tableId, timeSlot);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the error
         }
-    } catch (SQLException e) {
-        e.printStackTrace(); // Handle the error
-    }
 
-    return reservation; // Return the reservation or null if not found
-}
+        return reservation; // Return the reservation or null if not found
+    }
 
     public boolean checkTableYpype(int userId, int tableId) {
         String sql = "SELECT DISTINCT * "
                 + "FROM Reservations "
-                + "WHERE reservation_date = CAST(GETDATE() + 1 AS DATE) "
+                + "WHERE reservation_date >= GETDATE() "
                 + "AND user_id = ?;";
 
         try {
@@ -62,84 +72,138 @@ public class ReservationDAO extends MyDAO {
         return false; // Nếu không có kết quả hoặc không nằm trong khoảng, trả về false
     }
 
-    public void insertReservation(Reservations reservation) {
-        String sql = "INSERT INTO Reservations (user_id, reservation_date, number_of_people, status, table_id) "
-                + "VALUES (?, ?, ?, ?, ?)";
+    public boolean checkReservation(Date reservationDate, int tableId, String timeSlot) {
+        String sql = "SELECT COUNT(*) FROM Reservations "
+                + "WHERE reservation_date = ? AND table_id = ? AND time_slot = ?";
 
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
+            ps = con.prepareStatement(sql); // 'con' là đối tượng Connection đã được khởi tạo
+            ps.setDate(1, (java.sql.Date) reservationDate);  // Thiết lập tham số ngày đặt bàn
+            ps.setInt(2, tableId);           // Thiết lập tham số mã bàn
+            ps.setString(3, timeSlot);       // Thiết lập tham số slot thời gian
+
+            rs = ps.executeQuery();  // Thực thi truy vấn
+
+            // Kiểm tra kết quả
+            if (rs.next()) {
+                int count = rs.getInt(1);  // Lấy giá trị COUNT từ kết quả truy vấn
+                return count > 0;          // Nếu count > 0, tức là đã có dữ liệu đặt bàn
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý ngoại lệ SQL nếu có lỗi xảy ra
+        }
+
+        return false;  // Nếu không có dữ liệu hoặc có lỗi xảy ra, trả về false
+    }
+
+    // Phương thức chèn Reservation vào cơ sở dữ liệu
+    public void insertReservation(Reservations reservation) {
+        String sql = "INSERT INTO Reservations (user_id, reservation_date, number_of_people, status, table_id, time_slot) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            ps = con.prepareStatement(sql);
             ps.setInt(1, reservation.getUserId());
-            ps.setTimestamp(2, new java.sql.Timestamp(reservation.getReservationDate().getTime()));
+            ps.setDate(2, (java.sql.Date) reservation.getReservationDate());
             ps.setInt(3, reservation.getNumberOfPeople());
             ps.setString(4, reservation.getStatus());
             ps.setInt(5, reservation.getTableId());
+            ps.setString(6, reservation.getTimeSlot());
 
-            ps.executeUpdate();
-            ps.close();
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Reservation inserted successfully!");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
     }
+
     public boolean checkReservationToday(int userId) {
-    String sql = "SELECT TOP 1 reservation_date " 
-               + "FROM Reservations " 
-               + "WHERE user_id = ? " 
-               + "ORDER BY reservation_date DESC"; // Get the latest reservation_date of the user
+    String sql = "SELECT TOP 1 reservation_date "
+            + "FROM Reservations "
+            + "WHERE user_id = ? "
+            + "AND CAST(current_day AS DATE) = CAST(GETDATE() AS DATE)"; 
 
     try {
         ps = con.prepareStatement(sql);
-        ps.setInt(1, userId); // Set the value for userId in the SQL statement
-        rs = ps.executeQuery(); // Execute the query
+        ps.setInt(1, userId); // Thiết lập userId cho câu truy vấn
+        rs = ps.executeQuery(); // Thực hiện truy vấn
 
-        // Check if there are results
-        if (rs.next()) {
-            Date reservationDate = rs.getDate("reservation_date");
-
-            // Get the current date without the time
-            Date currentDate = new Date(System.currentTimeMillis());
-            // Set the currentDate to the start of the day
-            currentDate.setHours(0);
-            currentDate.setMinutes(0);
-            currentDate.setSeconds(0);
-
-            // Create a Date object for the end of today
-            Date endOfToday = new Date(currentDate.getTime() + (24 * 60 * 60 * 1000) - 1); // End of the day
-
-            // Check if reservationDate is today
-            if (reservationDate.after(currentDate) && reservationDate.before(endOfToday)) {
-                return true; // Return true if reservationDate is today
-            }
-        }
+        // Nếu có kết quả, trả về true
+        return rs.next();
     } catch (Exception e) {
-        e.printStackTrace(); // Handle exceptions
+        e.printStackTrace(); // Xử lý ngoại lệ nếu có
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    return false; // If no results or reservationDate is not today, return false
+    return false; // Nếu không có kết quả, trả về false
 }
 
 
+    public List<ReservationJoinTable> getListReservation() {
+        List<ReservationJoinTable> list = new ArrayList<>();
+        String sql = "SELECT t.table_number, t.location, u.username, r.reservation_date, r.number_of_people, r.time_slot "
+                + "FROM Reservations r "
+                + "JOIN Users u ON r.user_id = u.user_id "
+                + "JOIN Tables t ON r.table_id = t.table_id "
+                + "WHERE r.reservation_date > GETDATE()";  // Only future reservations
+
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int tableNumber = rs.getInt("table_number");
+                String location = rs.getString("location");
+                String userName = rs.getString("username");
+                Date reservationDate = rs.getDate("reservation_date");
+                int numberOfPeople = rs.getInt("number_of_people");
+                String timeSlot = rs.getString("time_slot");
+
+                // Create a new ReservationInfo object and add it to the list
+                ReservationJoinTable r = new ReservationJoinTable(tableNumber, location, userName, reservationDate, numberOfPeople, timeSlot);
+                list.add(r);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         ReservationDAO r = new ReservationDAO();
-Reservations re = r.getReservationByUserId(12);
-        System.out.println(re.toString());
-//        // Tạo đối tượng Date cho ngày đặt chỗ
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(2024, Calendar.OCTOBER, 12); // Ngày 12 tháng 10 năm 2024
-//        Date reservationDate = calendar.getTime();
-//
-//        // Tạo đối tượng Reservations
-//        Reservations re = new Reservations(1, reservationDate, 3, "Pending", 1);
-//
-//        // Gọi phương thức insertReservation
-//        r.insertReservation(re);
-//        System.out.println("Đặt bàn thành công!");
-//        if (r.checkTableYpype(9, 8)) {
-//            System.out.println("true");
-//        } else {
-//            System.out.println("false");
+        //Reservations re = new Reservations(35, reservationDate, 0, status, 0, timeSlot);
+        //Reservations re = r.getReservationByUserId(0)
+        //System.out.println(r.checkTableYpype(28, 9));
+        System.out.println(r.checkReservationToday(23));
+//        List<ReservationJoinTable> l = r.getListReservation();
+//        for (ReservationJoinTable re : l) {
+//            System.out.println(re.toString());
 //        }
-//boolean a = r.checkTableYpype(0, 0);
-//System.out.println(r.checkReservationToday(3));
+//String reservationDateStr = "2024-10-30";
+//
+//        // Chuyển đổi chuỗi reservationDate thành java.sql.Date
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        Date reservationDate = null;
+//        java.util.Date parsedDate = null;
+//
+//        try {
+//            parsedDate = dateFormat.parse(reservationDateStr);
+//        } catch (ParseException ex) {
+//        }
+//        reservationDate = new java.sql.Date(parsedDate.getTime());  // Chuyển đổi thành java.sql.Date
+//
+//     
+//
+//        Reservations re = new Reservations(12, reservationDate, 3, "pending", 2, "morning");
+//r.insertReservation(re);
+
     }
 }

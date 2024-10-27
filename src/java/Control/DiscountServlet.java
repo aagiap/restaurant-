@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author ASUS
  */
-@WebServlet(name = "DiscountServlet", urlPatterns = {"/DiscountServlet", "/CreateDiscount", "/RemoveDiscount", "/ApplyDiscount"})
+@WebServlet(name = "DiscountServlet", urlPatterns = {"/DiscountServlet", "/CreateDiscount", "/RemoveDiscount", "/ApplyDiscount", "/DeleteDiscount"})
 public class DiscountServlet extends HttpServlet {
 
     /**
@@ -74,6 +74,26 @@ public class DiscountServlet extends HttpServlet {
             doRemoveDiscount(request, response);
         } else if (path.equals("/ApplyDiscount")) {
             doApplyDiscount(request, response);
+        } else if (path.equals("/DeleteDiscount")) {
+            doDeleteDiscount(request, response);
+        }
+    }
+
+    protected void doDeleteDiscount(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int discountId = Integer.parseInt(request.getParameter("discountId"));
+            DiscountItemDAO dD = new DiscountItemDAO();
+            if (dD.checkDiscountCondition()) {
+                String msg = "Hãy đặt lại mã đã áp dụng trước!!";
+                request.setAttribute("msg", msg);
+                request.getRequestDispatcher("AdminHome.jsp").forward(request, response);
+            } else {
+                dD.deleteDiscount(discountId);
+                response.sendRedirect("AdminHome.jsp");
+            }
+
+        } catch (Exception e) {
         }
     }
 
@@ -95,11 +115,25 @@ public class DiscountServlet extends HttpServlet {
             int discountPercent = Integer.parseInt(request.getParameter("discountPercent"));
             String condition = request.getParameter("condition");
             DiscountItem d = new DiscountItem(discountId, discountPercent, condition);
-
             DiscountItemDAO dD = new DiscountItemDAO();
-            dD.removeDiscount(d);
-            dD.updateDiscountCondition(discountId, "not apply");
-            response.sendRedirect("AdminHome.jsp");
+            if (!dD.checkDiscountCondition()) {
+                String msg = "Chưa có mã nào được áp dụng!!";
+                request.setAttribute("msg", msg);
+                request.getRequestDispatcher("AdminHome.jsp").forward(request, response);
+            } else {
+                if (dD.checkDiscountConditionOfDiscount(discountId)) {
+                    dD.removeDiscount(d);
+                    dD.updateDiscountCondition(discountId, "not apply");
+                    response.sendRedirect("AdminHome.jsp");
+                } else {
+                    String msg = "Mã này chưa được áp dụng";
+                    Boolean check = true;
+                    request.setAttribute("msg", msg);
+                    request.setAttribute("check", check);
+                    request.getRequestDispatcher("AdminHome.jsp").forward(request, response);
+                }
+
+            }
 
         } catch (Exception e) {
         }

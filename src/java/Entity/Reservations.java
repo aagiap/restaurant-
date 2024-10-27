@@ -4,19 +4,19 @@
  */
 package Entity;
 
-import java.util.Date;
-
+//import java.util.Date;
+import java.sql.Date;
 /**
  *
  * @author ASUS
  */
 public class Reservations {
-    private int reservationId;
     private int userId;
     private Date reservationDate;
     private int numberOfPeople;
     private String status;
     private int tableId;
+    private String timeSlot;
 
     public Reservations(int userId, Date reservationDate, int numberOfPeople, String status, int tableId) {
         this.userId = userId;
@@ -26,13 +26,17 @@ public class Reservations {
         this.tableId = tableId;
     }
 
-    public int getReservationId() {
-        return reservationId;
+    public Reservations(int userId, Date reservationDate, int numberOfPeople, String status, int tableId, String timeSlot) {
+        this.userId = userId;
+        this.reservationDate = reservationDate;
+        this.numberOfPeople = numberOfPeople;
+        this.status = status;
+        this.tableId = tableId;
+        this.timeSlot = timeSlot;
     }
+    
 
-    public void setReservationId(int reservationId) {
-        this.reservationId = reservationId;
-    }
+ 
 
     public int getUserId() {
         return userId;
@@ -74,9 +78,18 @@ public class Reservations {
         this.tableId = tableId;
     }
 
+    public String getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(String timeSlot) {
+        this.timeSlot = timeSlot;
+    }
+    
+
     @Override
     public String toString() {
-        return "Reservations{" + "reservationId=" + reservationId + ", userId=" + userId + ", reservationDate=" + reservationDate + ", numberOfPeople=" + numberOfPeople + ", status=" + status + ", tableId=" + tableId + '}';
+        return "Reservations{" +", userId=" + userId + ", reservationDate=" + reservationDate + ", numberOfPeople=" + numberOfPeople + ", status=" + status + ", tableId=" + tableId + '}';
     }
     
 }

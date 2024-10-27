@@ -23,7 +23,7 @@
     //true là bàn thường, false là ban vip
         Boolean tableType = null;
         if( user != null && reservation != null ){
-            tableType = r.checkTableYpype( user.getUsersId(),reservation.getTableId() );
+            tableType = r.checkTableYpype( user.getUsersId(),reservation.getTableId());
         }
 %>
 <!DOCTYPE html>
@@ -130,10 +130,12 @@
                     </thead>
                     <tbody>
                         <%
-                            OrderDAO o = new OrderDAO();                                     
+                            OrderDAO o = new OrderDAO(); 
+                            double totalAmount = 0;
                             List<MenuItemJoinOrder> orderedItems = o.getOrderListByUserId(user.getUsersId());
                             if (orderedItems != null && !orderedItems.isEmpty()) {
                                 for (MenuItemJoinOrder orderDetail : orderedItems) {
+                                totalAmount += orderDetail.getPrice() * orderDetail.getQuantity();
                         %>
                         <tr>
                             <td><%= orderDetail.getName() %></td>
@@ -149,10 +151,18 @@
                             </td>
                         </tr>
                         <%
-                                }
-                            } else {
+                            }
                         %>
                         <tr>
+                            <td colspan="2" class="text-right"><strong>Tổng số tiền:</strong></td>
+                            <td><%= totalAmount %> VND</td>
+                        </tr>
+
+
+                        <%
+                            } else {
+                        %>
+                         <tr>
                             <td colspan="3" class="text-center">Không có món nào được đặt</td>
                         </tr>
                         <%
@@ -194,16 +204,17 @@
             }
         </script>
         <!--/MenuTab-->
+        
         <!--MainMenu-->
         <main id="MainMenu" style="background: transparent; text-align: center">
             <section style="background: transparent; padding: 2%">
                 <div class="text-center" style="background: transparent">
 
-
                     <div class="row">
                         <%
                             MenuItemDao m = new MenuItemDao();
-                            List<MenuItems> l = m.getListMenuItems();
+                            //List<MenuItems> l = m.getListMenuItems();
+                            List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
                             if (l != null) {
                                 for (MenuItems menuItem : l) {
                         %>
@@ -224,16 +235,16 @@
                                     <h1 class="mb-3 price"><%= menuItem.getPrice() %> VND</h1>
 
                                     <!-- Input số lượng món ăn -->
-
-
+                                    
                                     <!-- Nút đặt món -->
-                                    <form action="OrderItemServlet" method="post">
+                                    <form action="OrderItemServlet" method="POST">
                                         <label for="quantity">Số lượng:</label>
-                                        <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control mb-3" />
+                                        <input type="number" id="quantity" name="quantity" min="1" max="5" value="1" class="form-control mb-3" />
                                         <input type="hidden" name="user_id" value="<%= user.getUsersId() %>">
                                         <input type="hidden" name="item_id" value="<%= menuItem.getItemId() %>">
                                         <input type="hidden" name="item_name" value="<%= menuItem.getName() %>">
                                         <input type="hidden" name="item_price" value="<%= menuItem.getPrice() %>">
+                                        <input type="hidden" name="orderDate" value="<%= reservation.getReservationDate() %>">
                                         <input type="submit" class="btn btn-success" value="Đặt món">
                                     </form>
                                 </div>
@@ -272,25 +283,29 @@
 
         <!--/MainMenu-->
 
+        <!--FooterTag-->
         <footer id="footer" class="footer dark-background">
             <div class="container">
                 <div class="row gy-3">
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-geo-alt icon"></i>
                         <div class="address">
-                            <h4>Address</h4>
-                            <p>A108 Adam Street</p>
-                            <p>New York, NY 535022</p>
+                            <h4>Địa chỉ</h4>
+                            <p>12 thị trấn Hữu Lũng</p>
+                            <p>Lạng Sơn</p>
+                            <p></p>
                         </div>
                     </div>
+
+
 
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-telephone icon"></i>
                         <div>
-                            <h4>Contact</h4>
+                            <h4>Liên hệ</h4>
                             <p>
-                                <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
-                                <strong>Email:</strong> <span>info@example.com</span><br>
+                                <strong>SĐT:</strong> <span>+84344276687</span><br>
+                                <strong>Email:</strong> <span>giaothoa@example.com</span><br>
                             </p>
                         </div>
                     </div>
@@ -298,16 +313,16 @@
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-clock icon"></i>
                         <div>
-                            <h4>Opening Hours</h4>
+                            <h4>Giờ mở cửa</h4>
                             <p>
-                                <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
-                                <strong>Sunday:</strong> <span>Closed</span>
+                                <strong>Thứ hai-Thứ bảy: </strong> <span>11AM - 23PM</span><br>
+                                <strong>Chủ nhật</strong>: <span>Đóng cửa</span>
                             </p>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
-                        <h4>Follow Us</h4>
+                        <h4>Theo dõi</h4>
                         <div class="social-links d-flex">
                             <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
                             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -315,9 +330,11 @@
                             <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </footer>
+        <!--EndFooterTag-->
 
         <!-- Scroll Top -->
         <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

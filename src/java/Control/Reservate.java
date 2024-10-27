@@ -7,6 +7,7 @@ package Control;
 import Dao.UsersDAO;
 import Entity.Users;
 import Entity.Reservations;
+import Entity.ReservationJoinTable;
 import Dao.ReservationDAO;
 import Entity.Tables;
 import Dao.TablesDAO;
@@ -18,7 +19,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import static java.lang.System.out;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,41 +46,44 @@ public class Reservate extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // Retrieve form data
-//        String tableType = request.getParameter("table-type");
-//        String tableNumberS = request.getParameter("table-number");
-//        int tableNumber = Integer.parseInt(tableNumberS);
-        TablesDAO tablesDao = new TablesDAO();
 
         int tableId = Integer.parseInt(request.getParameter("tableId"));
-
         int numberOfPeople = Integer.parseInt(request.getParameter("number-of-people"));
         int userId = Integer.parseInt(request.getParameter("userId"));
+        String timeSlot = request.getParameter("time-slot");
+        String reservationDateStr = request.getParameter("reservationDate");
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, 1); // Cộng 1 ngày để lấy ngày mai
-        Date reservationDate = calendar.getTime(); // Lấy ra ngày mai, chỉ có ngày tháng năm
-        Reservations reservation = new Reservations(userId, reservationDate, numberOfPeople, "Pending", tableId);
+// Định dạng ngày theo định dạng của chuỗi đầu vào
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        java.sql.Date reservationDate = null;
+
+        try {
+            // Chuyển đổi chuỗi thành java.util.Date
+            java.util.Date utilReservationDate = dateFormat.parse(reservationDateStr);
+
+            // Chuyển đổi java.util.Date thành java.sql.Date
+            reservationDate = new java.sql.Date(utilReservationDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            // Xử lý lỗi nếu định dạng ngày không hợp lệ, có thể thông báo người dùng hoặc dừng tiến trình
+        }
         ReservationDAO re = new ReservationDAO();
-        re.insertReservation(reservation);
-//        request.setAttribute("userId", userId);
-//request.setAttribute("reservationDate", reservationDate);
-//request.setAttribute("numberOfPeople", numberOfPeople);
-//request.setAttribute("tableId", tableId);
-        tablesDao.updateLocation(tableId, "full");
-//        response.sendRedirect("ReservationSuccess.jsp");
+        if (re.checkReservation(reservationDate, tableId, timeSlot)) {
+            String msg = "Xin lỗi bàn bạn đặt đã full";
+            request.setAttribute("msg", msg);
+            request.getRequestDispatcher("Reservation.jsp").forward(request, response);
+        } else {
+            System.out.println("Reservation Details: userId=" + userId 
+    + ", reservationDate=" + reservationDate 
+    + ", numberOfPeople=" + numberOfPeople 
+    + ", tableId=" + tableId 
+    + ", timeSlot=" + timeSlot);
+            Reservations r = new Reservations(userId, reservationDate, numberOfPeople, "Pending", tableId, timeSlot);
+            System.out.println(r.toString());
+            re.insertReservation(r);
 
-        boolean check = true;
-        boolean tableTypes = re.checkTableYpype(userId, tableId);
-
-        HttpSession sL = request.getSession();
-        sL.setAttribute("tableId", tableId);
-        sL.setAttribute("tableTypes", tableTypes);
-        sL.setAttribute("reservation", reservation);
-        request.setAttribute("check", check);
-        request.getRequestDispatcher("Reservation.jsp").forward(request, response);
-        // request.getRequestDispatcher("ReservationSuccess.jsp").include(request, response);
-        //request.getRequestDispatcher("test.jsp").forward(request, response);
+            response.sendRedirect("Order.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -91,7 +98,7 @@ public class Reservate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /**

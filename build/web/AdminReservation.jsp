@@ -4,11 +4,16 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Entity.MenuItems" %>
 <%@ page import="Entity.Tables" %>
+<%@ page import="Entity.ReservationJoinTable" %>
 <%@ page import="Dao.TablesDAO" %>
+<%@ page import="Dao.ReservationDAO" %>
 
 <%
     Users user = (Users) session.getAttribute("user");
     List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
+    
+    ReservationDAO r = new ReservationDAO();
+    List<ReservationJoinTable> reservationList = r.getListReservation();
     
        TablesDAO tablesDAO = new TablesDAO();
        List<Tables> a = tablesDAO.getListTables();
@@ -121,33 +126,56 @@
                 </div>
                 <!--</div>-->
 
-
-                <!--<div class="container">-->
+                <!-- Form to input user reservation details -->
+                <!-- Container to display the list of reservations -->
                 <div class="row gy-4 justify-content-center justify-content-lg-between">
                     <!-- Form to input user reservation details -->
                     <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                        <h3 style="text-align: center">Danh Sách Bàn Ăn</h3>
+                        <h3 style="text-align: center">Danh Sách Đặt Bàn</h3>
+
+                        <!-- Check if the reservation list is null or empty -->
+                        <% 
+                            if (reservationList != null && !reservationList.isEmpty()) { 
+                        %>
+
+                        <!-- Display reservation list -->
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="col-4" scope="col">Bàn Số</th>
-                                    <th class="col-4" scope="col">Loại</th>
-                                    <th class="col-4" scope="col">Tình Trạng</th>
-                                    <th class="col-4" scope="col"></th>
+                                    <th class="col-2" scope="col">Bàn Số</th>
+                                    <th class="col-2" scope="col">Vị Trí</th>
+                                    <th class="col-2" scope="col">Tên Khách</th>
+                                    <th class="col-2" scope="col">Ngày Đặt</th>
+                                    <th class="col-2" scope="col">Số Người</th>
+                                    <th class="col-2" scope="col">Khung Giờ</th>
+                                    <th class="col-2" scope="col">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <% 
-                                    for (Tables table : a) { 
+                                    // Iterate through the reservation list
+                                    for (ReservationJoinTable reservation : reservationList) { 
                                 %>
                                 <tr>
-                                    <td><%= table.getTableNumber() %></td>
-                                    <td><%= table.getLocation() %></td>
-                                    <td><%= table.getCondition().equals("blank") ? "Trống" : "Đầy" %></td>
+                                    <td><%= reservation.getTableNumber() %></td>
+                                    <td><%= reservation.getLocation() %></td>
+                                    <td><%= reservation.getUserName() %></td>
+                                    <td><%= reservation.getReservationDate() %></td>
+                                    <td><%= reservation.getNumberOfPeople() %></td>
+                                    <td><%= reservation.getTimeSlot() %></td>
                                     <td>
-                                        <form action="AdminUpdateTable" method="POST">    
-                                            <input type="hidden" name="tableId" value="<%= table.getTableId() %>" />
-                                            <input type="submit" class="btn btn-success" value="Reset" style="border: #6610f2 solid; background: white; font-size: 10px; cursor: pointer; color: #6610f2;">
+                                        <!-- Form to send hidden inputs with reservation details -->
+                                        <form action="tableInfo" method="POST">
+                                            <!-- Hidden inputs with reservation details -->
+                                            <input type="hidden" name="tableNumber" value="<%= reservation.getTableNumber() %>">
+                                            <input type="hidden" name="location" value="<%= reservation.getLocation() %>">
+                                            <input type="hidden" name="userName" value="<%= reservation.getUserName() %>">
+                                            <input type="hidden" name="reservationDate" value="<%= reservation.getReservationDate() %>">
+                                            <input type="hidden" name="numberOfPeople" value="<%= reservation.getNumberOfPeople() %>">
+                                            <input type="hidden" name="timeSlot" value="<%= reservation.getTimeSlot() %>">
+
+                                            <!-- Button to submit form -->
+                                            <input type="submit" class="btn btn-info" value="Xem thông tin">
                                         </form>
                                     </td>
                                 </tr>
@@ -156,90 +184,96 @@
                                 %>
                             </tbody>
                         </table>
-                    </div>
 
-                    <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                        <div class="form-container" >
-                            <h2 style="color: white ">Đặt Bàn</h2>
+                        <% 
+                            } else { 
+                        %>
 
-                            <!--Displaying Tomorrow's Date -->
-                            <div id="reservation-date-display">
-                                <strong>Ngày Đặt:</strong> 
-                                <span id="reservation-date"> </span>
-                            </div>
-
-                            <form action="tableInfo" method="POST">
-                                <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
-
-
-                                <!-- Table selection dropdown -->
-                                <label for="tableId">Chọn bàn:</label>
-                                <select name="tableInfo" id="tableId">
-                                    <% 
-                                        for (Tables table : a) { 
-                                            if (table.getCondition().equals("full")) { // Show only available tables
-                                    %>
-                                    <option value="<%= table.getTableNumber() +","+ table.getLocation() %>">
-                                        <%= table.getTableNumber() %> - <%= table.getLocation() %>
-                                    </option>
-                                    <% 
-                                            }
-                                        } 
-                                    %>
-                                </select>
-  
-                                <!--                                 Submit Button -->
-                                <button type="submit">Tra cứu thông tin bàn ăn</button>
-                            </form>
-
-                            <script>
-
-                                // Set default date to tomorrow and display it below the heading
-                                window.onload = function () {
-                                    var dateDisplay = document.getElementById("reservation-date");
-                                    var today = new Date();
-                                    var tomorrow = new Date();
-                                    tomorrow.setDate(today.getDate() + 1);  // Set tomorrow's date
-
-                                    // Định dạng ngày theo kiểu YYYY-MM-DD
-                                    var year = tomorrow.getFullYear();
-                                    var month = ('0' + (tomorrow.getMonth() + 1)).slice(-2);
-                                    var day = ('0' + tomorrow.getDate()).slice(-2);
-
-                                    // Gán giá trị cho trường ẩn và hiển thị ngày dưới tiêu đề nếu cần
-                                    dateDisplay.innerHTML = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
-                                };
-
-                            </script>
-
+                        <!-- Display message if no reservations exist -->
+                        <div class="alert alert-info" role="alert">
+                            Chưa có bàn nào được đặt.
                         </div>
+
+                        <% 
+                            } 
+                        %>
                     </div>
-                </div>                  
+                </div>
+
+
+                <!--                    <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                                        <div class="form-container" >
+                                            <h2 style="color: white ">Đặt Bàn</h2>
+                
+                                            Displaying Tomorrow's Date 
+                                            <div id="reservation-date-display">
+                                                <strong>Đặt cho ngày:</strong> 
+                                                <span id="reservation-date"> </span>
+                                            </div>
+                
+                                            <form action="tableInfo" method="POST">
+                                                <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
+                
+                
+                                                 Table selection dropdown 
+                                                <label for="tableId">Chọn bàn:</label>
+                                                <select name="tableInfo" id="tableId">
+                                                    
+                                                </select>
+                
+                                                                                 Submit Button 
+                                                <button type="submit">Tra cứu thông tin bàn ăn</button>
+                                            </form>
+                
+                                            <script>
+                
+                                                // Set default date to tomorrow and display it below the heading
+                                                window.onload = function () {
+                                                    var dateDisplay = document.getElementById("reservation-date");
+                                                    var today = new Date();
+                                                    var tomorrow = new Date();
+                                                    tomorrow.setDate(today.getDate() + 1);  // Set tomorrow's date
+                
+                                                    // Định dạng ngày theo kiểu YYYY-MM-DD
+                                                    var year = tomorrow.getFullYear();
+                                                    var month = ('0' + (tomorrow.getMonth() + 1)).slice(-2);
+                                                    var day = ('0' + tomorrow.getDate()).slice(-2);
+                
+                                                    // Gán giá trị cho trường ẩn và hiển thị ngày dưới tiêu đề nếu cần
+                                                    dateDisplay.innerHTML = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
+                                                };
+                
+                                            </script>
+                
+                                        </div>
+                                    </div>-->
+
             </div>
         </section>
 
+        <!--FooterTag-->
         <footer id="footer" class="footer dark-background">
-
             <div class="container">
                 <div class="row gy-3">
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-geo-alt icon"></i>
                         <div class="address">
-                            <h4>Address</h4>
-                            <p>A108 Adam Street</p>
-                            <p>New York, NY 535022</p>
+                            <h4>Địa chỉ</h4>
+                            <p>12 thị trấn Hữu Lũng</p>
+                            <p>Lạng Sơn</p>
                             <p></p>
                         </div>
-
                     </div>
+
+
 
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-telephone icon"></i>
                         <div>
-                            <h4>Contact</h4>
+                            <h4>Liên hệ</h4>
                             <p>
-                                <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
-                                <strong>Email:</strong> <span>info@example.com</span><br>
+                                <strong>SĐT:</strong> <span>+84344276687</span><br>
+                                <strong>Email:</strong> <span>giaothoa@example.com</span><br>
                             </p>
                         </div>
                     </div>
@@ -247,16 +281,16 @@
                     <div class="col-lg-3 col-md-6 d-flex">
                         <i class="bi bi-clock icon"></i>
                         <div>
-                            <h4>Opening Hours</h4>
+                            <h4>Giờ mở cửa</h4>
                             <p>
-                                <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
-                                <strong>Sunday</strong>: <span>Closed</span>
+                                <strong>Thứ hai-Thứ bảy: </strong> <span>11AM - 23PM</span><br>
+                                <strong>Chủ nhật</strong>: <span>Đóng cửa</span>
                             </p>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
-                        <h4>Follow Us</h4>
+                        <h4>Theo dõi</h4>
                         <div class="social-links d-flex">
                             <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
                             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -267,34 +301,35 @@
 
                 </div>
             </div>
-
-
-
-
-
-            <%
-                // Lấy giá trị boolean từ request
-                Boolean check = (Boolean) request.getAttribute("check");
-            %>
-
-
-            <script>
-                // Hàm fun() để hiển thị confirm và chuyển hướng
-                function fun() {
-                    window.location.href = "Reservation.jsp";
-                    if (confirm("Bạn đã đặt bàn thành công! Bạn có muốn đặt món không?")) {
-                        // Nếu người dùng bấm OK, chuyển đến table.jsp
-                        window.location.href = "Order.jsp";
-                    }
-                }
-
-                // Kiểm tra giá trị của check và gọi hàm fun nếu check là true
-                <% if (check != null && check) { %>
-                fun(); // Gọi hàm fun() nếu check là true
-                <% } %>
-            </script>
-
         </footer>
+        <!--EndFooterTag-->
+
+
+
+
+        <%
+            // Lấy giá trị boolean từ request
+            Boolean check = (Boolean) request.getAttribute("check");
+        %>
+
+
+        <script>
+            // Hàm fun() để hiển thị confirm và chuyển hướng
+            function fun() {
+                window.location.href = "Reservation.jsp";
+                if (confirm("Bạn đã đặt bàn thành công! Bạn có muốn đặt món không?")) {
+                    // Nếu người dùng bấm OK, chuyển đến table.jsp
+                    window.location.href = "Order.jsp";
+                }
+            }
+
+            // Kiểm tra giá trị của check và gọi hàm fun nếu check là true
+            <% if (check != null && check) { %>
+            fun(); // Gọi hàm fun() nếu check là true
+            <% } %>
+        </script>
+
+
         <!-- Scroll Top -->
         <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

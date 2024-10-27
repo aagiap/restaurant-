@@ -16,14 +16,7 @@ public class MenuItems {
     private String category;
     private String image;
 
-    public MenuItems(int itemId, String name, String description, double price, String category, String image) {
-        this.itemId = itemId;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-        this.image = image;
-    }
+   
     public MenuItems(String name, String description, double price, String category, String image) {
         this.name = name;
         this.description = description;
@@ -82,6 +75,11 @@ public class MenuItems {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "MenuItems{" + "itemId=" + itemId + ", name=" + name + ", description=" + description + ", price=" + price + ", category=" + category + ", image=" + image + '}';
     }
     
         
