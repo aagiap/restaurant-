@@ -58,7 +58,6 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
                 height: 100vh;
             }
             .form-container {
-                background-color: rgba(0, 0, 0, 0.7);
                 padding: 5%;
                 border-radius: 10px;
                 width: 500px;
@@ -113,12 +112,12 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
         </header>
 
 
-        <div class="form-container row" style="width: 100%;color: white">  
+        <div class="form-container row light-background" style="width: 100%;color: white">  
 
 
-            <div class="row gy-4 justify-content-center justify-content-lg-between">
+<!--            <div class="col-6 row gy-4 justify-content-center justify-content-lg-between">-->
                 <!-- Form to input user reservation details -->
-                <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <div class="col-6 d-flex flex-column justify-content-center">
                     <h3 style="text-align: center">Danh Sách Đặt Bàn</h3>
 
                     <!-- Check if the reservation list is null or empty -->
@@ -186,10 +185,10 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
                         } 
                     %>
                 </div>
-            </div>
+            <!--</div>-->
 
-            <div class="col-6" style="width: 50%">
-                <h2 style="color: white">Đặt Bàn</h2>
+            <div class="col-6" style="width: 50%; color: black">
+                <h2>Đặt Bàn</h2>
 
                 <!-- Kiểm tra nếu lO là null hoặc rỗng -->
                 <%
@@ -243,16 +242,6 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
                 <%
                     } // Kết thúc else
                 %>
-            </div>
-
-
-            <div class=" col-6" style="width: 50%">
-                <div style="width: 100%">
-
-                </div>
-                <div style="width: 100%">
-
-                </div>
             </div>
         </div>
 
