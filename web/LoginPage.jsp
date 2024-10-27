@@ -54,6 +54,6 @@
             </div>
         </div>
 
-        <script src="assets/js/script.js"></script> <!-- Liên kết tệp JavaScript -->
+        <script src="assets/js/script.js"></script>
     </body>
 </html>

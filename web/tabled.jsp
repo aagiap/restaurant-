@@ -73,7 +73,7 @@
         <header id="header" class="header d-flex align-items-center sticky-top">
             <div class="container position-relative d-flex align-items-center justify-content-between">
 
-                <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
                     <img src="assets/img/icon1.png" alt=""> 
                     <h1 class="sitename">GT</h1>
                     <span>.</span>
@@ -141,8 +141,8 @@
                 </table>
                 <% }else{ %>
                 <%
-SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-String formattedDate = dateFormat.format(reservation.getReservationDate());
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String formattedDate = dateFormat.format(reservation.getReservationDate());
                 %>
                 <table>
                     <tr>
@@ -155,7 +155,7 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
                     </tr>
                     <tr>
                         <td>Thời gian: </td>
-                        <td><h1>: <%=reservation.getTimeSlot()%></h1></td>
+                        <td><h1>: <%=reservation.getReservationDate()%> - <%=reservation.getTimeSlot()%></h1></td>
                     </tr>
                     <tr>
                         <td>Số Người</td>

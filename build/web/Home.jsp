@@ -1,4 +1,3 @@
-
 <%@ page import="Entity.Users"%>
 <%@ page import="Entity.MenuItems" %>
 <%@ page import="Entity.Review" %>
@@ -63,7 +62,7 @@
         <header id="header" class="header d-flex align-items-center sticky-top">
             <div class="container position-relative d-flex align-items-center justify-content-between">
 
-                <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
                     <img src="assets/img/icon1.png" alt=""> 
                     <h1 class="sitename">GT</h1>
                     <span>.</span>
@@ -96,7 +95,7 @@
                 <div class="container">
                     <div class="row gy-4 justify-content-center justify-content-lg-between">
                         <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                            <h1 data-aos="fade-up">Cùng thưởng thức món ăn truyền thống-Lành mạnh của Việt Nam</h1>
+                            <h1 data-aos="fade-up">Cùng thưởng thức món ăn truyền thống-Lành mạnh</h1>
 
                         </div>
                         <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
@@ -110,18 +109,12 @@
 
             <!-- Starter Section Section -->
             <section id="starter-section" class="starter-section section">
-
                 <!-- About Title -->
                 <div class="container section-title" data-aos="fade-up">
-                    <h2>--------</h2>
                     <p><span>Nhà hàng</span> <span class="description-title">Giao Thoa</span></p>
                 </div><!-- End About Title -->
-
-
-
-
-
-            </section><!-- /Starter Section Section -->
+            </section>
+            <!-- /Starter Section Section -->
 
             <!-- Reviews Section -->
             <section id="reviews" class="section light-background">

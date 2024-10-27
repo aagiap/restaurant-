@@ -21,10 +21,10 @@
     
     Reservations reservation = r.getReservationByUserId(user.getUsersId());
     //true là bàn thường, false là ban vip
-        Boolean tableType = null;
-        if( user != null && reservation != null ){
-            tableType = r.checkTableYpype( user.getUsersId(),reservation.getTableId());
-        }
+    Boolean tableType = null;
+    if( user != null && reservation != null ){
+        tableType = r.checkTableYpype( user.getUsersId(),reservation.getTableId());
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,7 +77,7 @@
         <header id="header" class="header d-flex align-items-center sticky-top">
             <div class="container position-relative d-flex align-items-center justify-content-between">
 
-                <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
                     <img src="assets/img/icon1.png" alt="">
                     <h1 class="sitename">GT</h1>
                     <span>.</span>
@@ -213,7 +213,6 @@
                     <div class="row">
                         <%
                             MenuItemDao m = new MenuItemDao();
-                            //List<MenuItems> l = m.getListMenuItems();
                             List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
                             if (l != null) {
                                 for (MenuItems menuItem : l) {
@@ -255,32 +254,9 @@
                             }
                         %>
                     </div>
-
-
-
                 </div>
             </section>
         </main>
-
-        <script>
-            function filterByCategory() {
-                var selectedCategory = document.getElementById("categoryFilter").value;
-                var menuItems = document.getElementsByClassName("menu-item");
-
-                for (var i = 0; i < menuItems.length; i++) {
-                    var category = menuItems[i].getAttribute("data-category");
-
-                    // Hiển thị hoặc ẩn món ăn dựa trên danh mục đã chọn
-                    if (selectedCategory === "all" || category === selectedCategory) {
-                        menuItems[i].style.display = "block";
-                    } else {
-                        menuItems[i].style.display = "none";
-                    }
-                }
-            }
-        </script>
-
-
         <!--/MainMenu-->
 
         <!--FooterTag-->

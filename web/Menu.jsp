@@ -1,5 +1,3 @@
-
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Entity.Users"%>
 <%@ page import="java.util.List" %>
@@ -9,14 +7,12 @@
 %>
 
 <script>
-    // Hàm fun() để chuyển hướng
     function fun() {
         window.location.href = "AdminMenu.jsp";
     }
 
-    // Kiểm tra nếu vai trò là admin thì gọi hàm fun()
     <% if (user.getRole().equals("admin")) { %>
-    fun(); // Gọi hàm fun() nếu user là admin
+    fun();
     <% } %>
 </script>
 
@@ -70,7 +66,7 @@
         <header id="header" class="header d-flex align-items-center sticky-top">
             <div class="container position-relative d-flex align-items-center justify-content-between">
 
-                <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
                     <img src="assets/img/icon1.png" alt=""> 
                     <h1 class="sitename">GT</h1>
                     <span>.</span>

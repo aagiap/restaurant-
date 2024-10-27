@@ -18,10 +18,10 @@
         Boolean check = (Boolean) request.getAttribute("check");
         String msg = (String) request.getAttribute("msg");
         if(msg==null){
-    msg="";
-    }
-ReservationDAO r = new ReservationDAO();
-boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
+            msg="";
+        }
+        ReservationDAO r = new ReservationDAO();
+        boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
 
 %>
 <!DOCTYPE html>

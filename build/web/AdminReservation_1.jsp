@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Entity.Users"%>
 <%@ page import="java.util.List" %>
@@ -13,14 +12,13 @@
     Users user = (Users) session.getAttribute("user");
     List<MenuItems> l = (List<MenuItems>) session.getAttribute("l");
     
-       TablesDAO tablesDAO = new TablesDAO();
-       List<Tables> a = tablesDAO.getListTables();
+    TablesDAO tablesDAO = new TablesDAO();
+    List<Tables> a = tablesDAO.getListTables();
        
-       ReservationDAO r = new ReservationDAO();
+    ReservationDAO r = new ReservationDAO();
     List<ReservationJoinTable> reservationList = r.getListReservation();
     
-List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
-//List<OrderInfo> lO = (List<OrderInfo>) session.getAttribute("lO");
+    List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,7 +89,7 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
 
         <header id="header" class="header d-flex align-items-center sticky-top">
             <div class="container position-relative d-flex align-items-center justify-content-between">
-                <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
                     <img src="assets/img/icon1.png" alt="">
                     <h1 class="sitename">GT</h1>
                     <span>.</span>
@@ -115,77 +113,76 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
         <div class="form-container row light-background" style="width: 100%;color: white">  
 
 
-<!--            <div class="col-6 row gy-4 justify-content-center justify-content-lg-between">-->
-                <!-- Form to input user reservation details -->
-                <div class="col-6 d-flex flex-column justify-content-center">
-                    <h3 style="text-align: center">Danh Sách Đặt Bàn</h3>
+            <!-- Form to input user reservation details -->
+            <div class="col-6 d-flex flex-column justify-content-center">
+                <h3 style="text-align: center">Danh Sách Đặt Bàn</h3>
 
-                    <!-- Check if the reservation list is null or empty -->
-                    <% 
-                        if (reservationList != null && !reservationList.isEmpty()) { 
-                    %>
+                <!-- Check if the reservation list is null or empty -->
+                <% 
+                    if (reservationList != null && !reservationList.isEmpty()) { 
+                %>
 
-                    <!-- Display reservation list -->
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="col-2" scope="col">Bàn Số</th>
-                                <th class="col-2" scope="col">Vị Trí</th>
-                                <th class="col-2" scope="col">Tên Khách</th>
-                                <th class="col-2" scope="col">Ngày Đặt</th>
-                                <th class="col-2" scope="col">Số Người</th>
-                                <th class="col-2" scope="col">Khung Giờ</th>
-                                <th class="col-2" scope="col">Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% 
-                                // Iterate through the reservation list
-                                for (ReservationJoinTable reservation : reservationList) { 
-                            %>
-                            <tr>
-                                <td><%= reservation.getTableNumber() %></td>
-                                <td><%= reservation.getLocation() %></td>
-                                <td><%= reservation.getUserName() %></td>
-                                <td><%= reservation.getReservationDate() %></td>
-                                <td><%= reservation.getNumberOfPeople() %></td>
-                                <td><%= reservation.getTimeSlot() %></td>
-                                <td>
-                                    <!-- Form to send hidden inputs with reservation details -->
-                                    <form action="tableInfo" method="POST">
-                                        <!-- Hidden inputs with reservation details -->
-                                        <input type="hidden" name="tableNumber" value="<%= reservation.getTableNumber() %>">
-                                        <input type="hidden" name="location" value="<%= reservation.getLocation() %>">
-                                        <input type="hidden" name="userName" value="<%= reservation.getUserName() %>">
-                                        <input type="hidden" name="reservationDate" value="<%= reservation.getReservationDate() %>">
-                                        <input type="hidden" name="numberOfPeople" value="<%= reservation.getNumberOfPeople() %>">
-                                        <input type="hidden" name="timeSlot" value="<%= reservation.getTimeSlot() %>">
+                <!-- Display reservation list -->
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-2" scope="col">Bàn Số</th>
+                            <th class="col-2" scope="col">Vị Trí</th>
+                            <th class="col-2" scope="col">Tên Khách</th>
+                            <th class="col-2" scope="col">Ngày Đặt</th>
+                            <th class="col-2" scope="col">Số Người</th>
+                            <th class="col-2" scope="col">Khung Giờ</th>
+                            <th class="col-2" scope="col">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% 
+                            // Iterate through the reservation list
+                            for (ReservationJoinTable reservation : reservationList) { 
+                        %>
+                        <tr>
+                            <td><%= reservation.getTableNumber() %></td>
+                            <td><%= reservation.getLocation() %></td>
+                            <td><%= reservation.getUserName() %></td>
+                            <td><%= reservation.getReservationDate() %></td>
+                            <td><%= reservation.getNumberOfPeople() %></td>
+                            <td><%= reservation.getTimeSlot() %></td>
+                            <td>
+                                <!-- Form to send hidden inputs with reservation details -->
+                                <form action="tableInfo" method="POST">
+                                    <!-- Hidden inputs with reservation details -->
+                                    <input type="hidden" name="tableNumber" value="<%= reservation.getTableNumber() %>">
+                                    <input type="hidden" name="location" value="<%= reservation.getLocation() %>">
+                                    <input type="hidden" name="userName" value="<%= reservation.getUserName() %>">
+                                    <input type="hidden" name="reservationDate" value="<%= reservation.getReservationDate() %>">
+                                    <input type="hidden" name="numberOfPeople" value="<%= reservation.getNumberOfPeople() %>">
+                                    <input type="hidden" name="timeSlot" value="<%= reservation.getTimeSlot() %>">
 
-                                        <!-- Button to submit form -->
-                                        <input type="submit" class="btn btn-info" value="Xem thông tin">
-                                    </form>
-                                </td>
-                            </tr>
-                            <% 
-                                } 
-                            %>
-                        </tbody>
-                    </table>
+                                    <!-- Button to submit form -->
+                                    <input type="submit" class="btn btn-info" value="Xem thông tin">
+                                </form>
+                            </td>
+                        </tr>
+                        <% 
+                            } 
+                        %>
+                    </tbody>
+                </table>
 
-                    <% 
-                        } else { 
-                    %>
+                <% 
+                    } else { 
+                %>
 
-                    <!-- Display message if no reservations exist -->
-                    <div class="alert alert-info" role="alert">
-                        Chưa có bàn nào được đặt.
-                    </div>
-
-                    <% 
-                        } 
-                    %>
+                <!-- Display message if no reservations exist -->
+                <div class="alert alert-info" role="alert">
+                    Chưa có bàn nào được đặt.
                 </div>
-            <!--</div>-->
+
+                <% 
+                    } 
+                %>
+            </div>
+
 
             <div class="col-6" style="width: 50%; color: black">
                 <h2>Đặt Bàn</h2>
@@ -227,7 +224,6 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
                     </thead>
                     <tbody>
                         <%
-                            // Lặp qua danh sách các đơn đặt hàng để hiển thị món ăn và số lượng
                             for (OrderInfo order : lO) {
                         %>
                         <tr>
@@ -235,20 +231,15 @@ List<OrderInfo> lO = (List<OrderInfo>) request.getAttribute("lO");
                             <td><%= order.getQuantity() %></td>
                         </tr>
                         <%
-                            } // Kết thúc vòng lặp
+                            } 
                         %>
                     </tbody>
                 </table>
                 <%
-                    } // Kết thúc else
+                    }
                 %>
             </div>
         </div>
-
-
-
-
-
 
         <!--FooterTag-->
         <footer id="footer" class="footer dark-background">

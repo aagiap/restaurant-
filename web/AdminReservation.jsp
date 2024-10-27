@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Entity.Users"%>
 <%@ page import="java.util.List" %>
@@ -15,8 +14,8 @@
     ReservationDAO r = new ReservationDAO();
     List<ReservationJoinTable> reservationList = r.getListReservation();
     
-       TablesDAO tablesDAO = new TablesDAO();
-       List<Tables> a = tablesDAO.getListTables();
+    TablesDAO tablesDAO = new TablesDAO();
+    List<Tables> a = tablesDAO.getListTables();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +87,7 @@
 
         <header id="header" class="header d-flex align-items-center sticky-top">
             <div class="container position-relative d-flex align-items-center justify-content-between">
-                <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
                     <img src="assets/img/icon1.png" alt="">
                     <h1 class="sitename">GT</h1>
                     <span>.</span>
@@ -130,7 +129,7 @@
                 <!-- Container to display the list of reservations -->
                 <div class="row gy-4 justify-content-center justify-content-lg-between">
                     <!-- Form to input user reservation details -->
-                    <div class="col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                    <div class="d-flex flex-column justify-content-center">
                         <h3 style="text-align: center">Danh Sách Đặt Bàn</h3>
 
                         <!-- Check if the reservation list is null or empty -->
@@ -199,55 +198,6 @@
                         %>
                     </div>
                 </div>
-
-
-                <!--                    <div class="Form col-6 col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                                        <div class="form-container" >
-                                            <h2 style="color: white ">Đặt Bàn</h2>
-                
-                                            Displaying Tomorrow's Date 
-                                            <div id="reservation-date-display">
-                                                <strong>Đặt cho ngày:</strong> 
-                                                <span id="reservation-date"> </span>
-                                            </div>
-                
-                                            <form action="tableInfo" method="POST">
-                                                <input type="hidden" name="userId" value="<%=user.getUsersId()%>" />
-                
-                
-                                                 Table selection dropdown 
-                                                <label for="tableId">Chọn bàn:</label>
-                                                <select name="tableInfo" id="tableId">
-                                                    
-                                                </select>
-                
-                                                                                 Submit Button 
-                                                <button type="submit">Tra cứu thông tin bàn ăn</button>
-                                            </form>
-                
-                                            <script>
-                
-                                                // Set default date to tomorrow and display it below the heading
-                                                window.onload = function () {
-                                                    var dateDisplay = document.getElementById("reservation-date");
-                                                    var today = new Date();
-                                                    var tomorrow = new Date();
-                                                    tomorrow.setDate(today.getDate() + 1);  // Set tomorrow's date
-                
-                                                    // Định dạng ngày theo kiểu YYYY-MM-DD
-                                                    var year = tomorrow.getFullYear();
-                                                    var month = ('0' + (tomorrow.getMonth() + 1)).slice(-2);
-                                                    var day = ('0' + tomorrow.getDate()).slice(-2);
-                
-                                                    // Gán giá trị cho trường ẩn và hiển thị ngày dưới tiêu đề nếu cần
-                                                    dateDisplay.innerHTML = year + '-' + month + '-' + day; // Gán giá trị cho trường ẩn
-                                                };
-                
-                                            </script>
-                
-                                        </div>
-                                    </div>-->
-
             </div>
         </section>
 
