@@ -6,19 +6,32 @@
 <%@ page import="Dao.DiscountItemDAO" %>
 <%
     Users user = (Users) session.getAttribute("user");
-    
+
     DiscountItemDAO dD = new DiscountItemDAO();
-    
+
     String msg = (String) request.getAttribute("msg");
     if (msg == null) {
-    msg="";
+        msg = "";
     }
-    
-List<DiscountItem> lD = dD.getDiscountItems();//danh sách mã giảm
-boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có mã nào apply chưa
-
-
 %>
+
+<script>
+    function fun() {
+        window.location.href = "AdminHome.jsp";
+        if (confirm("<%= msg %>")) {
+            window.onload();
+        }
+    }
+    <% if (!msg.isEmpty() && msg != "" ) { %>
+    fun();
+    <% } %>
+</script>
+
+<%
+    List<DiscountItem> lD = dD.getDiscountItems(); 
+    boolean checkDiscountCondition = dD.checkDiscountCondition(); 
+%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -59,7 +72,7 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
         <header id="header" class="header d-flex align-items-center sticky-top">
             <div class="container position-relative d-flex align-items-center justify-content-between">
 
-                <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
                     <img src="assets/img/icon1.png" alt=""> 
                     <h1 class="sitename">GT</h1>
                     <span>.</span>
@@ -108,17 +121,6 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
             </section>
             <!-- /Hero Section -->
             <!-- End Page Title -->
-
-            <!-- Starter Section Section -->
-            <section id="starter-section" class="starter-section section">
-                <!-- About Title -->
-                <div class="container section-title" data-aos="fade-up">
-                    <h2>About</h2>
-                    <p><span>Section Title</span> <span class="description-title">Direda Flowed</span></p>
-                </div>
-                <!-- End About Title -->
-            </section>
-            <!-- /Starter Section Section -->
         </main>
         <!--EndMainTag-->
 
@@ -159,14 +161,11 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
 
         <script>
             function updateVoucher() {
-                // Lấy giá trị từ input
                 var discountPercent = document.getElementById("discountPercent").value;
 
-                // Cập nhật giá trị vào phần tử có id="displayCode"
                 document.getElementById("displayCode").innerText = discountPercent + "%";
             }
         </script>
-
 
 
         <!--EndDiscount-->
@@ -179,21 +178,7 @@ boolean checkDiscountCondition = dD.checkDiscountCondition();//kiểm tra có m�
             <!-- End About Title -->
         </section>
 
-        <!--        <div class="col-6" style="padding: 10%">
-        
-                    <div style="position: relative;  width: 100%; height: auto;">
-                        <div>
-                            <img src="assets/img/voucher.png" alt="alt" style="width: 100%; height: auto;"/>
-                        </div>
-                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white;">
-                            <p>Giao Thoa</p>
-                            <h2>VOUCHER</h2>
-                            <h1 style="color: red">%</h1>
-                            <p>text</p>
-                            <h5>Hiệu Lực</h5>
-                        </div>
-                    </div>
-                </div>-->
+
 
         <div class="order-2 order-lg-1 d-flex flex-column justify-content-center" style="padding: 2.5%">
             <table class="table table-bordered">

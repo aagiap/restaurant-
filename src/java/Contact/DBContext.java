@@ -21,21 +21,21 @@ public class DBContext {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//    public boolean isConnected() {
-//        try {
-//            return connection != null && !connection.isClosed();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
-//            return false;
-//        }
-//    }
-//
-//    public static void main(String[] args) {
-//        DBContext dbContext = new DBContext();
-//        if (dbContext.isConnected()) {
-//            System.out.println("Đã kết nối đến cơ sở dữ liệu.");
-//        } else {
-//            System.out.println("Chưa kết nối được đến cơ sở dữ liệu.");
-//        }
-//    }
+    public boolean isConnected() {
+        try {
+            return connection != null && !connection.isClosed();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        DBContext dbContext = new DBContext();
+        if (dbContext.isConnected()) {
+            System.out.println("Đã kết nối đến cơ sở dữ liệu.");
+        } else {
+            System.out.println("Chưa kết nối được đến cơ sở dữ liệu.");
+        }
+    }
 }

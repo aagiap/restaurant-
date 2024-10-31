@@ -124,7 +124,7 @@ public class ReservationDAO extends MyDAO {
     String sql = "SELECT TOP 1 reservation_date "
             + "FROM Reservations "
             + "WHERE user_id = ? "
-            + "AND CAST(current_day AS DATE) = CAST(GETDATE() AS DATE)"; 
+            + "AND CAST(reservation_date AS DATE) > CAST(GETDATE() AS DATE)"; 
 
     try {
         ps = con.prepareStatement(sql);
@@ -149,7 +149,7 @@ public class ReservationDAO extends MyDAO {
 
     public List<ReservationJoinTable> getListReservation() {
         List<ReservationJoinTable> list = new ArrayList<>();
-        String sql = "SELECT t.table_number, t.location, u.username, r.reservation_date, r.number_of_people, r.time_slot "
+        String sql = "SELECT t.table_number, t.location, u.username, u.user_id, r.current_day, r.reservation_date, r.number_of_people, r.time_slot "
                 + "FROM Reservations r "
                 + "JOIN Users u ON r.user_id = u.user_id "
                 + "JOIN Tables t ON r.table_id = t.table_id "
@@ -160,6 +160,8 @@ public class ReservationDAO extends MyDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
+                int usersID = rs.getInt("user_id");
+                Date currentDay = rs.getDate("current_day");
                 int tableNumber = rs.getInt("table_number");
                 String location = rs.getString("location");
                 String userName = rs.getString("username");
@@ -168,7 +170,7 @@ public class ReservationDAO extends MyDAO {
                 String timeSlot = rs.getString("time_slot");
 
                 // Create a new ReservationInfo object and add it to the list
-                ReservationJoinTable r = new ReservationJoinTable(tableNumber, location, userName, reservationDate, numberOfPeople, timeSlot);
+                ReservationJoinTable r = new ReservationJoinTable(usersID, currentDay, tableNumber, location, userName, reservationDate, numberOfPeople, timeSlot);
                 list.add(r);
             }
         } catch (Exception e) {
@@ -182,11 +184,12 @@ public class ReservationDAO extends MyDAO {
         //Reservations re = new Reservations(35, reservationDate, 0, status, 0, timeSlot);
         //Reservations re = r.getReservationByUserId(0)
         //System.out.println(r.checkTableYpype(28, 9));
-        System.out.println(r.checkReservationToday(23));
+        System.out.println(r.checkReservationToday(25));
 //        List<ReservationJoinTable> l = r.getListReservation();
 //        for (ReservationJoinTable re : l) {
 //            System.out.println(re.toString());
 //        }
+//System.out.println(r.checkTableYpype(25, 9));
 //String reservationDateStr = "2024-10-30";
 //
 //        // Chuyển đổi chuỗi reservationDate thành java.sql.Date

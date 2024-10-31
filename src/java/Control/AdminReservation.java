@@ -65,6 +65,8 @@ public class AdminReservation extends HttpServlet {
             throws ServletException, IOException {
         
              // Nhận các thông tin từ form
+             int userId = Integer.parseInt(request.getParameter("userId"));
+             String currentDay = request.getParameter("currentDay");
             String username = request.getParameter("userName");
             String reservationDate = request.getParameter("reservationDate");
             int numberOfPeople = Integer.parseInt(request.getParameter("numberOfPeople"));
@@ -73,7 +75,7 @@ public class AdminReservation extends HttpServlet {
             String location = request.getParameter("location");
 
             OrderInforDAO oD = new OrderInforDAO();
-            List<OrderInfo> lO = oD.getListOrderInfoForTomorrow(username, reservationDate, numberOfPeople, timeSlot, tableNumber, location);
+            List<OrderInfo> lO = oD.getListOrderInfoForTomorrow(userId, reservationDate, currentDay);
             request.setAttribute("lO", lO);
             request.getRequestDispatcher("AdminReservation_1.jsp").forward(request, response);
         

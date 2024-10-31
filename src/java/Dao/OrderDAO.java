@@ -99,12 +99,19 @@ public class OrderDAO extends MyDAO {
 
     public List<MenuItemJoinOrder> getOrderListByUserId(int userIdS) {
         List<MenuItemJoinOrder> orderList = new ArrayList<>();
-        String xSql = "SELECT o.order_id, o.user_id, o.status, o.quantity, o.price, "
-                + "m.item_id, m.name, m.category, m.image "
-                + "FROM Orders o JOIN MenuItems m ON o.item_id = m.item_id "
-                + "JOIN Reservations ON Reservations.user_id = o.user_id "
-                + "WHERE o.user_id = ? and CAST(Reservations.current_day AS DATE) = CAST(GETDATE() AS DATE)"
-                + "and Reservations.reservation_date = o.order_date";
+//        String xSql = "SELECT o.order_id, o.user_id, o.status, o.quantity, o.price, "
+//                + "m.item_id, m.name, m.category, m.image "
+//                + "FROM Orders o JOIN MenuItems m ON o.item_id = m.item_id "
+//                + "JOIN Reservations ON Reservations.user_id = o.user_id "
+//                + "WHERE o.user_id = ? and CAST(Reservations.current_day AS DATE) = CAST(GETDATE() AS DATE)"
+//                + "and Reservations.reservation_date = o.order_date";
+String xSql = "SELECT o.user_id, o.status, SUM(o.quantity) as total_quantity, o.price, "
+            + "m.item_id, m.name, m.category, m.image "
+            + "FROM Orders o JOIN MenuItems m ON o.item_id = m.item_id "
+            + "JOIN Reservations ON Reservations.user_id = o.user_id "
+            + "WHERE o.user_id = ? AND CAST(Reservations.current_day AS DATE) = CAST(GETDATE() AS DATE) "
+            + "AND Reservations.reservation_date = o.order_date "
+            + "GROUP BY o.user_id, o.status, o.price, m.item_id, m.name, m.category, m.image";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, userIdS);
@@ -116,7 +123,8 @@ public class OrderDAO extends MyDAO {
                 String category = rs.getString("category");
                 String image = rs.getString("image");
                 String status = rs.getString("status");
-                int quantity = rs.getInt("quantity");
+                //int quantity = rs.getInt("quantity");
+                int quantity = rs.getInt("total_quantity");
                 double price = rs.getDouble("price");
 
                 // Create a new MenuItemJoinOrder object

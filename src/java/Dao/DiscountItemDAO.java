@@ -169,7 +169,7 @@ public class DiscountItemDAO extends MyDAO {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args){
         DiscountItemDAO dD = new DiscountItemDAO();
 //        dD.insertDiscountItem(50, "not apply");
         //List<DiscountItem> l = dD.getDiscountItems();

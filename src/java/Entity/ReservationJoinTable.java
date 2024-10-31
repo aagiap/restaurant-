@@ -11,6 +11,8 @@ import java.util.Date;
  * @author ASUS
  */
 public class ReservationJoinTable {
+    private int userId;
+    private Date currentDay;
     private int tableNumber;
     private String location;
     private String userName;
@@ -18,6 +20,42 @@ public class ReservationJoinTable {
     private int numberOfPeople;
     private String timeSlot;
 
+    public ReservationJoinTable(int userId, Date currentDay, int tableNumber, String location, String userName, Date reservationDate, int numberOfPeople, String timeSlot) {
+        this.userId = userId;
+        this.currentDay = currentDay;
+        this.tableNumber = tableNumber;
+        this.location = location;
+        this.userName = userName;
+        this.reservationDate = reservationDate;
+        this.numberOfPeople = numberOfPeople;
+        this.timeSlot = timeSlot;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    
+    
+    
+    
+    
+
+
+    public Date getCurrentDay() {
+        return currentDay;
+    }
+
+    public void setCurrentDay(Date currentDay) {
+        this.currentDay = currentDay;
+    }
+
+    
+    
     public ReservationJoinTable(int tableNumber, String location, String userName, Date reservationDate, int numberOfPeople, String timeSlot) {
         this.tableNumber = tableNumber;
         this.location = location;
@@ -75,11 +113,7 @@ public class ReservationJoinTable {
         this.timeSlot = timeSlot;
     }
 
-    @Override
-    public String toString() {
-        return "ReservationJoinTable{" + "tableNumber=" + tableNumber + ", location=" + location + ", userName=" + userName + ", reservationDate=" + reservationDate + ", numberOfPeople=" + numberOfPeople + ", timeSlot=" + timeSlot + '}';
-    }
-
+    
    
 
     

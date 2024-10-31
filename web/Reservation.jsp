@@ -178,7 +178,7 @@ boolean checkReservationToday = r.checkReservationToday(user.getUsersId());
                             %>
 
                             <div>
-                                <p style="color: white"><%=msg%></p>
+                                <p style="color: white"><%=msg%>abc</p>
                             </div>
 
                             <form action="reservate" method="POST">

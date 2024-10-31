@@ -105,75 +105,72 @@ public class OrderInforDAO extends MyDAO {
         return orderInfoList;
     }
 
-//    
-    public List<OrderInfo> getListOrderInfoForTomorrow(String username, String reservationDate, int numberOfPeople, String timeSlot, int tableNumber, String location) {
-    List<OrderInfo> orderInfoList = new ArrayList<>();
+//    22  26 28   27 28
+    public List<OrderInfo> getListOrderInfoForTomorrow(int userId, String reservationDate, String currentDay) {
+        List<OrderInfo> orderInfoList = new ArrayList<>();
 
-    String xSql = "SELECT u.username, r.reservation_date, r.number_of_people, r.time_slot, "
-            + "t.table_number, t.location, m.name, o.quantity "
-            + "FROM Orders o "
-            + "JOIN Users u ON o.user_id = u.user_id "
-            + "JOIN Reservations r ON r.reservation_date = o.order_date "
-            + "JOIN Tables t ON r.table_id = t.table_id "
-            + "JOIN MenuItems m ON o.item_id = m.item_id "
-            + "WHERE r.reservation_date = ? "    // Điều kiện theo reservation_date
-            + "AND u.username = ? "              // Điều kiện theo username
-            + "AND r.number_of_people = ? "      // Điều kiện theo number_of_people
-            + "AND r.time_slot = ? "             // Điều kiện theo time_slot
-            + "AND t.table_number = ? "          // Điều kiện theo table_number
-            + "AND t.location = ?";              // Điều kiện theo location
+        String xSql = "SELECT u.username, r.reservation_date, r.number_of_people, r.time_slot, "
+                + "t.table_number, t.location, m.name, o.quantity "
+                + "FROM Orders o "
+                + "JOIN Users u ON o.user_id = u.user_id "
+                + "JOIN Reservations r ON r.reservation_date = o.order_date "
+                + "JOIN Tables t ON r.table_id = t.table_id "
+                + "JOIN MenuItems m ON o.item_id = m.item_id "
+                + "WHERE r.reservation_date = ? "
+                + "AND r.user_id = ? "
+                + "AND u.user_id = ? "
+                + "AND o.user_id = ? "
+                + "AND r.current_day = ? ";
 
-    try {
-        ps = con.prepareStatement(xSql);
+        try {
+            ps = con.prepareStatement(xSql);
 
-        // Gán giá trị cho từng điều kiện trong câu truy vấn
-        ps.setString(1, reservationDate);      // Gán giá trị cho reservationDate
-        ps.setString(2, username);             // Gán giá trị cho username
-        ps.setInt(3, numberOfPeople);          // Gán giá trị cho numberOfPeople
-        ps.setString(4, timeSlot);             // Gán giá trị cho timeSlot
-        ps.setInt(5, tableNumber);             // Gán giá trị cho tableNumber
-        ps.setString(6, location);             // Gán giá trị cho location
+            // Gán giá trị cho từng điều kiện trong câu truy vấn
+            ps.setString(1, reservationDate);
+            ps.setInt(2, userId);
+            ps.setInt(3, userId);
+            ps.setInt(4, userId);
+            ps.setString(5, currentDay);
 
-        rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
-        // Duyệt kết quả và thêm vào danh sách orderInfoList
-        while (rs.next()) {
-            String fetchedUsername = rs.getString("username");
-            String fetchedReservationDate = rs.getString("reservation_date");
-            int fetchedNumberOfPeople = rs.getInt("number_of_people");
-            String fetchedTimeSlot = rs.getString("time_slot");
-            int fetchedTableNumber = rs.getInt("table_number");
-            String fetchedLocation = rs.getString("location");
-            String itemName = rs.getString("name");
-            int quantity = rs.getInt("quantity");
+            // Duyệt kết quả và thêm vào danh sách orderInfoList
+            while (rs.next()) {
+                String fetchedUsername = rs.getString("username");
+                String fetchedReservationDate = rs.getString("reservation_date");
+                int fetchedNumberOfPeople = rs.getInt("number_of_people");
+                String fetchedTimeSlot = rs.getString("time_slot");
+                int fetchedTableNumber = rs.getInt("table_number");
+                String fetchedLocation = rs.getString("location");
+                String itemName = rs.getString("name");
+                int quantity = rs.getInt("quantity");
 
-            // Tạo đối tượng OrderInfo mới với các thông tin lấy được
-            OrderInfo orderInfo = new OrderInfo(fetchedUsername, fetchedReservationDate, fetchedNumberOfPeople, fetchedTimeSlot, fetchedTableNumber, fetchedLocation, itemName, quantity);
-            orderInfoList.add(orderInfo);
+                // Tạo đối tượng OrderInfo mới với các thông tin lấy được
+                OrderInfo orderInfo = new OrderInfo(fetchedUsername, fetchedReservationDate, fetchedNumberOfPeople, fetchedTimeSlot, fetchedTableNumber, fetchedLocation, itemName, quantity);
+                orderInfoList.add(orderInfo);
+            }
+
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        rs.close();
-        ps.close();
-    } catch (Exception e) {
-        e.printStackTrace();
+        return orderInfoList;
     }
-
-    return orderInfoList;
-}
-
 
     public static void main(String[] args) {
         OrderInforDAO oD = new OrderInforDAO();
         //List<OrderInfo> lO = oD.getListOrderInfo();
         //List<OrderInfo> lO = oD.getListOrderInfoForTomorrow();
-        List<OrderInfo> lO = oD.getListOrderInfoForTomorrow("2", "2024-10-26", 2, "morning", 2, "Normal");
-        if(lO.isEmpty()){
+        List<OrderInfo> lO = oD.getListOrderInfoForTomorrow(48, "2024-10-28", "2024-10-27");
+        if (lO.isEmpty()) {
             System.out.println("no order tomorrow");
-        }else{
-             for(OrderInfo o : lO){
-            System.out.println(o.toString());
+        } else {
+            for (OrderInfo o : lO) {
+                System.out.println(o.toString());
+            }
         }
-        }
-       
+
     }
 }

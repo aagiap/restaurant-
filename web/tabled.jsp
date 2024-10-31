@@ -155,7 +155,20 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
                     </tr>
                     <tr>
                         <td>Thời gian: </td>
-                        <td><h1>: <%=reservation.getTimeSlot()%></h1></td>
+                        <td><h1>:  
+                                <% 
+                                    String timeSlot = reservation.getTimeSlot();
+                                    if ("morning".equals(timeSlot)) { %>
+                                8h
+                                <% } else if ("noon".equals(timeSlot)) { %>
+                                11h
+                                <% } else if ("evening".equals(timeSlot)) { %>
+                                18h
+                                <% } else { %>
+                                Không rõ
+                                <% } %>
+                            </h1>
+                        </td>
                     </tr>
                     <tr>
                         <td>Số Người</td>
@@ -197,7 +210,7 @@ String formattedDate = dateFormat.format(reservation.getReservationDate());
                         %>
                         <tr>
                             <td colspan="2" class="text-right"><strong>Tổng số tiền:</strong></td>
-                            <td><%= totalAmount %> VND</td>
+                            <td><%= String.format("%.2f", totalAmount) %> VND</td>
                         </tr>
 
 

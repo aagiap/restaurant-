@@ -155,7 +155,7 @@
                         %>
                         <tr>
                             <td colspan="2" class="text-right"><strong>Tổng số tiền:</strong></td>
-                            <td><%= totalAmount %> VND</td>
+                            <td><%= String.format("%.2f", totalAmount) %> VND</td>
                         </tr>
 
 

@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MenuItemDao extends MyDAO {
 
@@ -91,14 +93,20 @@ public class MenuItemDao extends MyDAO {
         }
     }
 
-public static void main(String[] args) throws SQLException {
+public static void main(String[] args) {
     MenuItemDao mD = new MenuItemDao();
     //MenuItems m = new MenuItems("test", "", 100000, "Món chính", "cc");
     //mD.insertMenuItem(m);
-            List<MenuItems> l = mD.getListMenuItems();
+            List<MenuItems> l;
+        try {
+            l = mD.getListMenuItems();
             for(MenuItems m : l){
                 System.out.println(m.toString());
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuItemDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
             
     }
 }
